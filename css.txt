@@ -1,0 +1,12 @@
+dark:
+primary: rgba(17, 24, 39, 1)
+blue: rgba(52, 102, 246, 1)
+black-light: rgba(39, 39, 42, 1) // '/' background
+yellow: rgba(6, 78, 59, 1)
+
+primary-border, card-border, border, light-primary: rgba(31, 41, 55, 1) // number background
+border: rgba(55, 65, 81, 1)
+
+color: rgba(209, 213, 219, 1) // input-placeholder
+color: rgba(156, 163, 175, 1) // icons, trending-heading
+color: rgba(229, 231, 235, 1) // primary
