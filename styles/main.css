@@ -1,6 +1,6 @@
 .side-menu {
   min-height: 715.333px;
-  grid-column: span 2 / span 2;
+  grid-column: span 2/span 2;
   position: relative;
   z-index: 50;
 }
@@ -25,20 +25,19 @@
     min-width: auto;
   }
   .posts-body {
-    grid-column: span 7 / span 7;
+    grid-column: span 7/span 7;
   }
 }
-
 .posts-body {
   min-width: 0px;
 }
 
 .right-menu {
-  grid-column: span 3 / span 3;
+  grid-column: span 3/span 3;
 }
 
 .text-overflow-hidden {
   overflow: hidden;
-  text-overflow: ellipsis; // adds '...' when text overflows
+  text-overflow: ellipsis;
   white-space: nowrap;
-}
+}/*# sourceMappingURL=main.css.map */
