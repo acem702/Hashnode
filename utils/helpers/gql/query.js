@@ -163,6 +163,7 @@ const getTrendingTags = gql`
     }
   }
 `;
+
 const getNewTags = gql`
   query GET_TAGS {
     getNewTags {
@@ -321,6 +322,7 @@ const getAllTags = gql`
     }
   }
 `;
+
 const getOtherTags = gql`
   query GET_OTHER_TAGS {
     getOtherTags {
@@ -340,8 +342,9 @@ const searchTagQuery = gql`
     searchTag(tag: $tag) {
       _id
       name
-      description
+      followers
       articles
+      description
       logo {
         url
       }
@@ -373,6 +376,7 @@ const GET_USER_STATUS = gql`
     }
   }
 `;
+
 const getUserByUsername = gql`
   query getUserByUsername($username: String!) {
     getUserByUsername(username: $username) {
@@ -412,6 +416,7 @@ const GET_BOOKMARKS_OF_BARS = gql`
     }
   }
 `;
+
 const GET_BOOKMARKS = gql`
   query GET_MANY_POSTS($ids: [String!]!) {
     getManyPosts(ids: $ids) {
@@ -475,7 +480,7 @@ const GET_USER = gql`
   }
 `;
 
-const UPDATE_QUERY = gql`
+const UPDATE_USER = gql`
   mutation UPDATE_USER($input: UpdateUserInput!) {
     updateUser(input: $input) {
       error
@@ -484,6 +489,7 @@ const UPDATE_QUERY = gql`
     }
   }
 `;
+
 const FOLLOW_TAG_QUERY = gql`
   mutation FOLLOW_TAG($input: FollowTagInput!) {
     followTag(input: $input) {
@@ -496,6 +502,7 @@ const FOLLOW_TAG_QUERY = gql`
     }
   }
 `;
+
 const LIKE_POST = gql`
   mutation LIKE($input: LikeInput!) {
     likePost(input: $input) {
@@ -560,7 +567,7 @@ export {
   GET_BOOKMARKS_OF_BARS,
   GET_BOOKMARKS,
   GET_USER,
-  UPDATE_QUERY,
+  UPDATE_USER,
   getUserByUsername,
   getFollowedPosts,
   LIKE_POST,

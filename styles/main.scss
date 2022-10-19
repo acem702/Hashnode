@@ -42,3 +42,41 @@
   text-overflow: ellipsis; // adds '...' when text overflows
   white-space: nowrap;
 }
+
+.animate-alert {
+  animation: animate-alerts 250ms ease;
+}
+
+@keyframes animate-alerts {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.writingArea {
+  font-size: 1.5rem;
+  color: #fff;
+  h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+  }
+  h2 {
+    font-size: 2.2rem;
+    font-weight: 700;
+  }
+  h3 {
+    font-size: 1.8rem;
+    font-weight: 700;
+  }
+  code {
+    background: #5b6d8a;
+    color: #fff;
+    padding: 0.5px 10px;
+    border-radius: 7px;
+  }
+}

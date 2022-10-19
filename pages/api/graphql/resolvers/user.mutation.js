@@ -7,7 +7,6 @@ const mutation = {
       const { username } = input;
       const userExist = await User.findOne({ username });
       if (userExist) {
-        console.log({ userExist });
         return {
           success: false,
           message: "Try using another username or email",

@@ -48,7 +48,6 @@ export default NextAuth({
       },
 
       async authorize(credentials, req) {
-        console.log({ credentials });
         const email = credentials.email;
         const password = credentials.password;
         const user = await Users.findOne({ email });

@@ -1,19 +1,25 @@
+import { useRouter } from "next/router";
 import { useQuery } from "@apollo/client";
+import { v4 as uuidv4 } from "uuid";
+import Link from "next/link";
+
+import TrendingCard from "components/common/TrendingCard";
 import Book from "public/icons/book";
 import Explore from "public/icons/explore";
 import Feed from "public/icons/feed";
 import Improvement from "public/icons/improvement";
 import { SECONDARY_ICON_SIZE } from "utils/constant";
 import { getTrendingTags } from "utils/helpers/gql/query";
-import { v4 as uuidv4 } from "uuid";
 
 const SideMenu = () => {
   const { data, loading, error } = useQuery(getTrendingTags);
+  const name = useRouter().asPath;
 
   const menus = [
     {
-      title: "My Feed",
       _id: uuidv4(),
+      title: "My Feed",
+      link: "/",
       icon: (
         <Feed
           className="text-primary-dark-300 dark:tezt-white"
@@ -23,8 +29,9 @@ const SideMenu = () => {
       ),
     },
     {
-      title: "Explore",
       _id: uuidv4(),
+      title: "Explore",
+      link: "/explore",
       icon: (
         <Explore
           className="text-primary-dark-300 dark:tezt-white"
@@ -34,8 +41,9 @@ const SideMenu = () => {
       ),
     },
     {
-      title: "Drafts",
       _id: uuidv4(),
+      title: "Drafts",
+      link: "/draft",
       icon: (
         <Book
           className="text-primary-dark-300 dark:tezt-white"
@@ -47,17 +55,28 @@ const SideMenu = () => {
   ];
 
   return (
-    <aside className="dark:bg-dark-primary_background bg-white border border-text-dark-200 dark:border-dark-border_primary rounded-md h-fit sticky top-[1.25rem] left-0 px-4">
-      <div className="pb-spacing border-b dark:border-dark-border_secondary">
-        {menus.map((menu) => (
-          <div className="flex gap-2 items-center py-3 text-md font-medium text-primary-dark-300 dark:text-white">
-            {menu.icon}
-            {menu.title}
-          </div>
-        ))}
+    <aside className="card h-fit sticky top-[1.25rem] left-0">
+      <div className="pb-spacing border-b dark:border-dark-border_secondary py-2">
+        {menus.map((menu) => {
+          return (
+            <Link href={menu.link}>
+              <div
+                key={uuidv4()}
+                className={`flex gap-2 items-center py-3 px-4 text-md font-medium cursor-pointer hover:bg-dark-border_secondary ${
+                  name === menu.link
+                    ? "border-r-2 border-blue text-blue fill-blue"
+                    : "text-black dark:text-white"
+                }`}
+              >
+                {menu.icon}
+                {menu.title}
+              </div>
+            </Link>
+          );
+        })}
       </div>
 
-      <div className="py-spacing">
+      <div className="py-spacing px-4">
         <h1 className="tracking-wide text-md text-black dark:text-dark-paragraph_color flex gap-2 items-center font-semibold mb-3">
           Trending Tags
           <Improvement
@@ -71,22 +90,14 @@ const SideMenu = () => {
           {loading
             ? "Loading..."
             : data?.getTrendingTags.map((tag) => (
-                <li className="flex hover:dark:bg-dark-border_primary hover:bg-gray-100 cursor-pointer items-center justify-between py-1 rounded-md px-2 text-md text-text-light-200 dark:text-dark-heading_color">
-                  <span className="text-overflow-hidden">
-                    {tag.name.slice(0, 1).toUpperCase() +
-                      tag.name.slice(1, tag.name.length)}
-                  </span>
-                  <span className="rounded-full bg-gray-100 dark:bg-dark-primary_background border border-dark-border_secondary dark:border-dark-border_secondary dark:text-dark-paragraph_color px-3 py-[3px] text-sm font-semibold">
-                    +{tag.articles}
-                  </span>
-                </li>
+                <TrendingCard key={uuidv4()} tag={tag} />
               ))}
         </ul>
       </div>
 
-      <footer className="py-spacing">
-        <span className="w-16 h-[1.85px] bg-text-dark-200 dark:bg-dark-border_secondary block mb-2"></span>
-        <p className="text-text-light-200 dark:text-dark-paragraph_color text-md">
+      <footer className="py-spacing px-4">
+        <span className="w-16 h-[1.85px] bg-light-border_primary dark:bg-dark-border_secondary block mb-2"></span>
+        <p className="text-light-paragraph_color dark:text-dark-paragraph_color text-md">
           @{new Date().getFullYear()} Hashnode
         </p>
       </footer>

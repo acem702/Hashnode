@@ -1,21 +1,24 @@
 import Card from "components/common/Card";
-import React from "react";
+import { v4 as uuidv4 } from "uuid";
 
 const Posts = ({ posts }) => {
   return (
     <div className="w-full flex flex-col gap-spacing">
-      <div className="w-full overflow-hidden px-4 py-6 dark:bg-dark-primary_background bg-white border border-text-dark-200 dark:border-dark-border_primary rounded-md">
+      <div className="w-full overflow-hidden px-4 py-6 card mb-0">
         <header className="w-max flex items-center gap-spacing">
           {Array(15)
             .fill(null)
             .map(() => (
-              <div className="rounded-full w-14 h-14 cursor-pointer bg-gray-700"></div>
+              <div
+                key={uuidv4()}
+                className="rounded-full w-14 h-14 cursor-pointer bg-gray-700"
+              ></div>
             ))}
         </header>
       </div>
-      <main className="dark:bg-dark-primary_background w-full h-full p-4 rounded-md border dark:border-dark-border_primary">
+      <main className="card p-4">
         {posts.map((post) => (
-          <Card details={post} />
+          <Card key={uuidv4()} details={post} />
         ))}
       </main>
     </div>

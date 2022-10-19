@@ -1,10 +1,20 @@
 import slugify from "slugify";
-import { getCookie } from "cookies-next";
+import { getCookie, setCookie } from "cookies-next";
 import { format } from "date-fns";
 import parser from "html-react-parser";
 
 const handleChange = (e, value, setValue) => {
-  setValue({ ...value, [e.target.name]: e.target.value });
+  if (e.target.dataset.hasOwnProperty("isnested")) {
+    setValue((prev) => ({
+      ...prev,
+      [e.target.dataset.isnested]: {
+        ...prev[e.target.dataset.isnested],
+        [e.target.name]: e.target.value,
+      },
+    }));
+  } else {
+    setValue((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  }
 };
 
 // Submit Post: @handleSubmit
@@ -31,7 +41,9 @@ const handleSubmit = async (
     locale: "vi",
     trim: true,
   });
+
   setUploading(true);
+
   const post = {
     ...data,
     content,
@@ -44,6 +56,7 @@ const handleSubmit = async (
       .split(", ")
       .map((tag) => tag.toLowerCase().replaceAll(",", "").replaceAll(" ", "_")),
   };
+
   const {
     data: { createPost },
   } = await postBlog({
@@ -58,7 +71,9 @@ const handleSubmit = async (
       },
     },
   });
+
   setUploading(false);
+
   if (createPost.success) {
     localStorage.removeItem("post");
     setToast({
@@ -66,12 +81,15 @@ const handleSubmit = async (
       status: true,
       msg: "Post created successfully",
     });
+
     setContent("");
+
     setData({
       title: "",
       subtitle: "",
       tags: "",
     });
+
     setUploadedFile(null);
     window.location.href = "/";
   }
@@ -179,13 +197,7 @@ const UploadImage = async (
   }
 };
 
-const registerUser = async (
-  details,
-  createHandler,
-  setCookie,
-  setLoading,
-  setToast
-) => {
+const registerUser = async (details, createHandler, setLoading, setToast) => {
   setLoading(true);
   const {
     data: { registerUser: data },
@@ -203,6 +215,39 @@ const registerUser = async (
     });
     setToast({
       msg: "Account created successfully",
+      type: "success",
+      status: true,
+    });
+    setTimeout(() => {
+      window.location.href = "/";
+    }, 1000);
+  } else {
+    setToast({
+      msg: data.message,
+      type: "error",
+      status: true,
+    });
+  }
+};
+
+const loginUser = async (details, loginHandler, setLoading, setToast) => {
+  setLoading(true);
+  const {
+    data: { loginUser: data },
+  } = await loginHandler({
+    variables: {
+      input: details,
+    },
+  });
+
+  setLoading(false);
+
+  if (data.success) {
+    setCookie("token", data.message.toString(), {
+      expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
+    });
+    setToast({
+      msg: "Loged in successfully",
       type: "success",
       status: true,
     });
@@ -279,25 +324,54 @@ const reduceText = (desc, length, converter) => {
       }
     } else {
       if (desc.length > length) {
-        return parser(desc.substring(0, length) + "...");
+        return desc.substring(0, length).replace(/<[^>]*>?/gm, "") + "...";
       } else {
-        return parser(desc);
+        return desc.replace(/<[^>]*>?/gm, "");
       }
     }
   }
 };
 
-// const formatHtmlToString = (html) => {
-//   if (Array.isArray(html)) {
-//     let result = "";
-//     html.map((e) => {
-//       result += e.props.children;
-//     });
-//     return result;
-//   } else {
-//     return html?.props?.children;
-//   }
-// };
+function addCommand(data) {
+  if (
+    window.getSelection().focusNode.parentElement.closest("#editor").id !=
+    "editor"
+  )
+    return;
+
+  const selection = window.getSelection().getRangeAt(0);
+
+  let selectedParent = selection.commonAncestorContainer.parentElement;
+
+  let mainParent = selectedParent;
+
+  if (selectedParent.closest(data)) {
+    //Unbold
+    var text = document.createTextNode(selectedParent.textContent);
+    mainParent = selectedParent.parentElement;
+    mainParent.insertBefore(text, selectedParent);
+    mainParent.removeChild(selectedParent);
+    mainParent.normalize();
+  } else {
+    const span = document.createElement(data);
+    span.appendChild(selection.extractContents());
+    selection.insertNode(span);
+    mainParent.normalize();
+  }
+
+  if (window.getSelection) {
+    if (window.getSelection().empty) {
+      // Chrome
+      window.getSelection().empty();
+    } else if (window.getSelection().removeAllRanges) {
+      // Firefox
+      window.getSelection().removeAllRanges();
+    }
+  } else if (document.selection) {
+    // IE?
+    document.selection.empty();
+  }
+}
 
 const copyToClipboard = (element, setToast) => {
   const copy = document.createElement("button");
@@ -333,4 +407,6 @@ export {
   reduceText,
   copyToClipboard,
   handleEditPost,
+  loginUser,
+  addCommand,
 };

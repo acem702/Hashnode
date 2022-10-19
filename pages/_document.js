@@ -3,7 +3,7 @@ import { Html, Head, Main, NextScript } from "next/document";
 export default function Document() {
   return (
     <Html>
-      <title>Counter App</title>
+      <title>Hashnode</title>
       <Head>
         <link
           rel="stylesheet"
