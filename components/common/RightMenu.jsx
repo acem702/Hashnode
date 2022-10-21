@@ -1,4 +1,25 @@
+import { useLazyQuery } from "@apollo/client";
+import { GET_BOOKMARKS } from "utils/helpers/gql/query";
+import useBookmark from "utils/hooks/useBookmark";
+import { useEffect } from "react";
+import Bookmark from "./Bookmark";
+
 const RightMenu = () => {
+  const { allBookmarks } = useBookmark();
+  const [getBookmarkData, { data }] = useLazyQuery(GET_BOOKMARKS);
+
+  useEffect(() => {
+    (async () => {
+      if (allBookmarks.length > 0) {
+        await getBookmarkData({
+          variables: {
+            ids: allBookmarks,
+          },
+        });
+      }
+    })();
+  }, [allBookmarks]);
+
   return (
     <div className="w-full h-full">
       <div className="card p-4">
@@ -11,6 +32,8 @@ const RightMenu = () => {
           </button>
         </div>
       </div>
+
+      <Bookmark data={data?.getManyPosts} />
     </div>
   );
 };

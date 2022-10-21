@@ -1,7 +1,3 @@
-import Error from "public/icons/error";
-import Info from "public/icons/info";
-import Success from "public/icons/success";
-import Warning from "public/icons/warning";
 import { createContext, useEffect, useRef, useState } from "react";
 
 export const Context = createContext();
@@ -14,6 +10,21 @@ const ContextHandler = ({ children, values }) => {
     msg: "",
     type: "", // success, info, error, warning
   });
+
+  useEffect(() => {
+    if (toast.status) {
+      setTimeout(
+        () =>
+          setToast({
+            status: false,
+            msg: "",
+            type: "",
+          }),
+        1500
+      );
+    }
+  }, [toast]);
+
   const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -82,18 +93,18 @@ const ContextHandler = ({ children, values }) => {
         >
           <span>
             {toast.type === "success" ? (
-              <i class="uil uil-check-circle text-black text-2xl" />
+              <i class="uil uil-check-circle text-white text-2xl" />
             ) : toast.type === "error" ? (
-              <i class="uil uil-exclamation-octagon text-black text-2xl" />
+              <i class="uil uil-exclamation-octagon text-white text-2xl" />
             ) : toast.type === "info" ? (
-              <i class="uil uil-info-circle text-black text-2xl" />
+              <i class="uil uil-info-circle text-white text-2xl" />
             ) : (
               toast.type === "warning" && (
-                <i class="uil uil-exclamation-triangle text-black text-2xl" />
+                <i class="uil uil-exclamation-triangle text-white text-2xl" />
               )
             )}
           </span>
-          <p className="text-black font-semibold">{toast.msg}</p>
+          <p className="text-white font-semibold">{toast.msg}</p>
         </div>
       )}
     </Context.Provider>

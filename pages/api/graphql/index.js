@@ -1,6 +1,6 @@
 const typeDefs = require("./typeDefs");
 const resolvers = require("./resolvers");
-const connectDB = require("../../../server/config/db");
+const connectDB = require("../../../server/models/post.model");
 
 const { ApolloServer } = require("apollo-server-express");
 const express = require("express");

@@ -7,6 +7,7 @@ const TagSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
+    followersCount: { type: String, default: "0" },
     followers: [
       {
         type: mongoose.Schema.Types.ObjectId,

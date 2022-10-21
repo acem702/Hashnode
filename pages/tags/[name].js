@@ -10,31 +10,20 @@ import Header from "components/Header";
 import { Context } from "utils/context/main";
 import client from "utils/helpers/config/apollo-client";
 import { GET_USER_STATUS, searchTagQuery } from "utils/helpers/gql/query";
+import PageNotFound from "components/common/PageNotFound";
 
-const SingleTag = ({ user }) => {
-  const { name } = useRouter().query;
-
+const SingleTag = ({ user, tag }) => {
   const { setUser } = useContext(Context);
-  const [getTagDetails, { data, loading }] = useLazyQuery(searchTagQuery);
 
   useEffect(() => {
     setUser(user);
   }, [user]);
+  console.log(tag);
 
-  useEffect(() => {
-    (async () => {
-      await getTagDetails({
-        variables: {
-          tag: name,
-        },
-      });
-    })();
-  }, []);
-
-  return (
+  return tag ? (
     <>
       <Head>
-        <title>#{data?.searchTag?.name} on Hashnode</title>
+        <title>#{tag?.name} on Hashnode</title>
       </Head>
       <div className="w-full bg-light-primary_background dark:bg-black">
         <Header />
@@ -47,15 +36,17 @@ const SingleTag = ({ user }) => {
           </div>
 
           <div className="posts-body">
-            <ExploreTagIntro details={data?.searchTag} />
+            <ExploreTagIntro details={tag} />
           </div>
 
           <div className={`right-menu hidden lg:inline`}>
-            <TagRightMenu details={data?.searchTag} />
+            <TagRightMenu details={tag} />
           </div>
         </div>
       </div>
     </>
+  ) : (
+    <PageNotFound />
   );
 };
 
@@ -65,6 +56,7 @@ export const getServerSideProps = async (ctx) => {
   try {
     let user = null;
     const token = ctx.req.cookies.token;
+    const { name } = ctx.params;
 
     if (token) {
       const {
@@ -80,15 +72,25 @@ export const getServerSideProps = async (ctx) => {
       user = data.user;
     }
 
+    const {
+      data: { searchTag: tagDetails },
+    } = await client.query({
+      query: searchTagQuery,
+      variables: {
+        tag: name,
+      },
+    });
+
     return {
       props: {
         user,
+        tag: tagDetails,
       },
     };
   } catch (error) {
-    console.log(error);
     return {
       props: {},
+      tag: null,
     };
   }
 };

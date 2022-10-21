@@ -16,7 +16,7 @@ const Posts = ({ posts }) => {
             ))}
         </header>
       </div>
-      <main className="card p-4">
+      <main className="card py-4">
         {posts.map((post) => (
           <Card key={uuidv4()} details={post} />
         ))}

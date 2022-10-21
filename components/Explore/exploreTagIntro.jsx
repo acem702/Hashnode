@@ -16,7 +16,7 @@ const ExploreTagIntro = ({ details }) => {
             src={details?.logo?.url}
             width={50}
             height={50}
-            className="rounded-md"
+            className="rounded-md object-cover"
           ></Image>
           <div>
             <h1 className="text-3xl font-semibold text-center text-black dark:text-dark-heading_color">
@@ -52,7 +52,12 @@ const ExploreTagIntro = ({ details }) => {
               h={DEFAULT_ICON_SIZE}
               className="fill-black dark:fill-white"
             />
-            <span>144.9K Followers</span>
+            <span>
+              {Intl.NumberFormat("en", { notation: "compact" }).format(
+                details.followersCount
+              )}{" "}
+              Followers
+            </span>
           </span>
           <span>·</span>
           <span className="text-black dark:text-dark-heading_color flex items-center gap-2">

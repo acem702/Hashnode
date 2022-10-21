@@ -14,6 +14,7 @@ const PostSchema = new mongoose.Schema(
       ref: "User",
     },
     content: { type: String },
+    read_time: { type: String },
     tags: [{ type: String }],
     subtitle: { type: String },
     likes: {

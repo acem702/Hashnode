@@ -11,6 +11,7 @@ const mutation = {
     });
 
     const tagExist = await Tag.findOne({ name });
+
     if (tagExist) {
       return {
         success: false,
@@ -63,6 +64,7 @@ const mutation = {
 
     if (isFollowed) {
       tag.followers.pull(user._id);
+      tag.followersCount -= 1;
       tag.save();
       return {
         message: "Unfollowed",
@@ -72,6 +74,7 @@ const mutation = {
       };
     } else {
       tag.followers.push(user._id);
+      tag.followersCount += 1;
       tag.save();
       return {
         message: "Followed",

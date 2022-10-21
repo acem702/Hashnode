@@ -7,4 +7,15 @@ const nextConfig = {
   },
 };
 
+module.exports = {
+  async rewrites() {
+    return [
+      {
+        source: "/@:username",
+        destination: "/:username",
+      },
+    ];
+  },
+};
+
 module.exports = nextConfig;

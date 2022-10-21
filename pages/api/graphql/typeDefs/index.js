@@ -57,6 +57,7 @@ const typeDefs = gql`
     cover_image: Image
     user: User!
     content: String!
+    read_time: String!
     tags: [String]!
     slug: String!
     likes: Like!
@@ -118,6 +119,7 @@ const typeDefs = gql`
     _id: ID
     name: String
     followers: [ID]
+    followersCount: String
     articles: Int
     logo: Image
     description: String

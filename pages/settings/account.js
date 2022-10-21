@@ -14,7 +14,7 @@ import { handleChange } from "utils/helpers/miniFunctions";
 const Account = ({ user }) => {
   const { setUser, setToast } = useContext(Context);
   const router = useRouter();
-  const { _id, email, followers, following, ...rest } = user;
+  const { _id, followers, following, createdAt, ...rest } = user;
   const [details, setDetails] = useState(rest);
   const [updateUserMutation, { data, loading, error }] =
     useMutation(UPDATE_USER);
@@ -218,13 +218,13 @@ const Account = ({ user }) => {
   }, [user]);
 
   useEffect(() => {
+    console.log(data);
     if (data && data.updateUser && data.updateUser.success) {
       setToast({
         msg: "User Updated successfully!",
         type: "success",
         status: true,
       });
-      router.push("/");
     }
   }, [data]);
 
@@ -232,8 +232,10 @@ const Account = ({ user }) => {
     try {
       const token = getCookie("token");
 
+      const { email, ...d } = details;
+
       const updatedData = {
-        ...details,
+        ...d,
         skills: Array.isArray(details.skills)
           ? details.skills
           : details.skills.split(",").map((e) => e.trim()),

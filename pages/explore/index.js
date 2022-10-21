@@ -79,7 +79,7 @@ const Explore = ({ user }) => {
                         className="object-cover rounded-md"
                       ></Image>
                       <div>
-                        <Link href={`/explore/${tag.name}`}>
+                        <Link href={`/tags/${tag.name}`}>
                           <h1 className="text-lg font-semibold text-black dark:text-white cursor-pointer">
                             {tag.name}
                           </h1>

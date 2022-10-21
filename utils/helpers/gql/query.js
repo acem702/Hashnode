@@ -246,6 +246,7 @@ const getUserActivites = gql`
           available
         }
         skills
+        tagline
         profile_photo {
           url
         }
@@ -343,6 +344,7 @@ const searchTagQuery = gql`
       _id
       name
       followers
+      followersCount
       articles
       description
       logo {
@@ -389,6 +391,10 @@ const getUserByUsername = gql`
         name
         username
         tagline
+        bio {
+          available
+          about
+        }
         createdAt
         skills
         profile_photo {
@@ -448,6 +454,7 @@ const GET_USER = gql`
       success
       user {
         _id
+        createdAt
         bio {
           about
           available

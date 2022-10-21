@@ -5,6 +5,15 @@ const User = require("../../../../server/models/user.model");
 const cloudinary = require("../../../../utils/helpers/config/cloudinary.config.js");
 const isAuth = require("../auth");
 
+const readingTime = (text) => {
+  if (text) {
+    const wordsPerMinute = 200;
+    const words = text.split(" ").length;
+    const minutes = Math.round(words / wordsPerMinute);
+    return minutes === 0 ? 1 : minutes;
+  }
+};
+
 const mutation = {
   createPost: async (_, { input }, ctx) => {
     const user = await isAuth(ctx);
@@ -19,6 +28,7 @@ const mutation = {
       const post = await Post.create({
         ...input,
         user: user._id,
+        read_time: readingTime(content),
       });
 
       if (!post) {

@@ -155,32 +155,34 @@ const HasUser = ({ user }) => {
   return (
     <>
       <div className="bg-light-primary_background dark:bg-black hover:bg-light-border_primary hover:dark:bg-dark-secondary_background border-b border-light-border_primary dark:border-dark-border_primary p-4 cursor-pointer">
-        <div className="flex itmes-center gap-4">
-          <Image
-            src={(user && user.profile_photo.url) || DEFAULT_PROFILE}
-            width={50}
-            height={50}
-            className="rounded-full object-cove"
-          />
-          <div>
-            <h1 className="text-lg font-semibold text-black dark:text-dark-heading_color">
-              {user.name}
-            </h1>
-            <p className="text-light-paragraph_color dark:text-dark-paragraph_color">
-              @{user.username}
-            </p>
+        <Link href={`/@${user.username}`}>
+          <div className="flex itmes-center gap-4">
+            <Image
+              src={(user && user.profile_photo.url) || DEFAULT_PROFILE}
+              width={50}
+              height={50}
+              className="rounded-full object-cove"
+            />
+            <div>
+              <h1 className="text-md font-semibold text-black dark:text-dark-heading_color">
+                {user.name}
+              </h1>
+              <p className="text-sm mt-1 text-light-paragraph_color dark:text-dark-paragraph_color">
+                @{user.username}
+              </p>
+            </div>
           </div>
-        </div>
+        </Link>
       </div>
       <div className="hover:bg-light-border_primary hover:dark:bg-dark-secondary_background">
-        <div className="flex items-center gap-2 text-light-paragraph_color dark:text-dark-paragraph_color p-4 cursor-pointer">
+        <div className="flex items-center gap-2 text-lg font-medium text-black dark:text-white p-4 cursor-pointer">
           <Book w={DEFAULT_ICON_SIZE} h={DEFAULT_ICON_SIZE} />
           <span>My Bookmarks</span>
         </div>
       </div>
       <div className="hover:bg-light-border_primary hover:dark:bg-dark-secondary_background">
         <Link href={"/settings/account"}>
-          <div className="flex items-center gap-2 text-light-paragraph_color dark:text-dark-paragraph_color p-4 cursor-pointer">
+          <div className="flex items-center gap-2 text-lg font-medium text-black dark:text-white p-4 cursor-pointer">
             <Account w={DEFAULT_ICON_SIZE} h={DEFAULT_ICON_SIZE} />
             <span>Account Settings</span>
           </div>
