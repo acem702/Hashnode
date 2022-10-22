@@ -5,7 +5,11 @@ import Feed from "public/icons/feed";
 import Pen from "public/icons/pen";
 import People from "public/icons/People";
 import Twitter from "public/icons/twitter";
-import { DEFAULT_BUTTON_ICON_SIZE, DEFAULT_ICON_SIZE } from "utils/constant";
+import {
+  DEFAULT_BUTTON_ICON_SIZE,
+  DEFAULT_ICON_SIZE,
+  SECONDARY_ICON_SIZE,
+} from "utils/constant";
 
 const ExploreTagIntro = ({ details }) => {
   return (
@@ -55,8 +59,8 @@ const ExploreTagIntro = ({ details }) => {
             <span>
               {Intl.NumberFormat("en", { notation: "compact" }).format(
                 details.followersCount
-              )}{" "}
-              Followers
+              )}
+              <span className="ml-1">Followers</span>
             </span>
           </span>
           <span>·</span>
@@ -66,19 +70,28 @@ const ExploreTagIntro = ({ details }) => {
               h={DEFAULT_ICON_SIZE}
               className="fill-black dark:fill-white"
             />
-            <span>34.6K Articles</span>
+            <span>
+              {Intl.NumberFormat("en", { notation: "compact" }).format(
+                details.articles
+              )}
+              <span className="ml-1">Articles</span>
+            </span>
           </span>
-          <div className="flex items-center gap-6">
-            <Twitter
-              w={DEFAULT_ICON_SIZE}
-              h={DEFAULT_ICON_SIZE}
-              className="fill-black dark:fill-white"
-            />
-            <WebLink
-              w={DEFAULT_ICON_SIZE}
-              h={DEFAULT_ICON_SIZE}
-              className="fill-black dark:fill-white"
-            />
+          <div className="flex items-center gap-1">
+            <button className="btn-icon">
+              <Twitter
+                w={SECONDARY_ICON_SIZE}
+                h={SECONDARY_ICON_SIZE}
+                className="fill-black dark:fill-white"
+              />
+            </button>
+            <button className="btn-icon">
+              <WebLink
+                w={SECONDARY_ICON_SIZE}
+                h={SECONDARY_ICON_SIZE}
+                className="fill-black dark:fill-white"
+              />
+            </button>
           </div>
         </div>
       </div>

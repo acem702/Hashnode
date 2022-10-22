@@ -10,6 +10,7 @@ import Feed from "public/icons/feed";
 import Improvement from "public/icons/improvement";
 import { SECONDARY_ICON_SIZE } from "utils/constant";
 import { getTrendingTags } from "utils/helpers/gql/query";
+import TagLoading from "./loadings/TagLoading";
 
 const SideMenu = () => {
   const { data, loading, error } = useQuery(getTrendingTags);
@@ -55,7 +56,7 @@ const SideMenu = () => {
   ];
 
   return (
-    <aside className="card h-fit sticky top-[1.25rem] left-0">
+    <aside className="card h-fit p-0 sticky top-[1.25rem] left-0">
       <div className="pb-spacing border-b dark:border-dark-border_secondary py-2">
         {menus.map((menu) => {
           return (
@@ -87,11 +88,18 @@ const SideMenu = () => {
         </h1>
 
         <ul>
-          {loading
-            ? "Loading..."
-            : data?.getTrendingTags.map((tag) => (
-                <TrendingCard key={uuidv4()} tag={tag} />
-              ))}
+          {loading ? (
+            <>
+              <TagLoading />
+              <TagLoading />
+              <TagLoading />
+              <TagLoading />
+            </>
+          ) : (
+            data?.getTrendingTags.map((tag) => (
+              <TrendingCard key={uuidv4()} tag={tag} />
+            ))
+          )}
         </ul>
       </div>
 

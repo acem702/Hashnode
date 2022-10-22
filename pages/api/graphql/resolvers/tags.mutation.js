@@ -4,7 +4,7 @@ const isAuth = require("../auth");
 
 const mutation = {
   createTag: async (_, { input }) => {
-    const { name, logo, description } = input;
+    const { name } = input;
 
     const articlesWithTag = await Post.find({
       tags: { $in: [name] },
@@ -21,9 +21,7 @@ const mutation = {
     }
 
     const tag = new Tag({
-      name,
-      logo,
-      description,
+      ...input,
       articles: articlesWithTag.length,
     });
 

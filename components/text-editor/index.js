@@ -127,7 +127,7 @@ const TextEditor = ({ onChange }) => {
               </div>
               <ul
                 tabIndex={0}
-                className="dropdown-content menu bg-white dark:bg-black border border-light-border_primary dark:border-dark-border_primary shadow-lg rounded-lg w-24 text-center overflow-hidden"
+                className="dropdown-content menu bg-white dark:bg-[#000] border border-light-border_primary dark:border-dark-border_primary shadow-lg rounded-lg w-24 text-center overflow-hidden"
               >
                 <button
                   data-command={e.name}

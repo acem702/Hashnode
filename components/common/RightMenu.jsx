@@ -6,7 +6,7 @@ import Bookmark from "./Bookmark";
 
 const RightMenu = () => {
   const { allBookmarks } = useBookmark();
-  const [getBookmarkData, { data }] = useLazyQuery(GET_BOOKMARKS);
+  const [getBookmarkData, { data, loading }] = useLazyQuery(GET_BOOKMARKS);
 
   useEffect(() => {
     (async () => {
@@ -21,7 +21,7 @@ const RightMenu = () => {
   }, [allBookmarks]);
 
   return (
-    <div className="w-full h-full">
+    <div className="w-full flex flex-col gap-spacing h-full">
       <div className="card p-4">
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-bold text-black dark:text-dark-heading_color">
@@ -33,7 +33,7 @@ const RightMenu = () => {
         </div>
       </div>
 
-      <Bookmark data={data?.getManyPosts} />
+      <Bookmark data={data?.getManyPosts} loading={loading} />
     </div>
   );
 };

@@ -52,7 +52,7 @@ const Header = () => {
             type="text"
             ref={searchInput}
             placeholder="Search for tags, people, articles, and many more"
-            className="outline-none w-full px-6 py-2 rounded-full bg-light-input_background dark:bg-black dark:text-white text-black border border-light-border_primary dark:border-dark-border_primary text-lg"
+            className="outline-none w-full px-6 py-2 rounded-full bg-light-input_background dark:bg-[#000] dark:text-white text-black border border-light-border_primary dark:border-dark-border_primary text-lg"
           />
           <div className="absolute top-1/2 -translate-y-1/2 text-black dark:text-white right-4 bg-white dark:bg-gray-700 px-2 py-1 rounded-md border border-light-border_primary dark:border-dark-border_primary text-sm">
             /
@@ -112,7 +112,7 @@ const Header = () => {
             </div>
             <ul
               tabIndex={0}
-              className="dropdown-content menu bg-white dark:bg-black border border-light-border_primary dark:border-dark-border_primary shadow-lg rounded-lg w-80 overflow-hidden"
+              className="dropdown-content menu bg-white dark:bg-[#000] border border-light-border_primary dark:border-dark-border_primary shadow-lg rounded-lg w-80 overflow-hidden"
             >
               <div>
                 {user ? (
@@ -154,7 +154,7 @@ const HasUser = ({ user }) => {
 
   return (
     <>
-      <div className="bg-light-primary_background dark:bg-black hover:bg-light-border_primary hover:dark:bg-dark-secondary_background border-b border-light-border_primary dark:border-dark-border_primary p-4 cursor-pointer">
+      <div className="bg-light-primary_background dark:bg-[#000] hover:bg-light-border_primary hover:dark:bg-dark-secondary_background border-b border-light-border_primary dark:border-dark-border_primary p-4 cursor-pointer">
         <Link href={`/@${user.username}`}>
           <div className="flex itmes-center gap-4">
             <Image

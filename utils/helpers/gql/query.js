@@ -136,16 +136,16 @@ const getPostsByTag = gql`
           }
         }
       }
-      details {
-        _id
-        name
-        description
-        articles
-        followers
-        logo {
-          url
-        }
-      }
+      # details {
+      #   _id
+      #   name
+      #   description
+      #   articles
+      #   followers
+      #   logo {
+      #     url
+      #   }
+      # }
     }
   }
 `;
@@ -434,6 +434,9 @@ const GET_BOOKMARKS = gql`
       content
       likes {
         total
+      }
+      cover_image {
+        url
       }
       tags
       user {

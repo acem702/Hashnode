@@ -32,6 +32,7 @@ module.exports = {
         info: "hsl(198 93% 60%)",
         success: "hsl(158 64% 52%)",
         warning: "hsl(43 96% 56%)",
+        black: "#444",
         error: "hsl(0 91% 71%)",
         dark: {
           border_primary: "rgba(31, 41, 55, 1)",

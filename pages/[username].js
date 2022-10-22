@@ -43,7 +43,7 @@ const Username = ({ user, data }) => {
 
   return data.user ? (
     <>
-      <div className="w-full bg-light-primary_background dark:bg-black">
+      <div className="w-full bg-light-primary_background dark:bg-[#000]">
         <Header />
 
         <div
@@ -254,7 +254,7 @@ const Username = ({ user, data }) => {
                     </div>
                     <div className="border-y border-light-border_primary w-full dark:border-dark-border_primary py-4">
                       <p className="text-lg flex items-center gap-2">
-                        <span className="font-semibold text-xl text-light-paragraph_color dark:text-dark-paragraph_color">
+                        <span className="font-medium text-lg text-light-paragraph_color dark:text-dark-paragraph_color">
                           Joined Hashnode
                         </span>
                       </p>

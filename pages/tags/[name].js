@@ -9,23 +9,41 @@ import TagRightMenu from "components/Explore/TagRightMenu";
 import Header from "components/Header";
 import { Context } from "utils/context/main";
 import client from "utils/helpers/config/apollo-client";
-import { GET_USER_STATUS, searchTagQuery } from "utils/helpers/gql/query";
+import {
+  getPostsByTag,
+  GET_USER_STATUS,
+  searchTagQuery,
+} from "utils/helpers/gql/query";
 import PageNotFound from "components/common/PageNotFound";
+import Card from "components/common/Card";
+import Clock from "public/icons/clock";
+import Fire from "public/icons/fire";
 
 const SingleTag = ({ user, tag }) => {
   const { setUser } = useContext(Context);
+  const router = useRouter();
+  const [getPosts, { data, loading, error }] = useLazyQuery(getPostsByTag);
 
   useEffect(() => {
     setUser(user);
   }, [user]);
-  console.log(tag);
+
+  useEffect(() => {
+    (async () => {
+      await getPosts({
+        variables: {
+          tag: router.query.name,
+        },
+      });
+    })();
+  }, [router.query]);
 
   return tag ? (
     <>
       <Head>
         <title>#{tag?.name} on Hashnode</title>
       </Head>
-      <div className="w-full bg-light-primary_background dark:bg-black">
+      <div className="w-full bg-light-primary_background dark:bg-[#000]">
         <Header />
 
         <div
@@ -35,8 +53,45 @@ const SingleTag = ({ user, tag }) => {
             <SideMenu />
           </div>
 
-          <div className="posts-body">
+          <div className="posts-body flex flex-col gap-spacing">
             <ExploreTagIntro details={tag} />
+
+            <div className="card py-5">
+              <div className="header flex items-center justify-between border-b border-light-border_primary dark:border-dark-border_primary">
+                <div className="px-3">
+                  <div className="flex gap-3">
+                    <span className="btn-tab">
+                      <Fire
+                        w={15}
+                        h={15}
+                        className="fill-black dark:fill-dark-heading_color"
+                      />
+                      Hot
+                    </span>
+                    <span className="btn-tab">
+                      <Clock
+                        w={15}
+                        h={15}
+                        className="fill-black dark:fill-dark-heading_color"
+                      />
+                      New
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <main className="py-4">
+                {data?.getPostsByTags.posts.length > 0 ? (
+                  data?.getPostsByTags.posts.map((card) => (
+                    <Card details={card} />
+                  ))
+                ) : (
+                  <div className="flex text-xl items-center flex-col px-4 py-8">
+                    Nothing to Show
+                  </div>
+                )}
+              </main>
+            </div>
           </div>
 
           <div className={`right-menu hidden lg:inline`}>

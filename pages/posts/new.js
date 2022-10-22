@@ -19,7 +19,7 @@ const New = () => {
   });
 
   return (
-    <div>
+    <>
       <NewPostHeader />
 
       <div className="w-full">
@@ -33,7 +33,7 @@ const New = () => {
               </div>
               <ul
                 tabIndex={0}
-                className="dropdown-content menu px-2 py-2 bg-white dark:bg-black border border-light-border_primary dark:border-dark-border_primary shadow-lg rounded-lg w-96 overflow-hidden"
+                className="dropdown-content menu px-2 py-2 bg-white dark:bg-[#000] border border-light-border_primary dark:border-dark-border_primary shadow-lg rounded-lg w-96 overflow-hidden"
               >
                 <header className="p-4 border-b border-dark-border_primary">
                   <div className="text-lg font-semibold flex items-center gap-2">
@@ -115,7 +115,7 @@ const New = () => {
           </main>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

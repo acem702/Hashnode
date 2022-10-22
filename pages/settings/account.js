@@ -261,7 +261,7 @@ const Account = ({ user }) => {
 
   return (
     <>
-      <div className="w-full bg-light-primary_background dark:bg-black">
+      <div className="w-full bg-light-primary_background dark:bg-[#000]">
         <Header />
 
         <div

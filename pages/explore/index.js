@@ -11,6 +11,7 @@ import Header from "components/Header";
 import { Context } from "utils/context/main";
 import client from "utils/helpers/config/apollo-client";
 import { getTrendingTags, GET_USER_STATUS } from "utils/helpers/gql/query";
+import SingleTagLoading from "components/common/loadings/SingleTagLoading";
 
 const Explore = ({ user }) => {
   const { setUser } = useContext(Context);
@@ -26,7 +27,7 @@ const Explore = ({ user }) => {
         <title>Explore Tech Blogs & Tags on Hashnode</title>
       </Head>
 
-      <div className="w-full bg-light-primary_background dark:bg-black">
+      <div className="w-full bg-light-primary_background dark:bg-[#000]">
         <Header />
 
         <div
@@ -36,27 +37,19 @@ const Explore = ({ user }) => {
             <SideMenu />
           </div>
 
-          <div className="posts-body">
+          <div className="posts-body flex flex-col gap-spacing">
             <ExploreIntro />
 
-            <div className="card">
-              <div className="header pt-4 flex items-center justify-center border-b border-light-border_primary dark:border-dark-border_primary">
+            <div className="card py-2">
+              <div className="header flex items-center justify-center border-b border-light-border_primary dark:border-dark-border_primary">
                 <ul className="flex gap-2">
                   <li className="hover:bg-dark-border_secondary rounded-t-md px-2 pt-4 pb-2 font-semibold border-b-2 border-blue text-black dark:text-white">
                     Trending
                   </li>
-                  <li className="hover:bg-dark-border_secondary rounded-t-md px-2 pt-4 pb-2 font-semibold text-black dark:text-white">
-                    Tags
-                  </li>
-                  <li className="hover:bg-dark-border_secondary rounded-t-md px-2 pt-4 pb-2 font-semibold text-black dark:text-white">
-                    Blogs
-                  </li>
-                  <li className="hover:bg-dark-border_secondary rounded-t-md px-2 pt-4 pb-2 font-semibold text-black dark:text-white">
-                    Tags You Follow
-                  </li>
-                  <li className="hover:bg-dark-border_secondary rounded-t-md px-2 pt-4 pb-2 font-semibold text-black dark:text-white">
-                    Blogs You Follow
-                  </li>
+                  <li className="btn-tab">Tags</li>
+                  <li className="btn-tab">Blogs</li>
+                  <li className="btn-tab">Tags You Follow</li>
+                  <li className="btn-tab">Blogs You Follow</li>
                 </ul>
               </div>
               <div className="p-4">
@@ -70,26 +63,35 @@ const Explore = ({ user }) => {
                 </header>
 
                 <main className="flex flex-wrap gap-4">
-                  {data?.getTrendingTags?.map((tag) => (
-                    <div className="p-4 rounded-md bg-dark-border_primary w-full md:w-[calc(100%/2-8px)] border border-light-border_primary dark:border-dark-border_primary flex items-center gap-2">
-                      <Image
-                        src={tag.logo.url}
-                        width={40}
-                        height={40}
-                        className="object-cover rounded-md"
-                      ></Image>
-                      <div>
-                        <Link href={`/tags/${tag.name}`}>
-                          <h1 className="text-lg font-semibold text-black dark:text-white cursor-pointer">
-                            {tag.name}
-                          </h1>
-                        </Link>
-                        <span className="text-sm">
-                          {tag.articles} articles this week
-                        </span>
+                  {loading ? (
+                    <>
+                      <SingleTagLoading />
+                      <SingleTagLoading />
+                      <SingleTagLoading />
+                      <SingleTagLoading />
+                    </>
+                  ) : (
+                    data?.getTrendingTags?.map((tag) => (
+                      <div className="p-4 rounded-md bg-dark-border_primary w-full md:w-[calc(100%/2-8px)] border border-light-border_primary dark:border-dark-border_primary flex items-center gap-2">
+                        <Image
+                          src={tag.logo.url}
+                          width={40}
+                          height={40}
+                          className="object-cover rounded-md"
+                        ></Image>
+                        <div>
+                          <Link href={`/tags/${tag.name}`}>
+                            <h1 className="text-lg font-semibold text-black dark:text-white cursor-pointer">
+                              {tag.name}
+                            </h1>
+                          </Link>
+                          <span className="text-sm">
+                            {tag.articles} articles this week
+                          </span>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))
+                  )}
                 </main>
               </div>
             </div>
