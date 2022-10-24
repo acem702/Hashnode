@@ -8,11 +8,11 @@ import {
 import LogoWithText from "public/icons/logoWithText";
 import Cloud from "public/icons/cloud";
 
-const NewPostHeader = () => {
+const NewPostHeader = ({ loading, publishPost }) => {
   return (
     <>
-      <header className="w-full bg-white dark:bg-dark-primary_background border-b border-text-dark-200 dark:border-dark-border_primary mb-spacing">
-        <div className="2xl:container w-full mx-auto px-4 py-6 flex gap-spacing items-center justify-between">
+      <header className="w-full bg-white dark:bg-dark-border_primary border-b border-text-dark-200 dark:border-dark-border_primary">
+        <div className="2xl:container w-full mx-auto px-4 py-2 flex gap-spacing items-center justify-between">
           <div className="flex items-center gap-4">
             <Hamburger
               w={DEFAULT_ICON_SIZE}
@@ -36,7 +36,9 @@ const NewPostHeader = () => {
               </span>
               <span>Saved</span>
             </span>
-            <button className="btn-primary rounded-full">Publish</button>
+            <button disabled={loading} onClick={publishPost} className={`btn-primary rounded-full ${loading ? 'cursor-not-allowed opacity-25' : ''}`}>
+              {loading ? "Publishing..." : "Publish"}
+            </button>
           </div>
         </div>
       </header>

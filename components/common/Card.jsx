@@ -46,7 +46,7 @@ const Card = ({ details }) => {
         <div>
           <Link href={`/@${details?.user?.username}`}>
             <h1 className="cursor-pointer text-black dark:text-dark-heading_color text-lg font-semibold">
-              {details?.user.name}
+              {details?.user?.name}
             </h1>
           </Link>
           <p className="text-sm font-medium text-light-paragraph_color dark:text-dark-paragraph_color">
@@ -55,21 +55,23 @@ const Card = ({ details }) => {
         </div>
       </header>
 
-      <main className="flex flex-col md:flex-row gap-4 justify-between py-4">
-        <div className="w-full">
-          <h1 className="text-2xl font-bold text-black dark:text-dark-heading_color mb-4">
-            {details?.title}
-          </h1>
-          <div className="dark:text-dark-paragraph_color text-light-paragraph_color">
-            {content}
+      <main className="cursor-pointer flex flex-col md:flex-row gap-4 justify-between py-4">
+        <Link href={`/${details?.user?.username}/${details.slug}`}>
+          <div className="w-full">
+            <h1 className="text-2xl font-bold text-black dark:text-dark-heading_color mb-4">
+              {details?.title}
+            </h1>
+            <div className="dark:text-dark-paragraph_color text-light-paragraph_color">
+              {content}
+            </div>
           </div>
-        </div>
+        </Link>
 
         {details?.cover_image?.url && (
           <div className="w-full md:max-w-[16rem] h-full bg-gray-700 rounded-md overflow-hidden">
             <img
               className="w-full h-full object-cover"
-              src={details?.cover_image.url}
+              src={details?.cover_image?.url}
               alt={details?.title}
             />
           </div>
@@ -119,7 +121,7 @@ const Card = ({ details }) => {
                 className="fill-light-paragraph_color dark:fill-dark-paragraph_color"
               />
             </span>
-            <span>{details?.likes.total}</span>
+            <span>{details?.likes?.total}</span>
           </button>
 
           <button className="flex items-center gap-1">

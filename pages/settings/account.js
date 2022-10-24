@@ -4,16 +4,16 @@ import { getCookie } from "cookies-next";
 import { useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
 import Header from "components/Header";
+import Head from "next/head";
 import Basic from "components/Settings/Basic";
 import Social from "components/Settings/Social";
 import { Context } from "utils/context/main";
 import client from "utils/helpers/config/apollo-client";
 import { GET_USER, UPDATE_USER } from "utils/helpers/gql/query";
-import { handleChange } from "utils/helpers/miniFunctions";
+import { handleChange, isValidHttpUrl } from "utils/helpers/miniFunctions";
 
 const Account = ({ user }) => {
   const { setUser, setToast } = useContext(Context);
-  const router = useRouter();
   const { _id, followers, following, createdAt, ...rest } = user;
   const [details, setDetails] = useState(rest);
   const [updateUserMutation, { data, loading, error }] =
@@ -234,6 +234,21 @@ const Account = ({ user }) => {
 
       const { email, ...d } = details;
 
+      const links = d.social;
+
+      for (let i = 0; i < Object.entries(links).length; i++) {
+        const url = links[Object.entries(links)[i][0]];
+
+        if (url !== null) {
+          if (!isValidHttpUrl(url))
+            return setToast({
+              msg: `Invalid URL in ${Object.keys(links)[i]}`,
+              status: true,
+              type: "info",
+            });
+        }
+      }
+
       const updatedData = {
         ...d,
         skills: Array.isArray(details.skills)
@@ -255,19 +270,28 @@ const Account = ({ user }) => {
         },
       });
     } catch (error) {
-      console.log(error);
+      setToast({
+        msg: error.message,
+        status: true,
+        type: "error",
+      });
     }
   };
 
   return (
     <>
+    <Head>
+      <title>Account Settings - Hashnode </title>
+    </Head>
       <div className="w-full bg-light-primary_background dark:bg-[#000]">
         <Header />
 
         <div
           className={`w-full xl:container mx-auto px-2 flex flex-col lg:flex-row gap-spacing min-h-[calc(100vh-76px)] h-full`}
         >
-          <div className={`flex-shrink-0 w-full lg:w-80 lg:pl-0 lg:pr-4`}>
+          <div
+            className={`flex-shrink-0 w-full lg:w-80 lg:pl-0 lg:pr-4 flex flex-col gap-spacing`}
+          >
             <div className="card p-4">
               <h1 className="text-2xl font-semibold text-light-paragraph_color dark:text-dark-paragraph_color">
                 User Settings
@@ -297,7 +321,12 @@ const Account = ({ user }) => {
 
           <div className="flex-1">
             <div className="card flex-row flex-wrap gap-xlspacing p-6">
-              <Basic allfields={allfields} details={details} submit={submit} />
+              <Basic
+                loading={loading}
+                allfields={allfields}
+                details={details}
+                submit={submit}
+              />
 
               <Social allfields={allfields} details={details} />
             </div>

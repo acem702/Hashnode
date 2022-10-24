@@ -1,4 +1,4 @@
-const Basic = ({ allfields, details, submit }) => {
+const Basic = ({ allfields, details, submit, loading }) => {
   return (
     <div className="w-full md:w-[calc(100%/2-16px)]">
       <h1 className="text-2xl font-semibold text-black dark:text-dark-heading_color">
@@ -100,8 +100,14 @@ const Basic = ({ allfields, details, submit }) => {
         );
       })}
 
-      <button onClick={submit} className="btn-tertiary rounded-full">
-        Update
+      <button
+        disabled={loading}
+        onClick={submit}
+        className={`btn-tertiary rounded-full ${
+          loading ? "cursor-not-allowed opacity-25" : ""
+        }`}
+      >
+        {loading ? "Updating..." : "Update"}
       </button>
     </div>
   );

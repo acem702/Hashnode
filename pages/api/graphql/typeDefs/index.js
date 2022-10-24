@@ -268,7 +268,7 @@ const typeDefs = gql`
     getUser: GetUserResponse!
     getUserByUsername(username: String!): GetUserResponse!
 
-    getPosts(input: LimitInput!): [Post!]
+    getPosts(input: LimitInput!): [Post!]!
     getTrendingBlogs(input: LimitInput!): [Post!]
     getPostBySlug(input: SlugInput!): PostBySlugResponse!
     getPostsByTags(tag: String!): PostsByTags!

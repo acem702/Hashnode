@@ -77,6 +77,14 @@ const mutation = {
   likePost: async (_, { input }, ctx) => {
     const user = await isAuth(ctx);
 
+    if (!user)
+      return {
+        message: "Log in to Like post",
+        success: false,
+        error: true,
+        updated: null,
+      };
+
     const { post, like } = input;
 
     const foundPost = await Post.findById(post);

@@ -1,9 +1,9 @@
-const Search = ({ w = 6, h = 6, ...rest}) => {
+const Search = ({ w = 6, h = 6, ...rest }) => {
   return (
     <svg
       viewBox="0 0 200 200"
       xmlns="http://www.w3.org/2000/svg"
-    rest
+      {...rest}
       style={{ width: w, height: h }}
       fill="current"
     >

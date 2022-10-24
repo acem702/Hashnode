@@ -9,6 +9,7 @@ import Card from "components/common/Card";
 import End from "components/common/End";
 import { Context } from "utils/context/main";
 import CardLoading from "components/common/loadings/cardLoading";
+import Head from "next/head";
 
 const Bookmarks = ({ user }) => {
   const { setUser } = useContext(Context);
@@ -20,7 +21,7 @@ const Bookmarks = ({ user }) => {
 
   useEffect(() => {
     (async () => {
-      const tags = JSON.parse(localStorage.getItem("bookmarks"));
+      const tags = JSON.parse(localStorage.getItem("bookmarks")) || [];
       if (tags.length > 0) {
         await getPosts({
           variables: {
@@ -31,8 +32,13 @@ const Bookmarks = ({ user }) => {
     })();
   }, []);
 
+  console.log(data?.getManyPosts);
+
   return (
     <>
+      <Head>
+        <title>Bookmarks - Hashnode</title>
+      </Head>
       <div className="w-full bg-light-primary_background dark:bg-[#000]">
         <Header />
 
@@ -45,7 +51,7 @@ const Bookmarks = ({ user }) => {
 
           <div className="posts-body">
             <div className="card p-0 mb-0">
-              {!loading ? (
+              {loading ? (
                 <>
                   <CardLoading />
                   <CardLoading />
@@ -55,7 +61,13 @@ const Bookmarks = ({ user }) => {
               ) : (
                 data?.getManyPosts.map((e) => <Card details={e} />)
               )}
-              {!loading && <End />}
+              {(data?.getManyPosts.length === 0 ||
+                data?.getManyPosts === undefined) && (
+                <div className="w-full py-4 text-center text-light-paragraph_color dark:text-dark-paragraph_color">
+                  No Bookmarks found
+                </div>
+              )}
+              {!loading && data?.getManyPosts.length > 0 && <End />}
             </div>
           </div>
 

@@ -24,8 +24,8 @@ const Bookmark = ({ data, loading }) => {
           <BookmarkLoading />
           <BookmarkLoading />
         </>
-      ) : (
-        data?.map((bookmark) => (
+      ) : data?.length > 0 ? (
+        data.map((bookmark) => (
           <div className="last:mb-0 last:border-none py-2 bg-white dark:bg-dark-primary_background border-b border-light-border_primary dark:border-dark-border_primary">
             <h1 className="text-md font-semibold text-black dark:text-dark-heading_color">
               {bookmark.title}
@@ -35,6 +35,8 @@ const Bookmark = ({ data, loading }) => {
             </p>
           </div>
         ))
+      ) : (
+        <p>No Bookmarks found!</p>
       )}
     </div>
   );

@@ -31,7 +31,10 @@ This is a complete repository of hashnode clone which I made while learning MERN
 ## Running Locally
 
 Clone this repository:
+
+```
 git clone https://github.com/ujen5173/Hashnode.git hashnode-clone
+```
 
 At the root of your project create an .env file with the following contents:
 

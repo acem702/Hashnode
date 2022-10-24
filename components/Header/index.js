@@ -28,7 +28,7 @@ const Header = () => {
   const { user, theme, setTheme, searchInput } = useContext(Context);
 
   return (
-    <header className="w-full bg-white dark:bg-dark-primary_background border-b border-text-dark-200 dark:border-dark-border_primary mb-spacing">
+    <header className="w-full bg-white dark:bg-dark-primary_background border-b border-light-border_primary dark:border-dark-border_primary mb-spacing">
       <div className="2xl:container w-full mx-auto px-4 py-4 flex gap-spacing items-center justify-between">
         <div className="flex items-center gap-4">
           <Hamburger
@@ -175,10 +175,12 @@ const HasUser = ({ user }) => {
         </Link>
       </div>
       <div className="hover:bg-light-border_primary hover:dark:bg-dark-secondary_background">
-        <div className="flex items-center gap-2 text-lg font-medium text-black dark:text-white p-4 cursor-pointer">
-          <Book w={DEFAULT_ICON_SIZE} h={DEFAULT_ICON_SIZE} />
-          <span>My Bookmarks</span>
-        </div>
+        <Link href={"/bookmarks"}>
+          <div className="flex items-center gap-2 text-lg font-medium text-black dark:text-white p-4 cursor-pointer">
+            <Book w={DEFAULT_ICON_SIZE} h={DEFAULT_ICON_SIZE} />
+            <span>My Bookmarks</span>
+          </div>
+        </Link>
       </div>
       <div className="hover:bg-light-border_primary hover:dark:bg-dark-secondary_background">
         <Link href={"/settings/account"}>

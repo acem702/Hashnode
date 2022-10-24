@@ -3,7 +3,7 @@ import { createContext, useEffect, useRef, useState } from "react";
 export const Context = createContext();
 
 const ContextHandler = ({ children, values }) => {
-  const [theme, setTheme] = useState("dark"); // <LIGHT || DARK>
+  const [theme, setTheme] = useState(); // <LIGHT || DARK>
   const searchInput = useRef(null);
   const [toast, setToast] = useState({
     status: false,
@@ -57,10 +57,11 @@ const ContextHandler = ({ children, values }) => {
       document.querySelector("body").classList.remove("light");
       document.querySelector("body").classList.add("dark");
       localStorage.setItem("theme", theme);
-    } else {
+    } else if (theme === "light") {
       document.querySelector("body").classList.add("light");
       document.querySelector("body").classList.remove("dark");
       localStorage.setItem("theme", theme);
+    } else {
     }
   }, [theme]);
 

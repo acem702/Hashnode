@@ -6,6 +6,7 @@ import { Context } from "utils/context/main";
 import client from "utils/helpers/config/apollo-client";
 import { getPosts, GET_USER_STATUS } from "utils/helpers/gql/query";
 import RightMenu from "components/common/RightMenu";
+import Head from "next/head";
 
 export default function Home({ data, user }) {
   const { setUser } = useContext(Context);
@@ -16,6 +17,9 @@ export default function Home({ data, user }) {
 
   return (
     <>
+      <Head>
+        <title>Home - Hashnode</title>
+      </Head>
       <div className="w-full bg-light-primary_background dark:bg-[#000]">
         <Header />
 
@@ -61,7 +65,7 @@ export const getServerSideProps = async (ctx) => {
     query: getPosts,
     variables: {
       input: {
-        limit: 20,
+        limit: 10,
         skip: 0,
       },
     },

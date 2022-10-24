@@ -18,9 +18,10 @@ import Github from "/public/icons/socials/github";
 import Website from "/public/icons/socials/website";
 import LinkedIn from "/public/icons/socials/linkedIn";
 import { SECONDARY_ICON_SIZE } from "utils/constant";
+import Head from "next/head";
 
 const Username = ({ user, data }) => {
-  const { setUser, setToast } = useContext(Context);
+  const { setUser } = useContext(Context);
   const [date, setDate] = useState(null);
 
   useEffect(() => {
@@ -43,6 +44,9 @@ const Username = ({ user, data }) => {
 
   return data.user ? (
     <>
+      <Head>
+        <title>@{data.user.username} - Hashnode</title>
+      </Head>
       <div className="w-full bg-light-primary_background dark:bg-[#000]">
         <Header />
 

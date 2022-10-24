@@ -15,6 +15,26 @@ const exportedFunction = {
       .limit(input.limit)
       .sort({ createdAt: -1 });
 
+    // const posts = await Post.aggregate([
+    //   {
+    //     $facet: {
+    //       posts: [
+    //         {
+    //           $lookup: {
+    //             from: "users",
+    //             localField: "user",
+    //             foreignField: "_id",
+    //             as: "user",
+    //           },
+    //         },
+    //         { $unwind: "$user" },
+    //         { $skip: input.skip },
+    //         { $limit: input.limit },
+    //       ],
+    //     },
+    //   },
+    // ]);
+
     return posts;
   },
 
