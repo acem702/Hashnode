@@ -100,6 +100,8 @@ const getSinglePostBySlug = gql`
         user {
           _id
           name
+          followers
+          following
           username
           profile_photo {
             url
@@ -490,50 +492,6 @@ const GET_USER = gql`
   }
 `;
 
-const UPDATE_USER = gql`
-  mutation UPDATE_USER($input: UpdateUserInput!) {
-    updateUser(input: $input) {
-      error
-      message
-      success
-    }
-  }
-`;
-
-const FOLLOW_TAG_QUERY = gql`
-  mutation FOLLOW_TAG($input: FollowTagInput!) {
-    followTag(input: $input) {
-      error
-      message
-      success
-      data {
-        followers
-      }
-    }
-  }
-`;
-
-const LIKE_POST = gql`
-  mutation LIKE($input: LikeInput!) {
-    likePost(input: $input) {
-      message
-      error
-      success
-      updated {
-        thumbsup
-        heart
-        unicorn
-        clap
-        cheers
-        love
-        money
-        trophy
-        total
-      }
-    }
-  }
-`;
-
 const GET_ALL_MESSAGES = gql`
   query GET_ALL_MESSAGES($input: LimitInput!) {
     getAllMessages(input: $input) {
@@ -551,12 +509,16 @@ const GET_ALL_MESSAGES = gql`
   }
 `;
 
-const DELETE_POST = gql`
-  mutation DELETE_POST($input: DeletePostInput!) {
-    deletePost(input: $input) {
-      error
-      message
-      success
+const getFollowedTags = gql`
+  query GET_FOLLOWED_TAGS {
+    getFollowedTags {
+      _id
+      name
+      description
+      articles
+      logo {
+        url
+      }
     }
   }
 `;
@@ -577,12 +539,9 @@ export {
   GET_BOOKMARKS_OF_BARS,
   GET_BOOKMARKS,
   GET_USER,
-  UPDATE_USER,
   getUserByUsername,
   getFollowedPosts,
-  LIKE_POST,
-  FOLLOW_TAG_QUERY,
+  getFollowedTags,
   getUserActivites,
   GET_ALL_MESSAGES,
-  DELETE_POST,
 };

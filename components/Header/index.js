@@ -25,10 +25,11 @@ import Account from "public/icons/account";
 
 const Header = () => {
   const router = useRouter();
-  const { user, theme, setTheme, searchInput } = useContext(Context);
+  const { user, theme, setTheme, searchInput, handleChange } =
+    useContext(Context);
 
   return (
-    <header className="w-full bg-white dark:bg-dark-primary_background border-b border-light-border_primary dark:border-dark-border_primary mb-spacing">
+    <header className="w-full bg-white dark:bg-dark-primary_background border-b border-light-border_primary dark:border-dark-border_primary">
       <div className="2xl:container w-full mx-auto px-4 py-4 flex gap-spacing items-center justify-between">
         <div className="flex items-center gap-4">
           <Hamburger
@@ -51,6 +52,10 @@ const Header = () => {
           <input
             type="text"
             ref={searchInput}
+            onChange={(e) => {
+              handleChange(e);
+              // setSearchState(true);
+            }}
             placeholder="Search for tags, people, articles, and many more"
             className="outline-none w-full px-6 py-2 rounded-full bg-light-input_background dark:bg-[#000] dark:text-white text-black border border-light-border_primary dark:border-dark-border_primary text-lg"
           />
@@ -144,7 +149,7 @@ const Header = () => {
 
 export default Header;
 
-const HasUser = ({ user }) => {
+export const HasUser = ({ user }) => {
   const logout = () => {
     removeCookies("token");
     setTimeout(() => {

@@ -13,7 +13,7 @@ import { getTrendingTags } from "utils/helpers/gql/query";
 import TagLoading from "./loadings/TagLoading";
 
 const SideMenu = () => {
-  const { data, loading, error } = useQuery(getTrendingTags);
+  const { data, loading } = useQuery(getTrendingTags);
   const name = useRouter().asPath;
 
   const menus = [
@@ -60,10 +60,9 @@ const SideMenu = () => {
       <div className="pb-spacing border-b dark:border-dark-border_secondary py-2">
         {menus.map((menu) => {
           return (
-            <Link href={menu.link}>
+            <Link href={menu.link} key={uuidv4()}>
               <div
-                key={uuidv4()}
-                className={`flex gap-2 items-center py-3 px-4 text-md font-medium cursor-pointer hover:bg-dark-border_secondary ${
+                className={`flex gap-2 items-center py-3 px-4 text-md font-medium cursor-pointer hover:dark:bg-dark-border_secondary hover:bg-light-border_primary ${
                   name === menu.link
                     ? "border-r-2 border-blue text-blue fill-blue"
                     : "text-black dark:text-white"

@@ -1,7 +1,6 @@
 import { useMutation } from "@apollo/client";
 import { getCookie } from "cookies-next";
 import Image from "next/image";
-import { useRouter } from "next/router";
 import Correct from "public/icons/Correct";
 import WebLink from "public/icons/editor-icons/WebLink";
 import Feed from "public/icons/feed";
@@ -16,15 +15,26 @@ import {
   SECONDARY_ICON_SIZE,
 } from "utils/constant";
 import { Context } from "utils/context/main";
-import { FOLLOW_TAG_QUERY } from "utils/helpers/gql/query";
+import { FOLLOW_TAG_QUERY } from "utils/helpers/gql/mutation";
 
 const ExploreTagIntro = ({ details }) => {
   const [data, setData] = useState(details);
   const { user, setToast } = useContext(Context);
-  const [follow, { data: followData, loading }] = useMutation(FOLLOW_TAG_QUERY);
+  const [follow, { data: followData, loading, error }] =
+    useMutation(FOLLOW_TAG_QUERY);
 
   useEffect(() => {
-    if (followData && user._id) {
+    if (error) {
+      setToast({
+        msg: error.message,
+        status: true,
+        type: "error",
+      });
+    }
+  }, [error]);
+
+  useEffect(() => {
+    if (followData && user && user._id) {
       if (followData.followTag && followData.followTag.success) {
         if (followData.followTag.message === "Followed") {
           setData((prev) => ({
@@ -42,12 +52,28 @@ const ExploreTagIntro = ({ details }) => {
           status: true,
           type: "success",
         });
+      } else {
+        setToast({
+          msg: followData.followTag.message,
+          status: true,
+          type: "error",
+        });
       }
+    }
+
+    if (followData?.followTag.error) {
+      setToast({
+        msg: followData.followTag.message,
+        status: true,
+        type: "error",
+      });
     }
   }, [followData]);
 
   const followTag = async () => {
     try {
+      const token = getCookie("token");
+
       await follow({
         variables: {
           input: {
@@ -56,7 +82,7 @@ const ExploreTagIntro = ({ details }) => {
         },
         context: {
           headers: {
-            authorization: "Bearer " + getCookie("token"),
+            authorization: `Bearer ${token}`,
           },
         },
       });
@@ -87,7 +113,18 @@ const ExploreTagIntro = ({ details }) => {
 
         <div className="flex items-center justify-center gap-4 mb-6">
           <button onClick={followTag} className="btn-tertiary rounded-full">
-            {user?._id ? (
+            {loading ? (
+              <>
+                <span>
+                  <Correct
+                    w={DEFAULT_ICON_SIZE}
+                    h={DEFAULT_ICON_SIZE}
+                    className="fill-blue"
+                  />
+                </span>
+                Loading...
+              </>
+            ) : user?._id ? (
               data?.followers.includes(user?._id) ? (
                 <>
                   <span>

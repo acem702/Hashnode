@@ -1,16 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import NewPostHeader from "components/Header/NewPostHeader";
 import Close from "public/icons/close";
 import Upload from "public/icons/upload";
 import { DEFAULT_ICON_SIZE, SECONDARY_ICON_SIZE } from "utils/constant";
-import { handleChange } from "utils/helpers/miniFunctions";
+import { handleChange, UploadImage } from "utils/helpers/miniFunctions";
 import ReactMde from "react-mde";
 import * as Showdown from "showdown";
 import "react-mde/lib/styles/css/react-mde-all.css";
 import Head from "next/head";
 import { useMutation } from "@apollo/client";
-import { POST_QUERY } from "utils/helpers/gql/mutation";
+import { POST_QUERY, UPLOAD_QUERY } from "utils/helpers/gql/mutation";
 import { getCookie } from "cookies-next";
+import { Context } from "utils/context/main";
+import { useRouter } from "next/router";
 
 const converter = new Showdown.Converter({
   tables: true,
@@ -20,10 +22,19 @@ const converter = new Showdown.Converter({
 });
 
 const New = () => {
+  const router = useRouter();
   const [value, setValue] = useState("**Hello world!!!**");
   const [selectedTab, setSelectedTab] = useState("write");
+  const { setToast, user } = useContext(Context);
   const [publish, { data: publishData, loading }] = useMutation(POST_QUERY);
-  console.log(publishData);
+
+  const [uploadImage] = useMutation(UPLOAD_QUERY);
+
+  const [fileUploading, setFileUploading] = useState(false);
+  const [uploadedFile, setUploadedFile] = useState({
+    url: "",
+    cloud_id: "",
+  });
 
   const [subtitle, setSubtitle] = useState(false);
   const [data, setData] = useState({
@@ -35,6 +46,21 @@ const New = () => {
       cloud_id: "",
     },
   });
+
+  useEffect(() => {
+    if (publishData && publishData.createPost.success) {
+      setToast({
+        msg: "Post Created Successfully",
+        status: true,
+        type: "success",
+      });
+      router.push("/");
+    }
+  }, [publishData]);
+
+  useEffect(() => {
+    setData((prev) => ({ ...prev, cover_image: uploadedFile }));
+  }, [uploadedFile]);
 
   useEffect(() => {
     if (publishData && publishData.createPost.success) {
@@ -70,11 +96,49 @@ const New = () => {
     }
   };
 
+  const handleFileUpload = async (e) => {
+    try {
+      const types = [
+        "image/png",
+        "image/webp",
+        "image/jpg",
+        "iamge/jpeg",
+        "image/jfif",
+      ];
+
+      const fileType = e.target.files[0].type;
+
+      if (!types.includes(fileType)) {
+        return setToast({
+          msg: "File Type unsuppported",
+          status: true,
+          type: "info",
+        });
+      }
+
+      await UploadImage(
+        e,
+        uploadImage,
+        setFileUploading,
+        setUploadedFile,
+        setToast
+      );
+    } catch (error) {
+      console.log(error);
+      setToast({
+        msg: error.message,
+        status: true,
+        type: "error",
+      });
+    }
+  };
+
   return (
     <>
       <Head>
         <title>New Story - Hashnode</title>
       </Head>
+
       <div className="bg-light-primary_background dark:bg-dark-primary_background">
         <NewPostHeader loading={loading} publishPost={publishPost} />
 
@@ -98,13 +162,14 @@ const New = () => {
                         h={SECONDARY_ICON_SIZE}
                         className="fill-black dark:fill-white"
                       />
-                      <span>Upload</span>
+                      <span>{fileUploading ? "Uploading..." : "Upload"}</span>
                     </div>
                   </header>
+
                   <div className="my-6">
                     <input
                       type="file"
-                      accept="image/png, image/webp, image/jpg , iamge/jpeg , image/jfif"
+                      onChange={(e) => handleFileUpload(e)}
                       id="cover_image"
                       hidden
                     />
@@ -125,7 +190,22 @@ const New = () => {
               >
                 Add Subtitle
               </button>
+              {fileUploading && (
+                <p className="text-light-paragraph_color dark:text-dark-paragraph_color font-semibold">
+                  UPLOADING...
+                </p>
+              )}
             </header>
+
+            {data.cover_image.url && (
+              <div className="w-full h-[40rem]">
+                <img
+                  src={data.cover_image.url}
+                  className="w-full h-full object-cover rounded-md"
+                  alt="Cover Image not found!"
+                />
+              </div>
+            )}
 
             <section className="py-8">
               <div>
@@ -138,6 +218,7 @@ const New = () => {
                   placeholder="Article title..."
                   className="text-5xl font-semibold bg-transparent outline-none my-4 w-full text-black dark:text-white placeholder:text-[#222] dark:placeholder:text-[#ccc]"
                 />
+
                 <input
                   type="text"
                   autoComplete={"off"}
@@ -148,6 +229,7 @@ const New = () => {
                   className="text-2xl font-medium bg-transparent outline-none my-4 w-full text-black dark:text-white placeholder:text-[#222] dark:placeholder:text-[#ccc]"
                 />
               </div>
+
               {subtitle && (
                 <div className="relative">
                   <input
@@ -156,7 +238,7 @@ const New = () => {
                     onChange={(e) => handleChange(e, data, setData)}
                     name="subtitle"
                     placeholder="Article subtitle..."
-                    className="text-2xl font-medium bg-transparent outline-none my-4 w-full text-black dark:text-white placeholder:text-black dark:placeholder:text-white"
+                    className="text-2xl font-medium bg-transparent outline-none my-4 w-full text-black dark:text-white placeholder:text-[#222] dark:placeholder:text-[#ccc]"
                   />
                   <span
                     onClick={() => setSubtitle(false)}

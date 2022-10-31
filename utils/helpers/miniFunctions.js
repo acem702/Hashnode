@@ -157,9 +157,7 @@ const UploadImage = async (
   e,
   uploadImage,
   setFileUploading,
-  setCoverState,
   setUploadedFile,
-  handleOtherFunctions,
   setToast
 ) => {
   const file = e.target.files[0];
@@ -176,11 +174,7 @@ const UploadImage = async (
         },
       });
       setFileUploading(false);
-      typeof setCoverState === "function" && setCoverState(false);
       setUploadedFile({ url, cloud_id });
-      if (typeof handleOtherFunctions === "function") {
-        handleOtherFunctions(url, cloud_id);
-      }
     } catch (err) {
       setToast({
         msg: err.message,

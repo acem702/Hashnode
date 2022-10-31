@@ -1,6 +1,7 @@
 import { formatDistance } from "date-fns";
 import Image from "next/image";
 import MarkdownView from "react-showdown";
+import { DEFAULT_PROFILE_SIZE } from "utils/constant";
 
 const CommentCard = ({ details }) => {
   return (
@@ -10,10 +11,10 @@ const CommentCard = ({ details }) => {
           <Image
             src={details.user.profile_photo.url}
             className="rounded-full object-cover"
-            width={60}
-            height={60}
+            width={DEFAULT_PROFILE_SIZE}
+            height={DEFAULT_PROFILE_SIZE}
           />
-          <div>
+          <div className="text-light-paragraph_color dark:text-dark-paragraph_color">
             <h1 className="text-xl font-semibold">{details.user.name}</h1>
             <p className="text-md">@{details.user.username}</p>
           </div>

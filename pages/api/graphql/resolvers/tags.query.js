@@ -1,4 +1,5 @@
 const Tag = require("../../../../server/models/tags.model");
+const isAuth = require("../auth");
 
 const queries = {
   getTrendingTags: async (_) => {
@@ -18,6 +19,22 @@ const queries = {
   searchTag: async (_, { tag }) => {
     const tags = await Tag.findOne({ name: tag });
     return tags;
+  },
+  getFollowedTags: async (_, __, ctx) => {
+    const user = await isAuth(ctx);
+
+    if (user) {
+      const tags = await Tag.find({
+        followers: user._id,
+      })
+        .sort({ createdAt: -1 })
+        .limit(6);
+
+      console.log(tags);
+      return tags;
+    } else {
+      return [];
+    }
   },
 };
 

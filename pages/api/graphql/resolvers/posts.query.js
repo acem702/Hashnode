@@ -63,6 +63,7 @@ const exportedFunction = {
       })
       .skip(skip)
       .limit(limit);
+
     return posts;
   },
 
@@ -81,12 +82,21 @@ const exportedFunction = {
           model: Comment,
         });
 
-      return {
-        data: post,
-        message: "Post found",
-        success: true,
-        error: false,
-      };
+      if (post) {
+        return {
+          data: post,
+          message: "Post found",
+          success: true,
+          error: false,
+        };
+      } else {
+        return {
+          data: null,
+          message: "Post not found",
+          success: false,
+          error: true,
+        };
+      }
     } catch (err) {
       return {
         data: null,

@@ -108,6 +108,60 @@ const EDIT_POST = gql`
   }
 `;
 
+const UPDATE_USER = gql`
+  mutation UPDATE_USER($input: UpdateUserInput!) {
+    updateUser(input: $input) {
+      error
+      message
+      success
+    }
+  }
+`;
+
+const FOLLOW_TAG_QUERY = gql`
+  mutation FOLLOW_TAG($input: FollowTagInput!) {
+    followTag(input: $input) {
+      error
+      message
+      success
+      data {
+        followers
+      }
+    }
+  }
+`;
+
+const LIKE_POST = gql`
+  mutation LIKE($input: LikeInput!) {
+    likePost(input: $input) {
+      message
+      error
+      success
+      updated {
+        thumbsup
+        heart
+        unicorn
+        clap
+        cheers
+        love
+        money
+        trophy
+        total
+      }
+    }
+  }
+`;
+
+const DELETE_POST = gql`
+  mutation DELETE_POST($input: DeletePostInput!) {
+    deletePost(input: $input) {
+      error
+      message
+      success
+    }
+  }
+`;
+
 export {
   POST_QUERY,
   UPLOAD_QUERY,
@@ -118,4 +172,8 @@ export {
   PUBLISH_COMMENT,
   EDIT_DATA_QUERY,
   EDIT_POST,
+  UPDATE_USER,
+  FOLLOW_TAG_QUERY,
+  LIKE_POST,
+  DELETE_POST,
 };

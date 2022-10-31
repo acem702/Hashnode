@@ -205,7 +205,7 @@ const typeDefs = gql`
     success: Boolean!
     error: Boolean!
     message: String!
-    data: Tag!
+    data: Tag
   }
 
   input CommentInput {
@@ -282,6 +282,8 @@ const typeDefs = gql`
     getAllTags: [Tag]
     searchTag(tag: String!): Tag
     getManyPosts(ids: [String!]!): [Post]
+
+    getFollowedTags: [Tag]
 
     searchForUserAvailability(username: String!): Response!
   }

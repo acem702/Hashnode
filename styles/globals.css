@@ -28,8 +28,9 @@
   .btn-icon {
     @apply p-3 rounded-full hover:bg-light-border_primary dark:hover:bg-dark-border_primary;
   }
+
   .btn-tab {
-    @apply dark:hover:bg-dark-border_secondary hover:bg-light-border_primary rounded-t-xl cursor-pointer flex items-center gap-2 px-3 border-b-2 border-blue py-2 font-semibold text-base text-black dark:text-dark-heading_color;
+    @apply dark:hover:bg-dark-border_secondary hover:bg-light-border_primary rounded-t-md cursor-pointer flex items-center gap-2 px-2 pt-4 pb-2 font-semibold text-base text-black dark:text-dark-heading_color;
   }
 
   .card {

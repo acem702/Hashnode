@@ -7,7 +7,10 @@ const Social = ({ allfields, details }) => {
       {allfields.social.map((field) => {
         return (
           <div className="my-4" key={field._id}>
-            <label htmlFor={field._id} className="block mb-1">
+            <label
+              htmlFor={field._id}
+              className="block mb-1 text-light-paragraph_color dark:text-dark-paragraph_color"
+            >
               {field.label}
             </label>
             {field.type === "INPUT" ? (

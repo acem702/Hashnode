@@ -1,4 +1,64 @@
-const Basic = ({ allfields, details, submit, loading }) => {
+import { useMutation } from "@apollo/client";
+import Image from "next/image";
+import { useContext, useEffect, useState } from "react";
+import { Context } from "utils/context/main";
+import { UPLOAD_QUERY } from "utils/helpers/gql/mutation";
+import { UploadImage } from "utils/helpers/miniFunctions";
+
+const Basic = ({ allfields, details, setDetails, submit, loading }) => {
+  const [fileUploading, setFileUploading] = useState(false);
+  const [uploadedFile, setUploadedFile] = useState(null);
+  const [uploadImage] = useMutation(UPLOAD_QUERY);
+
+  const [coverImageUploading, setCoverImageUploading] = useState(false);
+  const [coverImageFile, setCoverImageFile] = useState(null);
+  const [coverImage] = useMutation(UPLOAD_QUERY);
+
+  const { setToast } = useContext(Context);
+
+  useEffect(() => {
+    if (uploadedFile?.url) {
+      setDetails((prev) => ({ ...prev, profile_photo: uploadedFile }));
+    }
+  }, [uploadedFile]);
+
+  useEffect(() => {
+    if (coverImageFile?.url) {
+      setDetails((prev) => ({ ...prev, cover_image: coverImageFile }));
+    }
+  }, [coverImageFile]);
+
+  const handleFileChange = async (
+    e,
+    uploadFunction,
+    setLoading,
+    setFile,
+    setToast
+  ) => {
+    try {
+      const types = [
+        "image/png",
+        "image/webp",
+        "image/jpg",
+        "iamge/jpeg",
+        "image/jfif",
+      ];
+
+      const fileType = e.target.files[0].type;
+
+      if (!types.includes(fileType)) {
+        return setToast({
+          msg: "File Type unsuppported",
+          status: true,
+          type: "info",
+        });
+      }
+
+      await UploadImage(e, uploadFunction, setLoading, setFile, setToast);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className="w-full md:w-[calc(100%/2-16px)]">
       <h1 className="text-2xl font-semibold text-black dark:text-dark-heading_color">
@@ -19,10 +79,13 @@ const Basic = ({ allfields, details, submit, loading }) => {
                 type="text"
                 id={field._id}
                 name={field.name}
+                autoComplete={"off"}
                 placeholder={field.placeholder}
                 value={details[field.name] || ""}
                 disabled={field.disabled || false}
-                onChange={field.onChange}
+                onChange={(e) => {
+                  field.onChange(e, details, setDetails);
+                }}
                 data-isnested={field.path}
                 className={`input ${
                   field.disabled
@@ -40,14 +103,131 @@ const Basic = ({ allfields, details, submit, loading }) => {
                 className="textarea"
                 data-isnested={field.path}
               />
+            ) : field.name === "profile_photo" ? (
+              details.profile_photo.url ? (
+                fileUploading ? (
+                  <>
+                    <label
+                      htmlFor={field._id}
+                      className="rounded-full w-44 h-44 flex items-center justify-center bg-light-border_primary dark:bg-dark-border_primary border border-light-border_primary text-light-paragraph_color dark:text-dark-paragraph_color font-semibold dark:border-dark-border_secondary"
+                    >
+                      <div className="">Uploading...</div>
+                    </label>
+                  </>
+                ) : (
+                  <>
+                    <input
+                      type="file"
+                      onChange={(e) =>
+                        handleFileChange(
+                          e,
+                          uploadImage,
+                          setFileUploading,
+
+                          setUploadedFile,
+
+                          setToast
+                        )
+                      }
+                      id={field._id}
+                      hidden
+                    />
+                    <label htmlFor={field._id}>
+                      <Image
+                        src={details.profile_photo.url}
+                        width={146}
+                        height={146}
+                        alt="Profile image"
+                        className="rounded-full object-cover"
+                      />
+                    </label>
+                  </>
+                )
+              ) : (
+                <>
+                  <input
+                    type="file"
+                    onChange={(e) =>
+                      handleFileChange(
+                        e,
+                        uploadImage,
+                        setFileUploading,
+                        setUploadedFile,
+                        setToast
+                      )
+                    }
+                    id={field._id}
+                    hidden
+                  />
+                  <label
+                    htmlFor={field._id}
+                    className="rounded-full w-44 h-44 flex items-center justify-center bg-light-border_primary dark:bg-dark-border_primary border border-light-border_primary text-light-paragraph_color dark:text-dark-paragraph_color font-semibold dark:border-dark-border_secondary"
+                  >
+                    <div className="">Upload Profile</div>
+                  </label>
+                </>
+              )
+            ) : details.cover_image.url ? (
+              coverImageUploading ? (
+                <>
+                  <label
+                    htmlFor={field._id}
+                    className="rounded-md w-full h-[350px] flex items-center justify-center bg-light-border_primary dark:bg-dark-border_primary border border-light-border_primary text-light-paragraph_color dark:text-dark-paragraph_color font-semibold dark:border-dark-border_secondary"
+                  >
+                    <div className="">Uploading...</div>
+                  </label>
+                </>
+              ) : (
+                <>
+                  <input
+                    type="file"
+                    onChange={(e) =>
+                      handleFileChange(
+                        e,
+                        coverImage,
+                        setCoverImageUploading,
+                        setCoverImageFile,
+                        setToast
+                      )
+                    }
+                    id={field._id}
+                    hidden
+                  />
+                  <label
+                    htmlFor={field._id}
+                    className="rounded-md w-full h-[350px] flex items-center justify-center bg-light-border_primary dark:bg-dark-border_primary border border-light-border_primary text-light-paragraph_color dark:text-dark-paragraph_color font-semibold dark:border-dark-border_secondary"
+                  >
+                    <img
+                      src={details.cover_image.url}
+                      alt="Cover image"
+                      className="rounded-md object-cover w-full h-full"
+                    />
+                  </label>
+                </>
+              )
             ) : (
               <>
-                <input type="file" id={field._id} hidden />
+                <input
+                  type="file"
+                  onChange={(e) =>
+                    handleFileChange(
+                      e,
+                      coverImage,
+                      setCoverImageUploading,
+                      null,
+                      setCoverImageFile,
+                      null,
+                      setToast
+                    )
+                  }
+                  id={field._id}
+                  hidden
+                />
                 <label
                   htmlFor={field._id}
-                  className="rounded-full w-44 h-44 flex items-center justify-center bg-light-border_primary dark:bg-dark-border_primary border border-light-border_primary text-light-paragraph_color dark:text-dark-paragraph_color font-semibold dark:border-dark-border_secondary"
+                  className="rounded-md w-full h-[350px] flex items-center justify-center bg-light-border_primary dark:bg-dark-border_primary border border-light-border_primary text-light-paragraph_color dark:text-dark-paragraph_color font-semibold dark:border-dark-border_secondary"
                 >
-                  <div className="">Upload Profile</div>
+                  <div className="">Upload Cover</div>
                 </label>
               </>
             )}

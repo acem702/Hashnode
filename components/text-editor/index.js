@@ -180,7 +180,6 @@ const TextEditor = ({ onChange }) => {
           autoCapitalize={"off"}
           id="editor"
           onInput={(e) => onChange(e)}
-          onChangeCapture={() => console.log("hi")}
           autoCorrect={"off"}
         >
           Tell your story here ...

@@ -1,10 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import client from "utils/helpers/config/apollo-client";
-import {
-  getSinglePostBySlug,
-  GET_USER_STATUS,
-  LIKE_POST,
-} from "utils/helpers/gql/query";
+import { getSinglePostBySlug, GET_USER_STATUS } from "utils/helpers/gql/query";
 import { Context } from "utils/context/main";
 import Image from "next/image";
 import { getDate, readingTime } from "utils/helpers/miniFunctions";
@@ -15,6 +11,7 @@ import Content from "components/Story/Content";
 import PostComment from "components/Story/PostComment";
 import SinglePostHeader from "components/Header/SinglePostHeader";
 import Head from "next/head";
+import { LIKE_POST } from "utils/helpers/gql/mutation";
 
 const SinglePost = ({ user, data }) => {
   const [likeData, setLikeData] = useState(data.data);
@@ -55,27 +52,42 @@ const SinglePost = ({ user, data }) => {
     try {
       const token = getCookie("token");
 
-      await LikePost({
-        variables: {
-          input: {
-            post: data.data._id,
-            like: e,
+      if (token) {
+        await LikePost({
+          variables: {
+            input: {
+              post: data.data._id,
+              like: e,
+            },
           },
-        },
-        context: {
-          headers: {
-            authorization: `Bearer ${token}`,
+          context: {
+            headers: {
+              authorization: `Bearer ${token}`,
+            },
           },
-        },
+        });
+      } else {
+        setToast({
+          msg: "Login to like",
+          status: true,
+          type: "error",
+        });
+      }
+    } catch (error) {
+      setToast({
+        msg: error.message,
+        status: true,
+        type: "error",
       });
-    } catch (error) {}
+    }
   };
 
   return (
     <>
       <Head>
-        <title>{data.data.title} - Hashnode</title>
+        <title>{data?.data?.title} - Hashnode</title>
       </Head>
+
       <div className="w-full min-h-screen bg-light-primary_background dark:bg-dark-primary_background">
         <SinglePostHeader details={data.data.user} user={user} />
 
@@ -100,7 +112,7 @@ const SinglePost = ({ user, data }) => {
             </p>
           )}
 
-          <div className="flex items-center justify-center mb-10">
+          <div className="flex items-center justify-center mb-10 text-light-paragraph_color dark:text-dark-paragraph_color">
             <div className="flex items-center gap-4">
               <Image
                 width={60}
@@ -109,11 +121,11 @@ const SinglePost = ({ user, data }) => {
                 className="rounded-full object-cover"
               />
               <h3 className="text-xl font-semibold">{data.data.user.name}</h3>
-            </div>{" "}
+            </div>
             <span className="mx-2">·</span>
             <h3 className="text-xl font-semibold">
               {getDate(data.data.createdAt)}
-            </h3>{" "}
+            </h3>
             <span className="mx-2">·</span>
             <h3 className="text-xl font-semibold">
               {readingTime(data.data.content)} min read
@@ -121,15 +133,17 @@ const SinglePost = ({ user, data }) => {
           </div>
 
           <div className="single-post-grid">
-            <Content content={data.data.content} />
+            <Content content={data.data.content} tags={data.data.tags} />
 
             <LikeBar
+              details={data.data}
               likeData={likeData}
               user={user}
               likePost={likePost}
               commentsCount={data.data.commentsCount}
             />
           </div>
+
           <PostComment data={data.data} />
         </div>
       </div>
@@ -168,6 +182,7 @@ export const getServerSideProps = async (ctx) => {
       },
     },
   });
+
 
   if (data.getPostBySlug.success) {
     return {

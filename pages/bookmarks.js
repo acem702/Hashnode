@@ -10,9 +10,10 @@ import End from "components/common/End";
 import { Context } from "utils/context/main";
 import CardLoading from "components/common/loadings/cardLoading";
 import Head from "next/head";
+import SearchSection from "components/common/SearchSection";
 
 const Bookmarks = ({ user }) => {
-  const { setUser } = useContext(Context);
+  const { setUser, searchState } = useContext(Context);
   const [getPosts, { data, loading, error }] = useLazyQuery(GET_BOOKMARKS);
 
   useEffect(() => {
@@ -32,50 +33,53 @@ const Bookmarks = ({ user }) => {
     })();
   }, []);
 
-  console.log(data?.getManyPosts);
-
   return (
     <>
       <Head>
         <title>Bookmarks - Hashnode</title>
       </Head>
-      <div className="w-full bg-light-primary_background dark:bg-[#000]">
-        <Header />
 
-        <div
-          className={`w-full xl:container mx-auto px-2 posts-grid min-h-[calc(100vh-76px)] h-full`}
-        >
-          <div className={`side-menu hidden lg:block`}>
-            <SideMenu />
-          </div>
+      <Header />
+      {searchState ? (
+        <div className="w-full xl:container mx-auto min-h-[calc(100vh-76px)] h-full">
+          <SearchSection />
+        </div>
+      ) : (
+        <div className="w-full bg-light-primary_background dark:bg-[#000] py-spacing">
+          <div className="w-full xl:container mx-auto px-2 posts-grid min-h-[calc(100vh-76px)] h-full">
+            <div className="side-menu hidden lg:block">
+              <SideMenu />
+            </div>
 
-          <div className="posts-body">
-            <div className="card p-0 mb-0">
-              {loading ? (
-                <>
-                  <CardLoading />
-                  <CardLoading />
-                  <CardLoading />
-                  <CardLoading />
-                </>
-              ) : (
-                data?.getManyPosts.map((e) => <Card details={e} />)
-              )}
-              {(data?.getManyPosts.length === 0 ||
-                data?.getManyPosts === undefined) && (
-                <div className="w-full py-4 text-center text-light-paragraph_color dark:text-dark-paragraph_color">
-                  No Bookmarks found
-                </div>
-              )}
-              {!loading && data?.getManyPosts.length > 0 && <End />}
+            <div className="posts-body">
+              <div className="card p-0 mb-0">
+                {loading ? (
+                  <>
+                    <CardLoading />
+                    <CardLoading />
+                    <CardLoading />
+                    <CardLoading />
+                  </>
+                ) : (
+                  data?.getManyPosts.map((e) => <Card details={e} />)
+                )}
+
+                {(data?.getManyPosts.length === 0 ||
+                  data?.getManyPosts === undefined) && (
+                  <div className="w-full py-4 text-center text-light-paragraph_color dark:text-dark-paragraph_color">
+                    No Bookmarks found
+                  </div>
+                )}
+                {!loading && data?.getManyPosts.length > 0 && <End />}
+              </div>
+            </div>
+
+            <div className="right-menu hidden lg:inline">
+              <RightMenu />
             </div>
           </div>
-
-          <div className={`right-menu hidden lg:inline`}>
-            <RightMenu />
-          </div>
         </div>
-      </div>
+      )}
     </>
   );
 };

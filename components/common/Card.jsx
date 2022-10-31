@@ -8,6 +8,7 @@ import Like from "public/icons/like";
 import Comment from "public/icons/comment";
 import useBookmark from "utils/hooks/useBookmark";
 import BookmarkAdded from "public/icons/bookmarkAdded";
+import { v4 as uuidv4 } from "uuid";
 
 const Card = ({ details }) => {
   const [content, setContent] = useState("");
@@ -35,10 +36,10 @@ const Card = ({ details }) => {
       <header className="flex gap-3">
         <div className="w-12 h-12 rounded-full bg-gray-700">
           <Link href={`/@${details?.user?.username}`}>
-            <Image
+            <img
               src={details?.user?.profile_photo?.url}
-              width={48}
-              height={48}
+              width={"48px"}
+              height={"48px"}
               className="rounded-full object-cover"
             />
           </Link>
@@ -98,11 +99,13 @@ const Card = ({ details }) => {
 
           <div className="flex items-center gap-1">
             {getTags()?.map((tag) => (
-              <Link href={`/tags/${tag}`}>
-                <button className="rounded-md border border-light-border_primary dark:border-dark-border_primary hover:bg-light-border_primary dark:hover:bg-dark-border_primary text-light-paragraph_color dark:text-dark-paragraph_color text-sm px-2 py-1 ">
-                  {tag}
-                </button>
-              </Link>
+              <div key={uuidv4()}>
+                <Link href={`/tags/${tag}`}>
+                  <button className="rounded-md border border-light-border_primary dark:border-dark-border_primary hover:bg-light-border_primary dark:hover:bg-dark-border_primary text-light-paragraph_color dark:text-dark-paragraph_color text-sm px-2 py-1 ">
+                    {tag}
+                  </button>
+                </Link>
+              </div>
             ))}
             {details?.tags.length > 4 && (
               <button className="rounded-md border border-light-border_primary dark:border-dark-border_primary hover:bg-light-border_primary dark:hover:bg-dark-border_primary text-light-paragraph_color dark:text-dark-paragraph_color text-sm px-2 py-1 ">
@@ -113,7 +116,7 @@ const Card = ({ details }) => {
         </div>
 
         <div className="flex itmes-center gap-4">
-          <button className="flex items-center gap-1">
+          <button className="flex items-center gap-1 text-light-paragraph_color dark:text-dark-paragraph_color">
             <span>
               <Like
                 w={SECONDARY_ICON_SIZE}
@@ -124,7 +127,7 @@ const Card = ({ details }) => {
             <span>{details?.likes?.total}</span>
           </button>
 
-          <button className="flex items-center gap-1">
+          <button className="flex items-center gap-1 text-light-paragraph_color dark:text-dark-paragraph_color">
             <span>
               <Comment
                 w={SECONDARY_ICON_SIZE}

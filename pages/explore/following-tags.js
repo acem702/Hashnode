@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
-import { useQuery } from "@apollo/client";
+import { useLazyQuery } from "@apollo/client";
 import { useContext, useEffect } from "react";
 
 import RightMenu from "components/common/RightMenu";
@@ -11,6 +11,7 @@ import Header from "components/Header";
 import { Context } from "utils/context/main";
 import client from "utils/helpers/config/apollo-client";
 import {
+  getFollowedTags,
   getTrendingBlogs,
   getTrendingTags,
   GET_USER_STATUS,
@@ -19,21 +20,27 @@ import SingleTagLoading from "components/common/loadings/SingleTagLoading";
 import { v4 as uuidv4 } from "uuid";
 import SearchSection from "components/common/SearchSection";
 import Card from "components/common/Card";
+import ExploreNavigation from "components/common/ExploreNavigation";
+import { getCookie } from "cookies-next";
 
 const Explore = ({ user }) => {
   const { setUser, searchState } = useContext(Context);
-  const { data, loading } = useQuery(getTrendingTags);
-  const { data: postsData, loading: postsLoading } = useQuery(
-    getTrendingBlogs,
-    {
-      variables: {
-        input: {
-          limit: 10,
-          skip: 0,
-        },
-      },
-    }
-  );
+  const [getTags, { data, loading }] = useLazyQuery(getFollowedTags);
+
+  useEffect(() => {
+    (async () => {
+      const token = getCookie("token");
+      if (token) {
+        await getTags({
+          context: {
+            headers: {
+              authorization: `Bearer ${token}`,
+            },
+          },
+        });
+      }
+    })();
+  }, []);
 
   useEffect(() => {
     setUser(user);
@@ -63,36 +70,13 @@ const Explore = ({ user }) => {
               <ExploreIntro />
 
               <div className="card py-2">
-                <div className="header flex items-center justify-center border-b border-light-border_primary dark:border-dark-border_primary">
-                  <ul className="flex gap-2">
-                    <li className="btn-tab border-b-2 border-blue">Trending</li>
-                    <li className="btn-tab">
-                      <Link href="/explore/tags">Tags</Link>
-                    </li>
-                    <li className="btn-tab">
-                      <Link href="/explore/blogs">Blogs</Link>
-                    </li>
-                    <li className="btn-tab">
-                      <Link href="/explore/following-tags">
-                        Tags You Follow
-                      </Link>
-                    </li>
-                    <li className="btn-tab">
-                      <Link href="/explore/following-blogs">
-                        Blogs You Follow
-                      </Link>
-                    </li>
-                  </ul>
-                </div>
+                <ExploreNavigation />
 
-                <div className="p-4 border-b border-light-border_primary dark:border-dark-border_primary">
+                <div className="p-4">
                   <header className="flex items-center gap-6 mb-6">
                     <h1 className="text-2xl font-semibold text-black dark:text-dark-heading_color">
-                      Trending Tags
+                      Tags you follow
                     </h1>
-                    <button className="btn-tertiary rounded-full">
-                      See all tags
-                    </button>
                   </header>
 
                   <main className="flex flex-wrap gap-4">
@@ -104,47 +88,28 @@ const Explore = ({ user }) => {
                         <SingleTagLoading />
                       </>
                     ) : (
-                      data?.getTrendingTags?.map((tag) => (
-                        <div
-                          key={uuidv4()}
-                          className="p-4 rounded-md bg-dark-border_primary w-full md:w-[calc(100%/2-8px)] border border-light-border_primary dark:border-dark-border_primary flex items-center gap-2"
-                        >
-                          <Image
-                            src={tag.logo.url}
-                            width={40}
-                            height={40}
-                            className="object-cover rounded-md"
-                          ></Image>
-                          <div>
-                            <Link href={`/tags/${tag.name}`}>
+                      data?.getFollowedTags?.map((tag) => (
+                        <Link href={`/tags/${tag.name}`}>
+                          <div
+                            key={uuidv4()}
+                            className="p-4 cursor-pointer rounded-md bg-dark-border_primary w-full md:w-[calc(100%/2-8px)] border border-light-border_primary dark:border-dark-border_primary flex items-center gap-2"
+                          >
+                            <Image
+                              src={tag.logo.url}
+                              width={40}
+                              height={40}
+                              className="object-cover rounded-md"
+                            ></Image>
+                            <div>
                               <h1 className="text-lg font-semibold text-black dark:text-white cursor-pointer">
                                 {tag.name}
                               </h1>
-                            </Link>
-                            <span className="text-sm">
-                              {tag.articles} articles this week
-                            </span>
+                              <span className="text-sm">
+                                {tag.articles} articles this week
+                              </span>
+                            </div>
                           </div>
-                        </div>
-                      ))
-                    )}
-                  </main>
-                </div>
-                <div className="py-4">
-                  <h1 className="text-2xl px-4 font-semibold mb-4 text-black dark:text-dark-heading_color">
-                    Trending Blogs
-                  </h1>
-                  <main className="flex flex-wrap gap-4">
-                    {postsLoading ? (
-                      <div className="px-4">
-                        <SingleTagLoading />
-                        <SingleTagLoading />
-                        <SingleTagLoading />
-                        <SingleTagLoading />
-                      </div>
-                    ) : (
-                      postsData?.getTrendingBlogs?.map((post) => (
-                        <Card details={post} />
+                        </Link>
                       ))
                     )}
                   </main>

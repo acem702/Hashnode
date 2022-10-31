@@ -29,7 +29,11 @@ const Posts = ({ posts }) => {
         },
       });
     } catch (err) {
-      console.log(err);
+      setToast({
+        msg: err.message,
+        status: true,
+        type: "error",
+      });
     }
   };
 
@@ -40,7 +44,7 @@ const Posts = ({ posts }) => {
         setData((prev) => [...prev, ...moreData.getPosts]);
       } else {
         setHasMore(false);
-        setHasEnd(true);
+        hasEnd && setHasEnd(true);
       }
     }
   }, [moreData]);

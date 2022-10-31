@@ -74,8 +74,6 @@ const mutation = {
     try {
       const user = await isAuth(ctx);
 
-      console.log({ input });
-
       if (user) {
         await User.findOneAndUpdate(
           { _id: user._id },

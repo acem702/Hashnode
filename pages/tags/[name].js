@@ -18,11 +18,13 @@ import PageNotFound from "components/common/PageNotFound";
 import Card from "components/common/Card";
 import Clock from "public/icons/clock";
 import Fire from "public/icons/fire";
+import CardLoading from "components/common/loadings/cardLoading";
+import SearchSection from "components/common/SearchSection";
 
 const SingleTag = ({ user, tag }) => {
-  const { setUser } = useContext(Context);
+  const { setUser, searchState } = useContext(Context);
   const router = useRouter();
-  const [getPosts, { data, loading, error }] = useLazyQuery(getPostsByTag);
+  const [getPosts, { data, loading }] = useLazyQuery(getPostsByTag);
 
   useEffect(() => {
     setUser(user);
@@ -43,62 +45,73 @@ const SingleTag = ({ user, tag }) => {
       <Head>
         <title>#{tag?.name} on Hashnode</title>
       </Head>
-      <div className="w-full bg-light-primary_background dark:bg-[#000]">
-        <Header />
 
-        <div
-          className={`w-full xl:container mx-auto px-2 posts-grid min-h-[calc(100vh-76px)] h-full`}
-        >
-          <div className={`side-menu hidden lg:block`}>
-            <SideMenu />
-          </div>
+      <Header />
+      {searchState ? (
+        <div className="w-full xl:container mx-auto min-h-[calc(100vh-76px)] h-full">
+          <SearchSection />
+        </div>
+      ) : (
+        <div className="w-full py-spacing bg-light-primary_background dark:bg-[#000]">
+          <div className="w-full xl:container mx-auto px-2 posts-grid min-h-[calc(100vh-76px)] h-full">
+            <div className="side-menu hidden lg:block">
+              <SideMenu />
+            </div>
 
-          <div className="posts-body flex flex-col gap-spacing">
-            <ExploreTagIntro details={tag} />
+            <div className="posts-body flex flex-col gap-spacing">
+              <ExploreTagIntro details={tag} />
 
-            <div className="card py-5">
-              <div className="header flex items-center justify-between border-b border-light-border_primary dark:border-dark-border_primary">
-                <div className="px-3">
-                  <div className="flex gap-3">
-                    <span className="btn-tab">
-                      <Fire
-                        w={15}
-                        h={15}
-                        className="fill-black dark:fill-dark-heading_color"
-                      />
-                      Hot
-                    </span>
-                    <span className="btn-tab">
-                      <Clock
-                        w={15}
-                        h={15}
-                        className="fill-black dark:fill-dark-heading_color"
-                      />
-                      New
-                    </span>
+              <div className="card py-2">
+                <div className="header flex items-center justify-between border-b border-light-border_primary dark:border-dark-border_primary">
+                  <div className="px-3">
+                    <div className="flex gap-3">
+                      <span className="btn-tab">
+                        <Fire
+                          w={15}
+                          h={15}
+                          className="fill-black dark:fill-dark-heading_color"
+                        />
+                        Hot
+                      </span>
+                      <span className="btn-tab">
+                        <Clock
+                          w={15}
+                          h={15}
+                          className="fill-black dark:fill-dark-heading_color"
+                        />
+                        New
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <main className="py-4">
-                {data?.getPostsByTags.posts.length > 0 ? (
-                  data?.getPostsByTags.posts.map((card) => (
-                    <Card details={card} />
-                  ))
-                ) : (
-                  <div className="flex text-xl items-center flex-col px-4 py-8">
-                    Nothing to Show
-                  </div>
-                )}
-              </main>
+                <main className="py-4">
+                  {loading ? (
+                    <>
+                      <CardLoading />
+                      <CardLoading />
+                      <CardLoading />
+                      <CardLoading />
+                    </>
+                  ) : data?.getPostsByTags.posts.length > 0 ? (
+                    data?.getPostsByTags.posts.map((card) => (
+                      <Card details={card} />
+                    ))
+                  ) : (
+                    <div className="flex text-xl items-center flex-col px-4 py-8">
+                      Nothing to Show
+                    </div>
+                  )}
+                </main>
+              </div>
+            </div>
+
+            <div className="right-menu hidden lg:inline">
+              <TagRightMenu details={tag} />
             </div>
           </div>
-
-          <div className={`right-menu hidden lg:inline`}>
-            <TagRightMenu details={tag} />
-          </div>
         </div>
-      </div>
+      )}
     </>
   ) : (
     <PageNotFound />

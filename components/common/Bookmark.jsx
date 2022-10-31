@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { readingTime } from "utils/helpers/miniFunctions";
 import BookmarkLoading from "./loadings/BookmarkLoading";
+import { v4 as uuidv4 } from "uuid";
 
 const Bookmark = ({ data, loading }) => {
   return (
@@ -17,16 +18,19 @@ const Bookmark = ({ data, loading }) => {
       </div>
 
       {loading ? (
-        <>
+        <div className="w-full">
           <BookmarkLoading />
           <BookmarkLoading />
           <BookmarkLoading />
           <BookmarkLoading />
           <BookmarkLoading />
-        </>
+        </div>
       ) : data?.length > 0 ? (
         data.map((bookmark) => (
-          <div className="last:mb-0 last:border-none py-2 bg-white dark:bg-dark-primary_background border-b border-light-border_primary dark:border-dark-border_primary">
+          <div
+            key={uuidv4()}
+            className="last:mb-0 last:border-none py-2 bg-white dark:bg-dark-primary_background border-b border-light-border_primary dark:border-dark-border_primary"
+          >
             <h1 className="text-md font-semibold text-black dark:text-dark-heading_color">
               {bookmark.title}
             </h1>

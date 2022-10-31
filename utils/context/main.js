@@ -1,10 +1,15 @@
+import { useLazyQuery } from "@apollo/client";
+import { debounce } from "lodash";
 import { createContext, useEffect, useRef, useState } from "react";
+import { GET_SEARCHED_POST } from "utils/helpers/gql/query";
+import Router, { useRouter } from "next/router";
 
 export const Context = createContext();
 
 const ContextHandler = ({ children, values }) => {
   const [theme, setTheme] = useState(); // <LIGHT || DARK>
   const searchInput = useRef(null);
+  const router = useRouter();
   const [toast, setToast] = useState({
     status: false,
     msg: "",
@@ -39,18 +44,18 @@ const ContextHandler = ({ children, values }) => {
         ) {
           return;
         } else {
-          if (e.key === "/") {
+          if (e.key === "/" && searchInput.current) {
             e.preventDefault();
             searchInput.current.focus();
           }
         }
       });
-
-      return () => {
-        window.removeEventListener("keydown", () => {});
-      };
     }
-  }, []);
+
+    return () => {
+      window.removeEventListener("keydown", () => {});
+    };
+  }, [router.asPath]);
 
   useEffect(() => {
     if (theme === "dark") {
@@ -65,6 +70,44 @@ const ContextHandler = ({ children, values }) => {
     }
   }, [theme]);
 
+  const [searchPosts, setSearchPosts] = useState([]);
+  const [searchQuery] = useLazyQuery(GET_SEARCHED_POST);
+  const [searchState, setSearchState] = useState(false);
+  const [searchLoading, setSearchLoading] = useState(true);
+
+  async function search(criteria) {
+    setSearchLoading(true);
+    let response;
+    if (criteria.trim().length > 0) {
+      response = await searchQuery({
+        variables: {
+          search: criteria,
+        },
+      });
+      setSearchLoading(false);
+      return response.data.getSearchedPosts;
+    } else {
+      setSearchState(false);
+    }
+  }
+
+  const debouncedSearch = debounce(async (criteria) => {
+    setSearchPosts(await search(criteria));
+  }, 500);
+
+  async function handleChange(e) {
+    debouncedSearch(e.target.value);
+    setSearchState(true);
+  }
+
+  useEffect(() => {
+    Router.events.on("routeChangeStart", () => setSearchState(false)); // add listener
+
+    return () => {
+      Router.events.off("routeChangeStart", () => setSearchState(false)); // remove listener  }, []);
+    };
+  }, []);
+
   const data = {
     theme,
     setTheme,
@@ -73,6 +116,11 @@ const ContextHandler = ({ children, values }) => {
     setToast,
     user,
     setUser,
+    handleChange,
+    searchPosts,
+    searchState,
+    setSearchState,
+    searchLoading,
     ...values,
   };
 
