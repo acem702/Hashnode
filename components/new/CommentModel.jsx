@@ -69,7 +69,7 @@ const CommentModel = ({ details, setDetails, setCommentModelState }) => {
   };
 
   return (
-    <section className="card p-4 w-[60rem] mx-auto">
+    <section className="card p-4 max-w-[60rem] mx-auto">
       <header className="flex items-center gap-2 mb-4">
         <Image
           src={user?.profile_photo.url}
@@ -98,7 +98,7 @@ const CommentModel = ({ details, setDetails, setCommentModelState }) => {
               <Send
                 w={DEFAULT_ICON_SIZE}
                 h={DEFAULT_ICON_SIZE}
-                className="fill-black dark:fill-white"
+                className="fill-white"
               />
             </span>
             <span>Send</span>

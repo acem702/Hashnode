@@ -11,7 +11,7 @@ const Content = ({ content: data, tags }) => {
           {tags.map((tag) => (
             <button
               key={uuidv4()}
-              className="px-4 text-base py-2 rounded-md text-black dark:text-white bg-gray-200 dark:bg-gray-800"
+              className="px-2 text-base py-1 rounded-md text-black dark:text-white hover:bg-gray-200 dark:border-gray-700 border border-gray-200 dark:hover:bg-gray-800"
             >
               {tag}
             </button>

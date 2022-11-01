@@ -108,6 +108,8 @@ const ContextHandler = ({ children, values }) => {
     };
   }, []);
 
+  const [sideMenu, setSideMenu] = useState(false);
+
   const data = {
     theme,
     setTheme,
@@ -121,6 +123,9 @@ const ContextHandler = ({ children, values }) => {
     searchState,
     setSearchState,
     searchLoading,
+
+    sideMenu,
+    setSideMenu,
     ...values,
   };
 

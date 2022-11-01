@@ -1,8 +1,24 @@
+body.dark {
+  .side-menu {
+    background: #000;
+  }
+}
 .side-menu {
-  min-height: 715.333px;
-  grid-column: span 2 / span 2;
-  position: relative;
+  position: fixed;
   z-index: 50;
+  top: 0;
+  left: 0;
+  background: transparent;
+  min-height: 100vh;
+}
+
+@media (min-width: 1024px) {
+  .side-menu {
+    min-height: 715.333px;
+    grid-column: span 2 / span 2;
+    position: relative;
+    z-index: 50;
+  }
 }
 
 .posts-grid {
@@ -240,42 +256,89 @@ body.dark {
 }
 
 // --- SINGLE POST BODY GRID ---
+@media (min-width: 1280px) {
+  .single-post-content {
+    font-size: 1.125rem;
+    margin-top: 1.3333333em;
+    margin-bottom: 1.3333333em;
+
+    h1 {
+      font-weight: 800;
+      font-size: 1.99999999em;
+      margin-top: 2.111111111em;
+      margin-bottom: 2.0666667em;
+      line-height: 1.3333333;
+    }
+    h2 {
+      font-weight: 700;
+      font-size: 1.6666667em;
+      margin-top: 1.8666667em;
+      margin-bottom: 1.0666667em;
+      line-height: 1.3333333;
+    }
+
+    h3 {
+      font-weight: 700;
+      font-size: 1.3333333em;
+      margin-top: 1.6666667em;
+      margin-bottom: 0.6666667em;
+      line-height: 1.5;
+    }
+
+    code {
+      font-size: 0.8888889em;
+      line-height: 1.75;
+      margin-top: 2em;
+      margin-bottom: 2em;
+      border-radius: 0.375rem;
+    }
+  }
+}
+
 .single-post-content {
   color: #111;
-  font-size: 1.35rem;
+  font-size: 1.25rem;
+  line-height: 1.8;
 
   h1 {
-    scroll-margin-top: 110px;
+    font-size: 2.1em;
     font-weight: 800;
-    font-size: 2em;
-    margin-top: 2.52rem;
-    margin-bottom: 0.8571429em;
-    line-height: 2;
+    font-size: 1.99999999em;
+    margin-top: 2.111111111em;
+    margin-bottom: 0.0666667em;
+    line-height: 1.3333333;
   }
 
   h2 {
-    scroll-margin-top: 110px;
-    font-weight: 800;
-    font-size: 1.7em;
-    margin-top: 2.52rem;
-    margin-bottom: 0.8571429em;
-    line-height: 1.7;
+    font-size: 1.8em;
+    margin-top: 1.5555556em;
+    font-weight: 700;
+    margin-bottom: 0.8888889em;
+    line-height: 1.1111111;
   }
 
-  h2 {
-    scroll-margin-top: 110px;
-    font-weight: 800;
+  h3 {
     font-size: 1.5em;
-    margin-top: 2.52rem;
-    margin-bottom: 0.8571429em;
-    line-height: 1.5;
+    font-weight: 700;
+    margin-top: 1.6em;
+    margin-bottom: 0.6666667em;
+    line-height: 1.3333333;
   }
 
+  p {
+    margin-top: 1.2em;
+    margin-bottom: 1.2em;
+  }
   code {
     background: #f0efed;
     border-radius: 7px;
     padding: 2px 7px;
     color: #111;
+    font-size: 0.8888889em;
+    line-height: 1.75;
+    margin-top: 2em;
+    margin-bottom: 2em;
+    border-radius: 0.375rem;
   }
 
   pre {
@@ -291,11 +354,6 @@ body.dark {
       border-radius: 0;
       color: #fff;
     }
-  }
-
-  p {
-    margin-top: 1.2em;
-    margin-bottom: 1.2em;
   }
 
   strong {
@@ -330,6 +388,19 @@ body.dark {
 
   pre {
     overflow: auto;
+    font-size: 0.9em;
+    line-height: 1.7777778;
+    margin-top: 2em;
+    margin-bottom: 2em;
+    border-radius: 0.5rem;
+  }
+
+  blockquote {
+    background: rgb(217 217 217);
+    border-radius: 17px;
+    border: 1px solid #ccc;
+    padding: 17px;
+    font-weight: 600;
   }
 }
 
@@ -345,10 +416,16 @@ body.dark {
 
     pre {
       border: 1px solid #363738;
+
       code {
         background: none;
         border: transparent;
       }
+    }
+
+    blockquote {
+      background: rgb(27 35 53);
+      border: 1px solid #3b465f;
     }
   }
 }

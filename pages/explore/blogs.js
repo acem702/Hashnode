@@ -9,6 +9,7 @@ import { Context } from "utils/context/main";
 import client from "utils/helpers/config/apollo-client";
 import {
   getTrendingBlogs,
+  getTrendingTags,
   GET_USER_STATUS,
 } from "utils/helpers/gql/query";
 import SingleTagLoading from "components/common/loadings/SingleTagLoading";
@@ -17,7 +18,9 @@ import Card from "components/common/Card";
 import ExploreNavigation from "components/common/ExploreNavigation";
 
 const Explore = ({ user }) => {
-  const { setUser, searchState } = useContext(Context);
+  const { setUser, searchState, sideMenu, setSideMenu } = useContext(Context);
+  const { data: trendingTagData, trendingLoading } = useQuery(getTrendingTags);
+
   const { data: postsData, loading: postsLoading } = useQuery(
     getTrendingBlogs,
     {
@@ -50,15 +53,23 @@ const Explore = ({ user }) => {
           <div
             className={`w-full xl:container mx-auto px-2 posts-grid min-h-[calc(100vh-76px)] h-full`}
           >
-            <div className={`side-menu hidden lg:block`}>
-              <SideMenu />
-            </div>
+            {sideMenu && (
+              <>
+                <div
+                  className="fixed inset-0 bg-black opacity-30 z-10"
+                  onClick={() => setSideMenu(false)}
+                ></div>
+              </>
+            )}
+            <>
+              <SideMenu data={trendingTagData} loading={trendingLoading} />
+            </>
 
             <div className="posts-body flex flex-col gap-spacing">
               <ExploreIntro />
 
               <div className="card py-2">
-              <ExploreNavigation />
+                <ExploreNavigation />
                 <div className="py-4">
                   <h1 className="text-2xl px-4 font-semibold mb-4 text-black dark:text-dark-heading_color">
                     Trending Blogs

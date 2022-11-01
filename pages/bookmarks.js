@@ -3,8 +3,12 @@ import SideMenu from "components/common/SideMenu";
 import Header from "components/Header";
 import React, { useEffect, useContext } from "react";
 import client from "utils/helpers/config/apollo-client";
-import { GET_BOOKMARKS, GET_USER_STATUS } from "utils/helpers/gql/query";
-import { useLazyQuery } from "@apollo/client";
+import {
+  getTrendingTags,
+  GET_BOOKMARKS,
+  GET_USER_STATUS,
+} from "utils/helpers/gql/query";
+import { useLazyQuery, useQuery } from "@apollo/client";
 import Card from "components/common/Card";
 import End from "components/common/End";
 import { Context } from "utils/context/main";
@@ -13,8 +17,9 @@ import Head from "next/head";
 import SearchSection from "components/common/SearchSection";
 
 const Bookmarks = ({ user }) => {
-  const { setUser, searchState } = useContext(Context);
-  const [getPosts, { data, loading, error }] = useLazyQuery(GET_BOOKMARKS);
+  const { setUser, searchState, sideMenu, setSideMenu } = useContext(Context);
+  const [getPosts, { data, loading }] = useLazyQuery(GET_BOOKMARKS);
+  const { data: trendingTagData, trendingLoading } = useQuery(getTrendingTags);
 
   useEffect(() => {
     setUser(user);
@@ -47,10 +52,17 @@ const Bookmarks = ({ user }) => {
       ) : (
         <div className="w-full bg-light-primary_background dark:bg-[#000] py-spacing">
           <div className="w-full xl:container mx-auto px-2 posts-grid min-h-[calc(100vh-76px)] h-full">
-            <div className="side-menu hidden lg:block">
-              <SideMenu />
-            </div>
-
+            {sideMenu && (
+              <>
+                <div
+                  className="fixed inset-0 bg-black opacity-30 z-10"
+                  onClick={() => setSideMenu(false)}
+                ></div>
+              </>
+            )}
+            <>
+              <SideMenu data={trendingTagData} loading={trendingLoading} />
+            </>
             <div className="posts-body">
               <div className="card p-0 mb-0">
                 {loading ? (
@@ -61,7 +73,9 @@ const Bookmarks = ({ user }) => {
                     <CardLoading />
                   </>
                 ) : (
-                  data?.getManyPosts.map((e) => <Card details={e} />)
+                  data?.getManyPosts.map((e) => (
+                    <Card details={e} key={e._id} />
+                  ))
                 )}
 
                 {(data?.getManyPosts.length === 0 ||

@@ -7,7 +7,7 @@ const CommentCard = ({ details }) => {
   return (
     <section className="card p-4 my-6">
       <header className="flex items-center justify-between w-full mb-4">
-        <div className="flex gap-2 items-center">
+        <div className="flex flex-wrap gap-2 items-center">
           <Image
             src={details.user.profile_photo.url}
             className="rounded-full object-cover"
@@ -15,7 +15,9 @@ const CommentCard = ({ details }) => {
             height={DEFAULT_PROFILE_SIZE}
           />
           <div className="text-light-paragraph_color dark:text-dark-paragraph_color">
-            <h1 className="text-xl font-semibold">{details.user.name}</h1>
+            <h1 className="text-md md:text-xl font-semibold">
+              {details.user.name}
+            </h1>
             <p className="text-md">@{details.user.username}</p>
           </div>
         </div>

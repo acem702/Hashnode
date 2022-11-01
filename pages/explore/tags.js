@@ -17,7 +17,7 @@ import SearchSection from "components/common/SearchSection";
 import ExploreNavigation from "components/common/ExploreNavigation";
 
 const Explore = ({ user }) => {
-  const { setUser, searchState } = useContext(Context);
+  const { setUser, searchState, sideMenu, setSideMenu } = useContext(Context);
   const { data, loading } = useQuery(getTrendingTags);
 
   useEffect(() => {
@@ -38,11 +38,19 @@ const Explore = ({ user }) => {
       ) : (
         <div className="w-full py-spacing bg-light-primary_background dark:bg-[#000]">
           <div
-            className={`w-full xl:container mx-auto px-2 posts-grid min-h-[calc(100vh-76px)] h-full`}
+            className="w-full xl:container mx-auto px-2 posts-grid min-h-[calc(100vh-76px)] h-full"
           >
-            <div className={`side-menu hidden lg:block`}>
-              <SideMenu />
-            </div>
+            {sideMenu && (
+              <>
+                <div
+                  className="fixed inset-0 bg-black opacity-30 z-10"
+                  onClick={() => setSideMenu(false)}
+                ></div>
+              </>
+            )}
+            <>
+              <SideMenu data={data} loading={loading} />
+            </>
 
             <div className="posts-body flex flex-col gap-spacing">
               <ExploreIntro />

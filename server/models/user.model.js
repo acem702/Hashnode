@@ -10,8 +10,8 @@ const UserSchema = new mongoose.Schema(
       cloud_id: { type: String },
     },
     cover_image: {
-      url: { type: String },
-      cloud_id: { type: String },
+      url: { type: String, default: null },
+      cloud_id: { type: String, default: null },
     },
     bio: {
       available: { type: String },

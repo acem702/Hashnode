@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import { getDate, reduceText } from "utils/helpers/miniFunctions";
 import Link from "next/link";
 import Bookmark from "public/icons/bookmark";
@@ -79,9 +78,9 @@ const Card = ({ details }) => {
         )}
       </main>
 
-      <footer className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <button onClick={changeBookmark}>
+      <footer className="flex items-start justify-between">
+        <div className="flex items-start gap-4">
+          <button onClick={changeBookmark} className="py-2">
             {hasBookmark ? (
               <BookmarkAdded
                 w={SECONDARY_ICON_SIZE}
@@ -97,7 +96,7 @@ const Card = ({ details }) => {
             )}
           </button>
 
-          <div className="flex items-center gap-1">
+          <div className="hidden md:flex flex-wrap items-center gap-1">
             {getTags()?.map((tag) => (
               <div key={uuidv4()}>
                 <Link href={`/tags/${tag}`}>

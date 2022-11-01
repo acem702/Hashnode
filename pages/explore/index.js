@@ -21,8 +21,9 @@ import SearchSection from "components/common/SearchSection";
 import Card from "components/common/Card";
 
 const Explore = ({ user }) => {
-  const { setUser, searchState } = useContext(Context);
+  const { setUser, searchState, sideMenu, setSideMenu } = useContext(Context);
   const { data, loading } = useQuery(getTrendingTags);
+
   const { data: postsData, loading: postsLoading } = useQuery(
     getTrendingBlogs,
     {
@@ -55,16 +56,23 @@ const Explore = ({ user }) => {
           <div
             className={`w-full xl:container mx-auto px-2 posts-grid min-h-[calc(100vh-76px)] h-full`}
           >
-            <div className={`side-menu hidden lg:block`}>
-              <SideMenu />
-            </div>
-
+            {sideMenu && (
+              <>
+                <div
+                  className="fixed inset-0 bg-black opacity-30 z-10"
+                  onClick={() => setSideMenu(false)}
+                ></div>
+              </>
+            )}
+            <>
+              <SideMenu data={data} loading={loading} />
+            </>
             <div className="posts-body flex flex-col gap-spacing">
               <ExploreIntro />
 
               <div className="card py-2">
                 <div className="header flex items-center justify-center border-b border-light-border_primary dark:border-dark-border_primary">
-                  <ul className="flex gap-2">
+                  <ul className="flex flex-wrap gap-2">
                     <li className="btn-tab border-b-2 border-blue">Trending</li>
                     <li className="btn-tab">
                       <Link href="/explore/tags">Tags</Link>

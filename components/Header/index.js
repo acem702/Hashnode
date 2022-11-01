@@ -25,18 +25,23 @@ import Account from "public/icons/account";
 
 const Header = () => {
   const router = useRouter();
-  const { user, theme, setTheme, searchInput, handleChange } =
+  const { user, theme, setTheme, searchInput, handleChange, setSideMenu } =
     useContext(Context);
 
   return (
     <header className="w-full bg-white dark:bg-dark-primary_background border-b border-light-border_primary dark:border-dark-border_primary">
       <div className="2xl:container w-full mx-auto px-4 py-4 flex gap-spacing items-center justify-between">
         <div className="flex items-center gap-4">
-          <Hamburger
-            w={DEFAULT_ICON_SIZE}
-            h={DEFAULT_ICON_SIZE}
-            className="block lg:hidden fill-black dark:fill-dark-paragraph_color"
-          />
+          <button
+            className="block lg:hidden btn-icon"
+            onClick={() => setSideMenu((prev) => !prev)}
+          >
+            <Hamburger
+              w={DEFAULT_ICON_SIZE}
+              h={DEFAULT_ICON_SIZE}
+              className="block lg:hidden fill-black dark:fill-dark-paragraph_color"
+            />
+          </button>
           <Link href={"/"}>
             <span className="cursor-pointer">
               <LogoWithText
@@ -54,7 +59,6 @@ const Header = () => {
             ref={searchInput}
             onChange={(e) => {
               handleChange(e);
-              // setSearchState(true);
             }}
             placeholder="Search for tags, people, articles, and many more"
             className="outline-none w-full px-6 py-2 rounded-full bg-light-input_background dark:bg-[#000] dark:text-white text-black border border-light-border_primary dark:border-dark-border_primary text-lg"
@@ -96,7 +100,7 @@ const Header = () => {
               />
             )}
           </button>
-          <button className="btn-icon">
+          <button className="btn-icon hidden md:block">
             <Notification
               w={DEFAULT_ICON_SIZE}
               h={DEFAULT_ICON_SIZE}

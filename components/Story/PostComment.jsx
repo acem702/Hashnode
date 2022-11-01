@@ -8,9 +8,9 @@ const PostComment = ({ data }) => {
   const [commentModelState, setCommentModelState] = useState(false);
 
   return (
-    <div className="w-[60rem] mx-auto mt-8">
-      <div className="card mb-spacing flex-row items-center justify-between py-6 px-4">
-        <h1 className="text-2xl font-bold text-black dark:text-white">
+    <div className="max-w-[60rem] w-full mx-auto mt-8">
+      <div className="card mb-spacing flex-row flex-wrap items-center justify-between py-6 px-4">
+        <h1 className="text-xl md:text-2xl font-bold text-black dark:text-white">
           Comments ({details.commentsCount})
         </h1>
         <button

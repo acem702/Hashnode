@@ -1,16 +1,23 @@
-import { useContext, useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
 import Header from "components/Header";
 import Posts from "components/Home/Posts";
 import SideMenu from "components/common/SideMenu";
 import { Context } from "utils/context/main";
 import client from "utils/helpers/config/apollo-client";
-import { getPosts, GET_USER_STATUS } from "utils/helpers/gql/query";
+import {
+  getPosts,
+  getTrendingTags,
+  GET_USER_STATUS,
+} from "utils/helpers/gql/query";
 import RightMenu from "components/common/RightMenu";
 import Head from "next/head";
 import SearchSection from "components/common/searchSection";
+import { useQuery } from "@apollo/client";
 
 export default function Home({ data, user }) {
-  const { setUser, searchState } = useContext(Context);
+  const { setUser, searchState, sideMenu, setSideMenu } = useContext(Context);
+
+  const { data: trendingTagData, trendingLoading } = useQuery(getTrendingTags);
 
   useEffect(() => {
     setUser(user);
@@ -30,12 +37,18 @@ export default function Home({ data, user }) {
             <SearchSection />
           </div>
         ) : (
-          <div
-            className={`w-full py-spacing xl:container mx-auto px-2 posts-grid min-h-[calc(100vh-76px)] h-full`}
-          >
-            <div className={`side-menu hidden lg:block`}>
-              <SideMenu />
-            </div>
+          <div className="w-full py-spacing xl:container mx-auto px-2 posts-grid min-h-[calc(100vh-76px)] h-full">
+            {sideMenu && (
+              <>
+                <div
+                  className="fixed inset-0 bg-black opacity-30 z-10"
+                  onClick={() => setSideMenu(false)}
+                ></div>
+              </>
+            )}
+            <>
+              <SideMenu data={trendingTagData} loading={trendingLoading} />
+            </>
 
             <div className="posts-body">
               <Posts posts={data.getPosts} />

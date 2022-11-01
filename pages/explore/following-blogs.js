@@ -8,7 +8,11 @@ import ExploreIntro from "components/Explore/exploreIntro";
 import Header from "components/Header";
 import { Context } from "utils/context/main";
 import client from "utils/helpers/config/apollo-client";
-import { getFollowedPosts, GET_USER_STATUS } from "utils/helpers/gql/query";
+import {
+  getFollowedPosts,
+  getTrendingTags,
+  GET_USER_STATUS,
+} from "utils/helpers/gql/query";
 import SingleTagLoading from "components/common/loadings/SingleTagLoading";
 import SearchSection from "components/common/SearchSection";
 import Card from "components/common/Card";
@@ -16,13 +20,14 @@ import ExploreNavigation from "components/common/ExploreNavigation";
 import { getCookie } from "cookies-next";
 
 const Explore = ({ user }) => {
-  const { setUser, searchState } = useContext(Context);
+  const { setUser, searchState, sideMenu, setSideMenu } = useContext(Context);
+  const { data: trendingTagData, trendingLoading } = useQuery(getTrendingTags);
+
   const [getPosts] = useLazyQuery(getFollowedPosts);
   const [data, setData] = useState({
     posts: [],
     loading: true,
   });
-
 
   useEffect(() => {
     setUser(user);
@@ -69,12 +74,18 @@ const Explore = ({ user }) => {
         </div>
       ) : (
         <div className="w-full py-spacing bg-light-primary_background dark:bg-[#000]">
-          <div
-            className={`w-full xl:container mx-auto px-2 posts-grid min-h-[calc(100vh-76px)] h-full`}
-          >
-            <div className={`side-menu hidden lg:block`}>
-              <SideMenu />
-            </div>
+          <div className="w-full xl:container mx-auto px-2 posts-grid min-h-[calc(100vh-76px)] h-full">
+            {sideMenu && (
+              <>
+                <div
+                  className="fixed inset-0 bg-black opacity-30 z-10"
+                  onClick={() => setSideMenu(false)}
+                ></div>
+              </>
+            )}
+            <>
+              <SideMenu data={trendingTagData} loading={trendingLoading} />
+            </>
 
             <div className="posts-body flex flex-col gap-spacing">
               <ExploreIntro />

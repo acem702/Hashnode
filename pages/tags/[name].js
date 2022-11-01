@@ -1,4 +1,4 @@
-import { useLazyQuery } from "@apollo/client";
+import { useLazyQuery, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useContext, useEffect } from "react";
 import Head from "next/head";
@@ -11,6 +11,7 @@ import { Context } from "utils/context/main";
 import client from "utils/helpers/config/apollo-client";
 import {
   getPostsByTag,
+  getTrendingTags,
   GET_USER_STATUS,
   searchTagQuery,
 } from "utils/helpers/gql/query";
@@ -22,9 +23,10 @@ import CardLoading from "components/common/loadings/cardLoading";
 import SearchSection from "components/common/SearchSection";
 
 const SingleTag = ({ user, tag }) => {
-  const { setUser, searchState } = useContext(Context);
+  const { setUser, searchState, sideMenu, setSideMenu } = useContext(Context);
   const router = useRouter();
   const [getPosts, { data, loading }] = useLazyQuery(getPostsByTag);
+  const { data: trendingTagData, trendingLoading } = useQuery(getTrendingTags);
 
   useEffect(() => {
     setUser(user);
@@ -54,9 +56,17 @@ const SingleTag = ({ user, tag }) => {
       ) : (
         <div className="w-full py-spacing bg-light-primary_background dark:bg-[#000]">
           <div className="w-full xl:container mx-auto px-2 posts-grid min-h-[calc(100vh-76px)] h-full">
-            <div className="side-menu hidden lg:block">
-              <SideMenu />
-            </div>
+            {sideMenu && (
+              <>
+                <div
+                  className="fixed inset-0 bg-black opacity-30 z-10"
+                  onClick={() => setSideMenu(false)}
+                ></div>
+              </>
+            )}
+            <>
+              <SideMenu data={trendingTagData} loading={trendingLoading} />
+            </>
 
             <div className="posts-body flex flex-col gap-spacing">
               <ExploreTagIntro details={tag} />

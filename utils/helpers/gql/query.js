@@ -233,6 +233,9 @@ const getUserActivites = gql`
         followers
         following
         createdAt
+        cover_image {
+          url
+        }
         social {
           facebook
           twitter

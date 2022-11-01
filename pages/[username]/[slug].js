@@ -12,6 +12,7 @@ import PostComment from "components/Story/PostComment";
 import SinglePostHeader from "components/Header/SinglePostHeader";
 import Head from "next/head";
 import { LIKE_POST } from "utils/helpers/gql/mutation";
+import Footer from "components/common/Footer";
 
 const SinglePost = ({ user, data }) => {
   const [likeData, setLikeData] = useState(data.data);
@@ -92,17 +93,21 @@ const SinglePost = ({ user, data }) => {
         <SinglePostHeader details={data.data.user} user={user} />
 
         <div
-          className={`w-full xl:container mx-auto px-2 py-10 min-h-[calc(100vh-76px)] h-full`}
+          className={`w-full xl:container mx-auto px-2 pb-10 lg:py-10 min-h-[calc(100vh-76px)] h-full`}
         >
           {data.data.cover_image.url && (
             <img
               src={data.data.cover_image.url}
               alt=""
-              className="object-cover w-full h-[60vw] md:w-11/12 lg:w-9/12 lg:h-[37rem] mx-auto mb-20"
+              className="object-cover w-full h-[40vh] md:w-11/12 lg:w-9/12 lg:h-[37rem] mx-auto mb-10 md:mb-20"
             />
           )}
 
-          <h1 className="text-center text-4xl md:text-4xl lg:text-4xl xl:text-5xl text-black dark:text-white font-bold mb-6">
+          <h1
+            className={`${
+              !data.data.cover_image?.url && "mt-10"
+            } text-center text-4xl md:text-4xl lg:text-4xl xl:text-5xl text-black dark:text-white font-bold mb-6`}
+          >
             {data.data.title}
           </h1>
 
@@ -112,24 +117,28 @@ const SinglePost = ({ user, data }) => {
             </p>
           )}
 
-          <div className="flex items-center justify-center mb-10 text-light-paragraph_color dark:text-dark-paragraph_color">
-            <div className="flex items-center gap-4">
+          <div className="flex flex-col md:flex-row flex-wrap items-center justify-center mb-10 text-light-paragraph_color dark:text-dark-paragraph_color">
+            <div className="flex items-center gap-4 mb-4 md:mb-0">
               <Image
                 width={60}
                 height={60}
                 src={data.data.user.profile_photo.url}
                 className="rounded-full object-cover"
               />
-              <h3 className="text-xl font-semibold">{data.data.user.name}</h3>
+              <h3 className="text-lg md:text-xl font-semibold">
+                {data.data.user.name}
+              </h3>
             </div>
-            <span className="mx-2">·</span>
-            <h3 className="text-xl font-semibold">
-              {getDate(data.data.createdAt)}
-            </h3>
-            <span className="mx-2">·</span>
-            <h3 className="text-xl font-semibold">
-              {readingTime(data.data.content)} min read
-            </h3>
+            <span className="hidden md:block mx-2">·</span>
+            <div className="flex items-center gap-4">
+              <h3 className="text-lg md:text-xl font-semibold">
+                {getDate(data.data.createdAt)}
+              </h3>
+              <span className="mx-2">·</span>
+              <h3 className="text-lg md:text-xl font-semibold">
+                {readingTime(data.data.content)} min read
+              </h3>
+            </div>
           </div>
 
           <div className="single-post-grid">
@@ -147,6 +156,7 @@ const SinglePost = ({ user, data }) => {
           <PostComment data={data.data} />
         </div>
       </div>
+      <Footer user={data.data.user.name} />
     </>
   );
 };
@@ -182,7 +192,6 @@ export const getServerSideProps = async (ctx) => {
       },
     },
   });
-
 
   if (data.getPostBySlug.success) {
     return {

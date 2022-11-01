@@ -142,7 +142,7 @@ const New = () => {
       <div className="bg-light-primary_background dark:bg-dark-primary_background">
         <NewPostHeader loading={loading} publishPost={publishPost} />
 
-        <div className="w-full py-20 min-h-[calc(100vh-61px)]">
+        <div className="w-full px-4 lg:px-0 py-20 min-h-[calc(100vh-61px)]">
           <div className="w-full xl:max-w-[1000px] mx-auto">
             <header className="mb-4 flex items-center gap-4">
               <div className="dropdown">
@@ -216,7 +216,7 @@ const New = () => {
                   onChange={(e) => handleChange(e, data, setData)}
                   name="title"
                   placeholder="Article title..."
-                  className="text-5xl font-semibold bg-transparent outline-none my-4 w-full text-black dark:text-white placeholder:text-[#222] dark:placeholder:text-[#ccc]"
+                  className="text-3xl lg:text-5xl font-semibold bg-transparent outline-none my-4 w-full text-black dark:text-white placeholder:text-[#222] dark:placeholder:text-[#ccc]"
                 />
 
                 <input
@@ -226,7 +226,7 @@ const New = () => {
                   onChange={(e) => handleChange(e, data, setData)}
                   name="tags"
                   placeholder="Tags (Seperated by comma)"
-                  className="text-2xl font-medium bg-transparent outline-none my-4 w-full text-black dark:text-white placeholder:text-[#222] dark:placeholder:text-[#ccc]"
+                  className="text-xl lg:text-2xl font-medium bg-transparent outline-none my-4 w-full text-black dark:text-white placeholder:text-[#222] dark:placeholder:text-[#ccc]"
                 />
               </div>
 
@@ -238,7 +238,7 @@ const New = () => {
                     onChange={(e) => handleChange(e, data, setData)}
                     name="subtitle"
                     placeholder="Article subtitle..."
-                    className="text-2xl font-medium bg-transparent outline-none my-4 w-full text-black dark:text-white placeholder:text-[#222] dark:placeholder:text-[#ccc]"
+                    className="text-xl lg:text-2xl font-medium bg-transparent outline-none my-4 w-full text-black dark:text-white placeholder:text-[#222] dark:placeholder:text-[#ccc]"
                   />
                   <span
                     onClick={() => setSubtitle(false)}

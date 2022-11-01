@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { getPosts } from "utils/helpers/gql/query";
 import { v4 as uuidv4 } from "uuid";
+import React from "react";
 
 const Posts = ({ posts }) => {
   const [data, setData] = useState(posts);
@@ -88,4 +89,4 @@ const Posts = ({ posts }) => {
   );
 };
 
-export default Posts;
+export default React.memo(Posts);

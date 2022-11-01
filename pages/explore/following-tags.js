@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
-import { useLazyQuery } from "@apollo/client";
+import { useLazyQuery, useQuery } from "@apollo/client";
 import { useContext, useEffect } from "react";
 
 import RightMenu from "components/common/RightMenu";
@@ -24,8 +24,9 @@ import ExploreNavigation from "components/common/ExploreNavigation";
 import { getCookie } from "cookies-next";
 
 const Explore = ({ user }) => {
-  const { setUser, searchState } = useContext(Context);
+  const { setUser, searchState, sideMenu, setSideMenu } = useContext(Context);
   const [getTags, { data, loading }] = useLazyQuery(getFollowedTags);
+  const { data: trendingTagData, trendingLoading } = useQuery(getTrendingTags);
 
   useEffect(() => {
     (async () => {
@@ -62,9 +63,17 @@ const Explore = ({ user }) => {
           <div
             className={`w-full xl:container mx-auto px-2 posts-grid min-h-[calc(100vh-76px)] h-full`}
           >
-            <div className={`side-menu hidden lg:block`}>
-              <SideMenu />
-            </div>
+            {sideMenu && (
+              <>
+                <div
+                  className="fixed inset-0 bg-black opacity-30 z-10"
+                  onClick={() => setSideMenu(false)}
+                ></div>
+              </>
+            )}
+            <>
+              <SideMenu data={trendingTagData} loading={trendingLoading} />
+            </>
 
             <div className="posts-body flex flex-col gap-spacing">
               <ExploreIntro />
