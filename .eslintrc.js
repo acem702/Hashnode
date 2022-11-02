@@ -3,4 +3,5 @@ module.exports = {
   parserOptions: {
     requireConfigFile: false,
   },
+  extends: ["next/babel", "next/core-web-vitals"],
 };
