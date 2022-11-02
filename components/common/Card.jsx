@@ -31,7 +31,7 @@ const Card = ({ details }) => {
   };
 
   return (
-    <div className="card px-4 border-0 rounded-none border-b">
+    <div className="card last:border-none px-4 border-0 rounded-none border-b">
       <header className="flex gap-3">
         <div className="w-12 h-12 rounded-full bg-gray-700">
           <Link href={`/@${details?.user?.username}`}>

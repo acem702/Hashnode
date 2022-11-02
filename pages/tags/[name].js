@@ -95,7 +95,7 @@ const SingleTag = ({ user, tag }) => {
                   </div>
                 </div>
 
-                <main className="py-4">
+                <main className="">
                   {loading ? (
                     <>
                       <CardLoading />

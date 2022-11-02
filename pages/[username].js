@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import Image from "next/image";
+import Link from "next/link";
 import { format, isSameYear } from "date-fns";
 import Header from "components/Header";
 import SideMenu from "components/common/SideMenu";
@@ -25,6 +25,7 @@ import { SECONDARY_ICON_SIZE } from "utils/constant";
 import Head from "next/head";
 import SearchSection from "components/common/SearchSection";
 import { useQuery } from "@apollo/client";
+import { v4 as uuidv4 } from "uuid";
 
 const Username = ({ user, data }) => {
   const { setUser, searchState, sideMenu, setSideMenu } = useContext(Context);
@@ -127,7 +128,11 @@ const Username = ({ user, data }) => {
                     Object.values(user.social).filter((e) => e !== null) ? (
                       <div className="flex flex-wrap items-center gap-1">
                         {getSocial().map((e) => (
-                          <a taregt="_blank" href={Object.values(e)}>
+                          <a
+                            taregt="_blank"
+                            key={uuidv4()}
+                            href={Object.values(e)}
+                          >
                             <button className="btn-icon">
                               {Object.keys(e)[0] === "youtube" ? (
                                 <Youtube
@@ -213,7 +218,10 @@ const Username = ({ user, data }) => {
                       {data.user?.skills?.length > 0 ? (
                         <div className="flex flex-wrap gap-2">
                           {data.user.skills.map((skill) => (
-                            <button className="card mb-0 px-4 py-2 inline text-black dark:text-dark-heading_color">
+                            <button
+                              key={uuidv4()}
+                              className="card mb-0 px-4 py-2 inline text-black dark:text-dark-heading_color"
+                            >
                               {skill}
                             </button>
                           ))}
@@ -247,8 +255,8 @@ const Username = ({ user, data }) => {
                     </h1>
                     <div className="flex flex-col">
                       {data.posts.map((post) => (
-                        <div className="flex gap-6 w-full">
-                          <div className="py-4 w-16 text-black dark:text-dark-heading_color font-semibold">
+                        <div key={uuidv4()} className="flex gap-6 w-full">
+                          <div className="py-4 w-16 text-black dark:text-[#dbdbdb] font-semibold">
                             {format(
                               +post.createdAt,
                               isSameYear(new Date(+post.createdAt), new Date())
@@ -257,24 +265,26 @@ const Username = ({ user, data }) => {
                             )}
                           </div>
                           <div className="border-b border-light-border_primary w-full dark:border-dark-border_primary py-4">
-                            <p className="text-md flex items-center gap-2 text-black dark:text-dark-heading_color font-medium">
+                            <p className="text-md flex items-center gap-2 text-black dark:text-[#dbdbdb] font-medium">
                               <span>
                                 <Pen
                                   w={DEFAULT_BUTTON_ICON_SIZE}
                                   h={DEFAULT_BUTTON_ICON_SIZE}
-                                  className="fill-black dark:fill-dark-heading_color"
+                                  className="fill-black dark:fill-[#dbdbdb]"
                                 />
                               </span>
                               <span>Wrote an article</span>
                             </p>
-                            <h1 className="font-semibold text-xl text-black dark:text-dark-heading_color">
-                              {post.title}
-                            </h1>
+                            <Link href={`/${data.user.username}/${post.slug}`}>
+                              <h1 className="cursor-pointer font-semibold text-xl text-black dark:text-[#dbdbdb]">
+                                {post.title}
+                              </h1>
+                            </Link>
                           </div>
                         </div>
                       ))}
                       <div className="flex gap-6 w-full">
-                        <div className="py-4 w-16 text-black dark:text-dark-heading_color font-semibold">
+                        <div className="py-4 w-16 text-black dark:text-[#dbdbdb] font-semibold">
                           {data &&
                             data.user &&
                             format(
@@ -287,12 +297,10 @@ const Username = ({ user, data }) => {
                                 : "MMM dd yyyy"
                             )}
                         </div>
-                        <div className="py-4">
-                          <p className="text-lg flex items-center gap-2">
-                            <span className="font-medium text-lg text-light-paragraph_color dark:text-dark-paragraph_color">
-                              Joined Hashnode
-                            </span>
-                          </p>
+                        <div className="w-full py-4">
+                          <h1 className="font-semibold text-xl text-black dark:text-[#dbdbdb]">
+                            Joined Hashnode
+                          </h1>
                         </div>
                       </div>
                     </div>

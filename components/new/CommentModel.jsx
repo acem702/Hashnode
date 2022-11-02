@@ -23,9 +23,11 @@ const CommentModel = ({ details, setDetails, setCommentModelState }) => {
   const [value, setValue] = useState("**Hello world!!!**");
   const [selectedTab, setSelectedTab] = useState("write");
   const [publishComment] = useMutation(PUBLISH_COMMENT);
+  const [loading, setLoading] = useState(false);
 
   const comment = async () => {
     try {
+      setLoading(true);
       const token = getCookie("token");
 
       if (token) {
@@ -66,6 +68,7 @@ const CommentModel = ({ details, setDetails, setCommentModelState }) => {
         type: "error",
       });
     }
+    setLoading(false);
   };
 
   return (
@@ -93,7 +96,13 @@ const CommentModel = ({ details, setDetails, setCommentModelState }) => {
           }
         />
         <div className="flex w-full justify-end mt-4">
-          <button className="btn-primary rounded-full" onClick={comment}>
+          <button
+            disabled={loading}
+            className={`btn-primary rounded-full ${
+              loading ? "cursor-not-allowed opacity-60" : ""
+            }`}
+            onClick={comment}
+          >
             <span>
               <Send
                 w={DEFAULT_ICON_SIZE}

@@ -86,18 +86,19 @@ const ContextHandler = ({ children, values }) => {
       });
       setSearchLoading(false);
       return response.data.getSearchedPosts;
-    } else {
-      setSearchState(false);
     }
+
+    setSearchState(false);
+    setSearchLoading(false);
   }
 
   const debouncedSearch = debounce(async (criteria) => {
+    setSearchState(true);
     setSearchPosts(await search(criteria));
   }, 500);
 
   async function handleChange(e) {
     debouncedSearch(e.target.value);
-    setSearchState(true);
   }
 
   useEffect(() => {

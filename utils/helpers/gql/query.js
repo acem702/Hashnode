@@ -100,6 +100,7 @@ const getSinglePostBySlug = gql`
         user {
           _id
           name
+          username
           followers
           following
           username

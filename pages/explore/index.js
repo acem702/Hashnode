@@ -152,7 +152,7 @@ const Explore = ({ user }) => {
                       </div>
                     ) : (
                       postsData?.getTrendingBlogs?.map((post) => (
-                        <Card details={post} />
+                        <Card details={post} key={post._id} />
                       ))
                     )}
                   </main>

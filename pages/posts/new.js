@@ -25,10 +25,12 @@ const New = () => {
   const router = useRouter();
   const [value, setValue] = useState("**Hello world!!!**");
   const [selectedTab, setSelectedTab] = useState("write");
-  const { setToast, user } = useContext(Context);
+  const { setToast } = useContext(Context);
   const [publish, { data: publishData, loading }] = useMutation(POST_QUERY);
 
   const [uploadImage] = useMutation(UPLOAD_QUERY);
+
+  const addTag = router.query;
 
   const [fileUploading, setFileUploading] = useState(false);
   const [uploadedFile, setUploadedFile] = useState({
@@ -40,7 +42,7 @@ const New = () => {
   const [data, setData] = useState({
     title: "",
     subtitle: "",
-    tags: "",
+    tags: addTag.tag,
     cover_image: {
       url: "",
       cloud_id: "",
@@ -254,7 +256,7 @@ const New = () => {
               )}
             </section>
 
-            <main>
+            <main className="create-story-container">
               <ReactMde
                 value={value}
                 onChange={setValue}

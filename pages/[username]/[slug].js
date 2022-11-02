@@ -3,6 +3,7 @@ import client from "utils/helpers/config/apollo-client";
 import { getSinglePostBySlug, GET_USER_STATUS } from "utils/helpers/gql/query";
 import { Context } from "utils/context/main";
 import Image from "next/image";
+import Link from "next/link";
 import { getDate, readingTime } from "utils/helpers/miniFunctions";
 import { useMutation } from "@apollo/client";
 import { getCookie } from "cookies-next";
@@ -99,42 +100,48 @@ const SinglePost = ({ user, data }) => {
             <img
               src={data.data.cover_image.url}
               alt=""
-              className="object-cover w-full h-[40vh] md:w-11/12 lg:w-9/12 lg:h-[37rem] mx-auto mb-10 md:mb-20"
+              className="object-cover rounded-lg w-full h-[40vh] md:w-11/12 lg:w-9/12 lg:h-[37rem] mx-auto mb-10 md:mb-20"
             />
           )}
 
           <h1
             className={`${
               !data.data.cover_image?.url && "mt-10"
-            } text-center text-4xl md:text-4xl lg:text-4xl xl:text-5xl text-black dark:text-white font-bold mb-6`}
+            } text-center text-4xl md:text-4xl lg:text-4xl xl:text-5xl text-black dark:text-white font-bold mb-6 max-w-[70rem] mx-auto`}
           >
             {data.data.title}
           </h1>
 
           {data.data.subtitle && (
-            <p className="text-light-paragraph_color text-center dark:text-dark-paragraph_color font-medium text-3xl mb-8">
+            <p className="text-light-paragraph_color text-center dark:text-dark-paragraph_color font-medium text-3xl mb-8 max-w-5xl mx-auto">
               {data.data.subtitle}
             </p>
           )}
 
           <div className="flex flex-col md:flex-row flex-wrap items-center justify-center mb-10 text-light-paragraph_color dark:text-dark-paragraph_color">
-            <div className="flex items-center gap-4 mb-4 md:mb-0">
-              <Image
-                width={60}
-                height={60}
-                src={data.data.user.profile_photo.url}
-                className="rounded-full object-cover"
-              />
-              <h3 className="text-lg md:text-xl font-semibold">
-                {data.data.user.name}
-              </h3>
-            </div>
+            <Link href={`/@${data.data.user.username}`}>
+              <div className="cursor-pointer flex items-center gap-4 mb-4 md:mb-0">
+                <Image
+                  width={60}
+                  height={60}
+                  src={data.data.user.profile_photo.url}
+                  className="rounded-full object-cover"
+                />
+                <h3 className="text-lg md:text-xl font-semibold">
+                  {data.data.user.name}
+                </h3>
+              </div>
+            </Link>
+
             <span className="hidden md:block mx-2">·</span>
+
             <div className="flex items-center gap-4">
               <h3 className="text-lg md:text-xl font-semibold">
                 {getDate(data.data.createdAt)}
               </h3>
-              <span className="mx-2">·</span>
+
+              <span>·</span>
+
               <h3 className="text-lg md:text-xl font-semibold">
                 {readingTime(data.data.content)} min read
               </h3>
@@ -156,6 +163,7 @@ const SinglePost = ({ user, data }) => {
           <PostComment data={data.data} />
         </div>
       </div>
+
       <Footer user={data.data.user.name} />
     </>
   );

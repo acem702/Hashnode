@@ -147,7 +147,7 @@ const SinglePostHeader = ({ details, user }) => {
                     h={SECONDARY_ICON_SIZE}
                     className="fill-white"
                   />
-                  <span>{loading ? "Loading..." : "UnFollow"}</span>
+                  <span>{loading ? "Loading..." : "Following"}</span>
                 </>
               ) : (
                 <>

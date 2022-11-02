@@ -16,12 +16,15 @@ import {
 } from "utils/constant";
 import { Context } from "utils/context/main";
 import { FOLLOW_TAG_QUERY } from "utils/helpers/gql/mutation";
+import Link from "next/link";
 
 const ExploreTagIntro = ({ details }) => {
   const [data, setData] = useState(details);
   const { user, setToast } = useContext(Context);
   const [follow, { data: followData, loading, error }] =
     useMutation(FOLLOW_TAG_QUERY);
+
+  console.log(data);
 
   useEffect(() => {
     if (error) {
@@ -134,7 +137,7 @@ const ExploreTagIntro = ({ details }) => {
                       className="fill-blue"
                     />
                   </span>
-                  Unfollow
+                  Following
                 </>
               ) : (
                 <>
@@ -161,12 +164,17 @@ const ExploreTagIntro = ({ details }) => {
               </>
             )}
           </button>
-          <button className="btn-primary text-sm tracking-normal rounded-full">
-            <span>
-              <Pen w={DEFAULT_BUTTON_ICON_SIZE} h={DEFAULT_BUTTON_ICON_SIZE} />
-            </span>
-            Write an article
-          </button>
+          <Link href={`/posts/new?tag=${data.name}`}>
+            <button className="btn-primary text-sm tracking-normal rounded-full">
+              <span>
+                <Pen
+                  w={DEFAULT_BUTTON_ICON_SIZE}
+                  h={DEFAULT_BUTTON_ICON_SIZE}
+                />
+              </span>
+              Write an article
+            </button>
+          </Link>
         </div>
         <div className="flex items-center justify-center gap-4 font-medium">
           <span className="text-black dark:text-dark-heading_color flex items-center gap-2">
