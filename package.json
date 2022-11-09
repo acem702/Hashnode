@@ -2,6 +2,7 @@
   "name": "next-tailwind-graphql-express-repo",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "d": "concurrently \"next dev\" \"nodemon pages/api/graphql/index.js\"",
     "s": "nodemon pages/api/graphql/index.js",
@@ -11,7 +12,20 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@codemirror/commands": "^6.1.1",
+    "@codemirror/lang-markdown": "^6.0.1",
+    "@codemirror/language-data": "^6.1.0",
+    "@codemirror/state": "^6.1.2",
+    "@codemirror/theme-one-dark": "^6.1.0",
+    "@codemirror/view": "^6.3.0",
+    "codemirror": "^6.0.1",
+    "github-markdown-css": "^5.1.0",
+    "react-markdown": "^8.0.3",
+    "react-syntax-highlighter": "^15.5.0",
+    "remark-gfm": "^3.0.1",
     "@apollo/client": "^3.6.2",
+    "@uiw/react-markdown-preview": "^4.1.5",
+    "@uiw/react-md-editor": "^3.19.5",
     "apollo-server": "^3.7.0",
     "apollo-server-core": "^3.7.0",
     "apollo-server-express": "^3.7.0",
@@ -40,7 +54,7 @@
     "mongoose": "^6.3.2",
     "next": "^12.1.6",
     "next-remove-imports": "^1.0.6",
-    "nextjs-progressbar": "^0.0.14",
+    "nextjs-progressbar": "^0.0.16",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-highlight": "^0.14.0",
@@ -56,10 +70,10 @@
     "@babel/core": "^7.19.6",
     "@babel/eslint-parser": "^7.19.1",
     "@babel/preset-react": "^7.18.6",
-    "autoprefixer": "^10.4.8",
+    "autoprefixer": "^10.4.13",
     "eslint": "^8.26.0",
     "eslint-config-next": "12.2.5",
-    "postcss": "^8.4.16",
-    "tailwindcss": "^3.1.8"
+    "postcss": "^8.4.18",
+    "tailwindcss": "^3.2.2"
   }
 }

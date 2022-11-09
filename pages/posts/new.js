@@ -1,32 +1,36 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 import NewPostHeader from "components/Header/NewPostHeader";
 import Close from "public/icons/close";
 import Upload from "public/icons/upload";
 import { DEFAULT_ICON_SIZE, SECONDARY_ICON_SIZE } from "utils/constant";
 import { handleChange, UploadImage } from "utils/helpers/miniFunctions";
-import ReactMde from "react-mde";
-import * as Showdown from "showdown";
-import "react-mde/lib/styles/css/react-mde-all.css";
 import Head from "next/head";
 import { useMutation } from "@apollo/client";
 import { POST_QUERY, UPLOAD_QUERY } from "utils/helpers/gql/mutation";
 import { getCookie } from "cookies-next";
 import { Context } from "utils/context/main";
 import { useRouter } from "next/router";
+// import Editor from "components/Editor/Editor";
+// import Preview from "components/Editor/Preview";
+// import EditorHeader from "components/Editor/EditorHeader";
+// import ReactMde from "react-mde";
+// import * as Showdown from "showdown";
+// import "react-mde/lib/styles/css/react-mde-all.css";
 
-const converter = new Showdown.Converter({
-  tables: true,
-  simplifiedAutoLink: true,
-  strikethrough: true,
-  tasklists: true,
-});
+// const converter = new Showdown.Converter({
+//   tables: true,
+//   simplifiedAutoLink: true,
+//   strikethrough: true,
+//   tasklists: true,
+// });
 
 const New = () => {
   const router = useRouter();
-  const [value, setValue] = useState("**Hello world!!!**");
-  const [selectedTab, setSelectedTab] = useState("write");
+  // const [value, setValue] = useState("**Hello world!!!**");
+  const [preview, setPreview] = useState(false);
   const { setToast } = useContext(Context);
   const [publish, { data: publishData, loading }] = useMutation(POST_QUERY);
+  const [value, setValue] = useState("**Hello world!!!**");
 
   const [uploadImage] = useMutation(UPLOAD_QUERY);
 
@@ -48,6 +52,10 @@ const New = () => {
       cloud_id: "",
     },
   });
+
+  useEffect(() => {
+    setData((prev) => ({ ...prev, tags: addTag.tag }));
+  }, [addTag]);
 
   useEffect(() => {
     if (publishData && publishData.createPost.success) {
@@ -77,22 +85,29 @@ const New = () => {
   const publishPost = async () => {
     try {
       const token = getCookie("token");
-
-      await publish({
-        variables: {
-          input: {
-            ...data,
-            tags: data.tags.split(",").map((e) => e.trim()),
-            slug: data.title.toLowerCase().replaceAll(" ", "-").trim(),
-            content: value,
+      if (token) {
+        await publish({
+          variables: {
+            input: {
+              ...data,
+              tags: data.tags.split(",").map((e) => e.trim()),
+              slug: data.title.toLowerCase().replaceAll(" ", "-").trim(),
+              content: value,
+            },
           },
-        },
-        context: {
-          headers: {
-            authorization: `Bearer ${token}`,
+          context: {
+            headers: {
+              authorization: `Bearer ${token}`,
+            },
           },
-        },
-      });
+        });
+      } else {
+        setToast({
+          msg: "Login to write post",
+          status: true,
+          type: "error",
+        });
+      }
     } catch (error) {
       console.log(error);
     }
@@ -175,9 +190,11 @@ const New = () => {
                       id="cover_image"
                       hidden
                     />
-                    <button className="mx-auto btn-primary rounded-lg w-max ">
-                      <label htmlFor="cover_image">Choose an Image</label>
-                    </button>
+                    <label htmlFor="cover_image">
+                      <button className="mx-auto btn-primary rounded-lg w-max ">
+                        Choose an Image
+                      </button>
+                    </label>
                   </div>
                   <p className="text-md text-center text-light-paragraph_color dark:text-dark-paragraph_color">
                     Recommended dimension is 1600 x 840
@@ -256,8 +273,8 @@ const New = () => {
               )}
             </section>
 
-            <main className="create-story-container">
-              <ReactMde
+            {/* <main className="create-story-container"> */}
+            {/* <ReactMde
                 value={value}
                 onChange={setValue}
                 selectedTab={selectedTab}
@@ -265,8 +282,19 @@ const New = () => {
                 generateMarkdownPreview={(markdown) =>
                   Promise.resolve(converter.makeHtml(markdown))
                 }
-              />
-            </main>
+              />{" "} */}
+            {/* <EditorHeader setPreview={setPreview} />
+              {preview ? (
+                <Preview doc={value} />
+              ) : (
+                <Editor
+                  initialDoc={value}
+                  onChange={(value) => {
+                    setValue(value);
+                  }}
+                />
+              )}
+            </main> */}
           </div>
         </div>
       </div>

@@ -72,7 +72,7 @@ const Explore = ({ user }) => {
 
               <div className="card py-2">
                 <div className="header flex items-center justify-center border-b border-light-border_primary dark:border-dark-border_primary">
-                  <ul className="flex flex-wrap gap-2">
+                  <ul className="flex flex-wrap px-4 gap-2">
                     <li className="btn-tab border-b-2 border-blue">Trending</li>
                     <li className="btn-tab">
                       <Link href="/explore/tags">Tags</Link>
@@ -195,7 +195,6 @@ export const getServerSideProps = async (ctx) => {
       props: { user },
     };
   } catch (error) {
-    console.log(error);
     return {
       props: {},
     };

@@ -1,6 +1,6 @@
-const jwt = require("jsonwebtoken");
-const connect = require("../../../server/config/db");
-const User = require("../../../server/models/user.model");
+import jwt from "jsonwebtoken";
+import connect from "../../../server/config/db.js";
+import User from "../../../server/models/user.model.js";
 
 const isAuth = async ({ req }) => {
   // try {
@@ -33,4 +33,4 @@ const isAuth = async ({ req }) => {
   // }
 };
 
-module.exports = isAuth;
+export default isAuth;

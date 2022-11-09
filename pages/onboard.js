@@ -29,8 +29,12 @@ const Onboard = () => {
     try {
       await loginUser(login, loginHandlerMutation, setLoginLoading, setToast);
     } catch (error) {
-      alert(error.message);
-      console.log(error);
+      // alert(error.message);
+      setToast({
+        msg: error.message,
+        status: true,
+        type: "error",
+      });
     }
   };
 
@@ -38,8 +42,12 @@ const Onboard = () => {
     try {
       await registerUser(signup, createHandler, setSignupLoading, setToast);
     } catch (error) {
-      alert(error.message);
-      console.log(error);
+      // alert(error.message);
+      setToast({
+        msg: error.message,
+        status: true,
+        type: "error",
+      });
     }
   };
 
@@ -68,7 +76,7 @@ const Onboard = () => {
 
       <main className="flex items-center justify-center h-[calc(100vh-60px)] bg-white">
         <div className="flex flex-wrap gap-spacing w-[50rem]">
-          <div className="w-full lg:w-1/2 border rounded-md px-6 py-4 shadow">
+          <div className="w-full lg:w-[calc(100%/2-32px)] max-w-[30rem] mx-auto border rounded-md px-6 py-4 shadow">
             <header className="flex itmes-center justify-between mb-6">
               <h1 className="text-xl text-black font-semibold">Login</h1>
               <button onClick={testlogin} className="btn-primary rounded-md">
@@ -101,7 +109,7 @@ const Onboard = () => {
             </button>
           </div>
           <div className="hidden lg:block my-auto">OR</div>
-          <div className="w-full lg:w-1/2 border rounded-md px-6 py-4 shadow">
+          <div className="w-full lg:w-[calc(100%/2-32px)] max-w-[30rem] mx-auto border rounded-md px-6 py-4 shadow">
             <header className="flex itmes-center justify-between mb-6">
               <h1 className="text-xl text-black font-semibold">Sign up</h1>
               <button onClick={testSignup} className="btn-primary rounded-md">

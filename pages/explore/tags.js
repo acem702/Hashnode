@@ -37,9 +37,7 @@ const Explore = ({ user }) => {
         </div>
       ) : (
         <div className="w-full py-spacing bg-light-primary_background dark:bg-[#000]">
-          <div
-            className="w-full xl:container mx-auto px-2 posts-grid min-h-[calc(100vh-76px)] h-full"
-          >
+          <div className="w-full xl:container mx-auto px-2 posts-grid min-h-[calc(100vh-76px)] h-full">
             {sideMenu && (
               <>
                 <div
@@ -56,7 +54,9 @@ const Explore = ({ user }) => {
               <ExploreIntro />
 
               <div className="card py-2">
-                <ExploreNavigation />
+                <ul className="flex flex-wrap px-4 gap-2">
+                  <ExploreNavigation />
+                </ul>
 
                 <div className="p-4">
                   <header className="flex items-center gap-6 mb-6">
@@ -141,7 +141,6 @@ export const getServerSideProps = async (ctx) => {
       props: { user },
     };
   } catch (error) {
-    console.log(error);
     return {
       props: {},
     };

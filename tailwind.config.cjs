@@ -35,7 +35,7 @@ module.exports = {
         black: "#444",
         error: "hsl(0 91% 71%)",
         dark: {
-          border_primary: "rgba(31, 41, 55, 1)",
+          border_primary: "rgba(31, 41, 55, 1)", //
           border_secondary: "rgba(55, 65, 81, 1)",
           primary_background: "rgba(17, 24, 39, 1)",
           paragraph_color: "rgba(156, 163, 175, 1)",

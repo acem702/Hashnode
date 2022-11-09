@@ -69,7 +69,9 @@ const Explore = ({ user }) => {
               <ExploreIntro />
 
               <div className="card py-2">
-                <ExploreNavigation />
+                <ul className="flex flex-wrap px-4 gap-2">
+                  <ExploreNavigation />
+                </ul>
                 <div className="py-4">
                   <h1 className="text-2xl px-4 font-semibold mb-4 text-black dark:text-dark-heading_color">
                     Trending Blogs
@@ -127,7 +129,6 @@ export const getServerSideProps = async (ctx) => {
       props: { user },
     };
   } catch (error) {
-    console.log(error);
     return {
       props: {},
     };

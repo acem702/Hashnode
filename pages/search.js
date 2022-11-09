@@ -32,6 +32,28 @@ const Search = ({ user }) => {
   const [searchQuery] = useLazyQuery(GET_SEARCHED_POST);
   const [searchLoading, setSearchLoading] = useState(false);
 
+  useEffect(() => {
+    if (searchValue.current) {
+      window.addEventListener("keydown", (e) => {
+        if (
+          document.activeElement.tagName === "INPUT" ||
+          document.activeElement.tagName === "TEXTAREA"
+        ) {
+          return;
+        } else {
+          if (e.key === "/" && searchValue.current) {
+            e.preventDefault();
+            searchValue.current.focus();
+          }
+        }
+      });
+    }
+
+    return () => {
+      window.removeEventListener("keydown", () => {});
+    };
+  }, []);
+
   async function search(criteria) {
     setSearchLoading(true);
     let response;
@@ -45,7 +67,7 @@ const Search = ({ user }) => {
       setSearchLoading(false);
       return response.data.getSearchedPosts;
     }
-    
+
     setSearchedStatus(false);
     setSearchLoading(false);
   }

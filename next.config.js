@@ -5,9 +5,6 @@ const nextConfig = {
   images: {
     domains: ["res.cloudinary.com"],
   },
-};
-
-module.exports = {
   async rewrites() {
     return [
       {
@@ -18,4 +15,7 @@ module.exports = {
   },
 };
 
-module.exports = nextConfig;
+// module.exports = {
+// };
+
+export default nextConfig;

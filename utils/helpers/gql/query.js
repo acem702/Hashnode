@@ -1,4 +1,4 @@
-const { gql } = require("@apollo/client");
+import { gql } from "@apollo/client";
 
 const getPosts = gql`
   query GET_POSTS($input: LimitInput!) {

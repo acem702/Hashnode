@@ -8,7 +8,7 @@ const SearchSection = () => {
 
   return (
     <div className="search-list-grid">
-      <div className="search-list-child">
+      <div className="search-list-child mb-10">
         {searchLoading ? (
           <>
             <CardLoading />

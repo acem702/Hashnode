@@ -95,6 +95,7 @@ const Username = ({ user, data }) => {
                       <img
                         className="w-16 h-16 md:w-28 md:h-28 rounded-full object-cover"
                         src={data.user.profile_photo?.url}
+                        alt=""
                       />
                       <div className="mt-4">
                         <h1 className="mb-2">
@@ -129,7 +130,8 @@ const Username = ({ user, data }) => {
                       <div className="flex flex-wrap items-center gap-1">
                         {getSocial().map((e) => (
                           <a
-                            taregt="_blank"
+                            target="_blank"
+                            rel="noreferrer"
                             key={uuidv4()}
                             href={Object.values(e)}
                           >

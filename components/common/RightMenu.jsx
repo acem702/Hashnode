@@ -8,28 +8,39 @@ import Image from "next/image";
 import { v4 as uuidv4 } from "uuid";
 import Link from "next/link";
 import TrendingPostCard from "./TrendingPostCard";
+import BookmarkLoading from "./loadings/BookmarkLoading";
 
 const RightMenu = () => {
   const { allBookmarks } = useBookmark();
   const [getBookmarkData, { data, loading }] = useLazyQuery(GET_BOOKMARKS);
-  const [getTrendingPosts, { data: trendingPosts, loading: trendingLoading }] =
-    useLazyQuery(getTrendingBlogs);
+  const [
+    getTrendingPosts,
+    { data: trendingPosts, loading: trendingPostsLoading },
+  ] = useLazyQuery(getTrendingBlogs);
 
   useEffect(() => {
     (async () => {
+      console.log(allBookmarks);
       if (allBookmarks.length > 0) {
-        await getBookmarkData({
+        const bookmarkPromise = getBookmarkData({
           variables: {
             ids: allBookmarks,
           },
         });
-      }
-    })();
-  }, [allBookmarks]);
+        const trendingPostsPromise = getTrendingPosts({
+          variables: {
+            input: {
+              limit: 4,
+              skip: 0,
+            },
+          },
+        });
+        await bookmarkPromise;
+        await trendingPostsPromise;
 
-  useEffect(() => {
-    (async () => {
-      await getTrendingPosts({
+        return;
+      }
+      const trendingPostsPromise = getTrendingPosts({
         variables: {
           input: {
             limit: 4,
@@ -37,8 +48,9 @@ const RightMenu = () => {
           },
         },
       });
+      await trendingPostsPromise;
     })();
-  }, []);
+  }, [allBookmarks]);
 
   return (
     <div className="w-full flex flex-col gap-spacing h-full">
@@ -53,9 +65,19 @@ const RightMenu = () => {
         </header>
 
         <main>
-          {trendingPosts?.getTrendingBlogs.map((card) => (
-            <TrendingPostCard card={card} key={uuidv4()} />
-          ))}
+          {trendingPostsLoading ? (
+            <>
+              <BookmarkLoading />
+              <BookmarkLoading />
+              <BookmarkLoading />
+              <BookmarkLoading />
+              <BookmarkLoading />
+            </>
+          ) : (
+            trendingPosts?.getTrendingBlogs.map((card) => (
+              <TrendingPostCard card={card} key={uuidv4()} />
+            ))
+          )}
         </main>
       </div>
 

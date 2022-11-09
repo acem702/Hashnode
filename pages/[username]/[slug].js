@@ -99,8 +99,8 @@ const SinglePost = ({ user, data }) => {
           {data.data.cover_image.url && (
             <img
               src={data.data.cover_image.url}
+              className="object-cover rounded-lg w-full md:w-11/12 lg:w-9/12 h-[40vh] md:h-[30vh] min-h-[20rem] lg:h-[37rem] mx-auto mb-10 md:mb-20"
               alt=""
-              className="object-cover rounded-lg w-full h-[40vh] md:w-11/12 lg:w-9/12 lg:h-[37rem] mx-auto mb-10 md:mb-20"
             />
           )}
 
@@ -113,7 +113,7 @@ const SinglePost = ({ user, data }) => {
           </h1>
 
           {data.data.subtitle && (
-            <p className="text-light-paragraph_color text-center dark:text-dark-paragraph_color font-medium text-3xl mb-8 max-w-5xl mx-auto">
+            <p className="text-light-paragraph_color text-center dark:text-dark-paragraph_color font-medium text-2xl mb-8 max-w-3xl mx-auto">
               {data.data.subtitle}
             </p>
           )}
@@ -121,12 +121,13 @@ const SinglePost = ({ user, data }) => {
           <div className="flex flex-col md:flex-row flex-wrap items-center justify-center mb-10 text-light-paragraph_color dark:text-dark-paragraph_color">
             <Link href={`/@${data.data.user.username}`}>
               <div className="cursor-pointer flex items-center gap-4 mb-4 md:mb-0">
-                <Image
-                  width={60}
-                  height={60}
-                  src={data.data.user.profile_photo.url}
-                  className="rounded-full object-cover"
-                />
+                <div className="w-10 h-10">
+                  <img
+                    src={data.data.user.profile_photo.url}
+                    className="rounded-full w-full h-full object-cover"
+                  />
+                </div>
+
                 <h3 className="text-lg md:text-xl font-semibold">
                   {data.data.user.name}
                 </h3>
@@ -136,13 +137,13 @@ const SinglePost = ({ user, data }) => {
             <span className="hidden md:block mx-2">·</span>
 
             <div className="flex items-center gap-4">
-              <h3 className="text-lg md:text-xl font-semibold">
+              <h3 className="text-lg md:text-xl font-medium">
                 {getDate(data.data.createdAt)}
               </h3>
 
               <span>·</span>
 
-              <h3 className="text-lg md:text-xl font-semibold">
+              <h3 className="text-lg md:text-xl font-medium">
                 {readingTime(data.data.content)} min read
               </h3>
             </div>

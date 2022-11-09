@@ -1,5 +1,5 @@
-const User = require("../../../../server/models/user.model");
-const isAuth = require("../auth");
+import User from "../../../../server/models/user.model.js";
+import isAuth from "../auth.js";
 
 const query = {
   getUser: async (_, __, ctx) => {
@@ -31,4 +31,4 @@ const query = {
   // searchForUserAvailability: async (parent, args, { models }) => {},
 };
 
-module.exports = query;
+export default query;

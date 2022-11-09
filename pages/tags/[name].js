@@ -131,15 +131,14 @@ const SingleTag = ({ user, tag }) => {
 export default SingleTag;
 
 export const getServerSideProps = async (ctx) => {
+  //? Below async code is written like this to increase performance
   try {
     let user = null;
     const token = ctx.req.cookies.token;
     const { name } = ctx.params;
 
     if (token) {
-      const {
-        data: { getUser: data },
-      } = await client.query({
+      let data = client.query({
         query: GET_USER_STATUS,
         context: {
           headers: {
@@ -147,28 +146,45 @@ export const getServerSideProps = async (ctx) => {
           },
         },
       });
-      user = data.user;
+
+      let tagsData = client.query({
+        query: searchTagQuery,
+        variables: {
+          tag: name,
+        },
+      });
+
+      data = await data;
+      tagsData = await tagsData;
+
+      user = data.data.getUser.user;
+
+      return {
+        props: {
+          user: data.data.getUser.user,
+          tag: tagsData.data.searchTag,
+        },
+      };
     }
 
-    const {
-      data: { searchTag: tagDetails },
-    } = await client.query({
+    let tagsData = client.query({
       query: searchTagQuery,
       variables: {
         tag: name,
       },
     });
 
+    tagsData = await tagsData;
+
     return {
       props: {
         user,
-        tag: tagDetails,
+        tag: tagsData.data.searchTag,
       },
     };
   } catch (error) {
     return {
       props: {},
-      tag: null,
     };
   }
 };

@@ -1,12 +1,12 @@
-const typeDefs = require("./typeDefs");
-const resolvers = require("./resolvers");
-const connectDB = require("../../../server/models/post.model");
+import typeDefs from "./typeDefs/index.js";
+import resolvers from "./resolvers/index.js";
+import connectDB from "../../../server/models/post.model.js";
+import { ApolloServer } from "apollo-server-express";
+import express from "express";
+import { graphqlUploadExpress } from "graphql-upload";
+import CookieParser from "cookie-parser";
+import dotenv from "dotenv";
 
-const { ApolloServer } = require("apollo-server-express");
-const express = require("express");
-const { graphqlUploadExpress } = require("graphql-upload");
-const CookieParser = require("cookie-parser");
-const dotenv = require("dotenv");
 dotenv.config();
 
 // CORS configuration
@@ -48,9 +48,3 @@ async function startApolloServer(typeDefs, resolvers) {
 }
 
 startApolloServer(typeDefs, resolvers);
-
-module.exports = {
-  api: {
-    bodyParser: false,
-  },
-};

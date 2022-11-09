@@ -79,7 +79,9 @@ const Explore = ({ user }) => {
               <ExploreIntro />
 
               <div className="card py-2">
-                <ExploreNavigation />
+                <ul className="flex flex-wrap px-4 gap-2">
+                  <ExploreNavigation />
+                </ul>
 
                 <div className="p-4">
                   <header className="flex items-center gap-6 mb-6">
@@ -89,37 +91,43 @@ const Explore = ({ user }) => {
                   </header>
 
                   <main className="flex flex-wrap gap-4">
-                    {loading ? (
-                      <>
-                        <SingleTagLoading />
-                        <SingleTagLoading />
-                        <SingleTagLoading />
-                        <SingleTagLoading />
-                      </>
-                    ) : (
-                      data?.getFollowedTags?.map((tag) => (
-                        <Link href={`/tags/${tag.name}`}>
-                          <div
-                            key={uuidv4()}
-                            className="p-4 cursor-pointer rounded-md bg-dark-border_primary w-full md:w-[calc(100%/2-8px)] border border-light-border_primary dark:border-dark-border_primary flex items-center gap-2"
-                          >
-                            <Image
-                              src={tag.logo.url}
-                              width={40}
-                              height={40}
-                              className="object-cover rounded-md"
-                            ></Image>
-                            <div>
-                              <h1 className="text-lg font-semibold text-black dark:text-white cursor-pointer">
-                                {tag.name}
-                              </h1>
-                              <span className="text-sm">
-                                {tag.articles} articles this week
-                              </span>
+                    {user ? (
+                      loading ? (
+                        <>
+                          <SingleTagLoading />
+                          <SingleTagLoading />
+                          <SingleTagLoading />
+                          <SingleTagLoading />
+                        </>
+                      ) : (
+                        data?.getFollowedTags?.map((tag) => (
+                          <Link href={`/tags/${tag.name}`}>
+                            <div
+                              key={uuidv4()}
+                              className="p-4 cursor-pointer rounded-md bg-dark-border_primary w-full md:w-[calc(100%/2-8px)] border border-light-border_primary dark:border-dark-border_primary flex items-center gap-2"
+                            >
+                              <Image
+                                src={tag.logo.url}
+                                width={40}
+                                height={40}
+                                className="object-cover rounded-md"
+                              ></Image>
+                              <div>
+                                <h1 className="text-lg font-semibold text-black dark:text-white cursor-pointer">
+                                  {tag.name}
+                                </h1>
+                                <span className="text-sm">
+                                  {tag.articles} articles this week
+                                </span>
+                              </div>
                             </div>
-                          </div>
-                        </Link>
-                      ))
+                          </Link>
+                        ))
+                      )
+                    ) : (
+                      <div className="flex items-center justify-center w-full text-2xl font-semibold h-32 text-center">
+                        Login to get tags you follow
+                      </div>
                     )}
                   </main>
                 </div>
@@ -161,7 +169,6 @@ export const getServerSideProps = async (ctx) => {
       props: { user },
     };
   } catch (error) {
-    console.log(error);
     return {
       props: {},
     };

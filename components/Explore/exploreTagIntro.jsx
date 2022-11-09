@@ -24,8 +24,6 @@ const ExploreTagIntro = ({ details }) => {
   const [follow, { data: followData, loading, error }] =
     useMutation(FOLLOW_TAG_QUERY);
 
-  console.log(data);
-
   useEffect(() => {
     if (error) {
       setToast({

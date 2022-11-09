@@ -4,7 +4,7 @@ import { readingTime } from "utils/helpers/miniFunctions";
 
 const TrendingPostCard = ({ card }) => {
   return (
-    <Link href={`${card.user.username}/${card.slug}`}>
+    <Link href={`/${card.user.username}/${card.slug}`}>
       <div className="cursor-pointer last:mb-0 last:border-none py-2 bg-white dark:bg-dark-primary_background border-b border-light-border_primary dark:border-dark-border_primary flex gap-4">
         <div className="w-[40px]">
           <Image

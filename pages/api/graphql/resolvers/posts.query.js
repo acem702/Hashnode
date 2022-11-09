@@ -1,9 +1,9 @@
-const Post = require("../../../../server/models/post.model");
-const Comment = require("../../../../server/models/comment.model");
-const User = require("../../../../server/models/user.model");
-const Tag = require("../../../../server/models/tags.model");
-const isAuth = require("../auth");
-const connect = require("../../../../server/config/db");
+import Post from "../../../../server/models/post.model.js";
+import Comment from "../../../../server/models/comment.model.js";
+import User from "../../../../server/models/user.model.js";
+import Tag from "../../../../server/models/tags.model.js";
+import isAuth from "../auth.js";
+import connect from "../../../../server/config/db.js";
 
 const exportedFunction = {
   getPosts: async (_, { input }) => {
@@ -199,4 +199,4 @@ const exportedFunction = {
   },
 };
 
-module.exports = exportedFunction;
+export default exportedFunction;

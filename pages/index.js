@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import Header from "components/Header";
 import Posts from "components/Home/Posts";
 import SideMenu from "components/common/SideMenu";

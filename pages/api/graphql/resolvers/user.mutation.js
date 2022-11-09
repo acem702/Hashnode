@@ -1,5 +1,5 @@
-const User = require("../../../../server/models/user.model");
-const isAuth = require("../auth");
+import User from "../../../../server/models/user.model.js";
+import isAuth from "../auth.js";
 
 const mutation = {
   registerUser: async (_, { input }) => {
@@ -41,6 +41,7 @@ const mutation = {
 
   loginUser: async (_, { input }) => {
     const { email, password } = input;
+
     const user = await User.findOne({ email });
 
     if (!user) {
@@ -141,4 +142,5 @@ const mutation = {
     }
   },
 };
-module.exports = mutation;
+
+export default mutation;

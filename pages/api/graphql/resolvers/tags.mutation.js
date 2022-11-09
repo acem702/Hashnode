@@ -1,6 +1,6 @@
-const Post = require("../../../../server/models/post.model");
-const Tag = require("../../../../server/models/tags.model");
-const isAuth = require("../auth");
+import Post from "../../../../server/models/post.model.js";
+import Tag from "../../../../server/models/tags.model.js";
+import isAuth from "../auth.js";
 
 const mutation = {
   createTag: async (_, { input }) => {
@@ -84,4 +84,4 @@ const mutation = {
   },
 };
 
-module.exports = mutation;
+export default mutation;

@@ -56,7 +56,11 @@ const Basic = ({ allfields, details, setDetails, submit, loading }) => {
 
       await UploadImage(e, uploadFunction, setLoading, setFile, setToast);
     } catch (error) {
-      console.log(error);
+      setToast({
+        msg: "Error uploading",
+        status: true,
+        type: "error",
+      });
     }
   };
   return (

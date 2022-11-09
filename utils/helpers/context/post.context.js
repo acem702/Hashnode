@@ -49,28 +49,25 @@ const PostCtx = ({
 
   useEffect(() => {
     if (inputRef.current) {
-      window.addEventListener("keydown", (e) => {
-        if (
-          document.activeElement.tagName === "INPUT" ||
-          document.activeElement.tagName === "TEXTAREA"
-        ) {
-          return;
-        } else {
-          if (e.key === "/") {
-            e.preventDefault();
-            inputRef.current.focus();
+      const handleInput = () => {
+        {
+          if (
+            document.activeElement.tagName === "INPUT" ||
+            document.activeElement.tagName === "TEXTAREA"
+          ) {
+            return;
+          } else {
+            if (e.key === "/") {
+              e.preventDefault();
+              inputRef.current.focus();
+            }
           }
         }
-      });
+      };
+      window.addEventListener("keydown", (e) => handleInput());
     }
     return () =>
-      window.removeEventListener(
-        "keydown",
-        () => {
-          console.log("exit");
-        },
-        false
-      );
+      window.removeEventListener("keydown", () => handleInput(), false);
   }, []);
 
   return (

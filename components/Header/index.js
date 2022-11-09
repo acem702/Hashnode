@@ -112,11 +112,9 @@ const Header = () => {
               tabIndex={0}
               className="cursor-pointer w-10 h-10 rounded-full bg-gray-700 "
             >
-              <Image
-                className="rounded-full object-cove"
-                src={(user && user.profile_photo?.url) || DEFAULT_PROFILE}
-                width={DEFAULT_PROFILE_SIZE}
-                height={DEFAULT_PROFILE_SIZE}
+              <img
+                className="rounded-full object-cover w-full h-full"
+                src={user ? user.profile_photo?.url : DEFAULT_PROFILE.src}
               />
             </div>
             <ul
@@ -199,11 +197,11 @@ export const HasUser = ({ user }) => {
           </div>
         </Link>
       </div>
-      <div className="hover:bg-light-border_primary hover:dark:bg-dark-secondary_background border-t border-light-border_primary dark:border-dark-border_primary p-4 cursor-pointer">
-        <button
-          onClick={logout}
-          className="flex items-center gap-2 text-red tracking-wide text-lg"
-        >
+      <div
+        onClick={logout}
+        className="hover:bg-light-border_primary hover:dark:bg-dark-secondary_background border-t border-light-border_primary dark:border-dark-border_primary p-4 cursor-pointer"
+      >
+        <button className="flex items-center gap-2 text-red tracking-wide text-lg">
           <LogOut
             w={DEFAULT_ICON_SIZE}
             h={DEFAULT_ICON_SIZE}

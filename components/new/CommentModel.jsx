@@ -9,6 +9,9 @@ import Send from "public/icons/send";
 import { useMutation } from "@apollo/client";
 import { PUBLISH_COMMENT } from "utils/helpers/gql/mutation";
 import { getCookie } from "cookies-next";
+import Preview from "components/Editor/Preview";
+import EditorHeader from "components/Editor/EditorHeader";
+import Editor from "components/Editor/Editor";
 
 const converter = new Showdown.Converter({
   tables: true,
@@ -18,12 +21,14 @@ const converter = new Showdown.Converter({
 });
 
 const CommentModel = ({ details, setDetails, setCommentModelState }) => {
-  console.log({ details, setDetails: typeof setDetails });
   const { user, setToast } = useContext(Context);
   const [value, setValue] = useState("**Hello world!!!**");
   const [selectedTab, setSelectedTab] = useState("write");
   const [publishComment] = useMutation(PUBLISH_COMMENT);
   const [loading, setLoading] = useState(false);
+
+  const [preview, setPreview] = useState(false);
+  // const [value, setValue] = useState("**Hello world!!!**");
 
   const comment = async () => {
     try {
@@ -86,7 +91,18 @@ const CommentModel = ({ details, setDetails, setCommentModelState }) => {
       </header>
 
       <section className="post-comment-section">
-        <ReactMde
+        <EditorHeader setPreview={setPreview} />
+        {preview ? (
+          <Preview doc={value} />
+        ) : (
+          <Editor
+            initialDoc={value}
+            onChange={(value) => {
+              setValue(value);
+            }}
+          />
+        )}
+        {/* <ReactMde
           value={value}
           onChange={setValue}
           selectedTab={selectedTab}
@@ -94,7 +110,7 @@ const CommentModel = ({ details, setDetails, setCommentModelState }) => {
           generateMarkdownPreview={(markdown) =>
             Promise.resolve(converter.makeHtml(markdown))
           }
-        />
+        /> */}
         <div className="flex w-full justify-end mt-4">
           <button
             disabled={loading}

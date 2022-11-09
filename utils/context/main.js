@@ -36,24 +36,26 @@ const ContextHandler = ({ children, values }) => {
     const themeValue = localStorage.getItem("theme") || "dark";
     setTheme(themeValue);
 
-    if (searchInput.current) {
-      window.addEventListener("keydown", (e) => {
-        if (
-          document.activeElement.tagName === "INPUT" ||
-          document.activeElement.tagName === "TEXTAREA"
-        ) {
-          return;
-        } else {
-          if (e.key === "/" && searchInput.current) {
-            e.preventDefault();
-            searchInput.current.focus();
-          }
+    const handleInput = (e) => {
+      if (
+        document.activeElement.tagName === "INPUT" ||
+        document.activeElement.tagName === "TEXTAREA"
+      ) {
+        return;
+      } else {
+        if (e.key === "/" && searchInput.current) {
+          e.preventDefault();
+          searchInput.current.focus();
         }
-      });
+      }
+    };
+
+    if (searchInput.current && window.innerWidth >= 480) {
+      window.addEventListener("keydown", (e) => handleInput(e));
     }
 
     return () => {
-      window.removeEventListener("keydown", () => {});
+      window.removeEventListener("keydown", (e) => handleInput(e));
     };
   }, [router.asPath]);
 
@@ -148,14 +150,14 @@ const ContextHandler = ({ children, values }) => {
         >
           <span>
             {toast.type === "success" ? (
-              <i class="uil uil-check-circle text-white text-2xl" />
+              <i className="uil uil-check-circle text-white text-2xl" />
             ) : toast.type === "error" ? (
-              <i class="uil uil-exclamation-octagon text-white text-2xl" />
+              <i className="uil uil-exclamation-octagon text-white text-2xl" />
             ) : toast.type === "info" ? (
-              <i class="uil uil-info-circle text-white text-2xl" />
+              <i className="uil uil-info-circle text-white text-2xl" />
             ) : (
               toast.type === "warning" && (
-                <i class="uil uil-exclamation-triangle text-white text-2xl" />
+                <i className="uil uil-exclamation-triangle text-white text-2xl" />
               )
             )}
           </span>

@@ -37,9 +37,7 @@ const Card = ({ details }) => {
           <Link href={`/@${details?.user?.username}`}>
             <img
               src={details?.user?.profile_photo?.url}
-              width={"48px"}
-              height={"48px"}
-              className="rounded-full object-cover"
+              className="rounded-full object-cover "
             />
           </Link>
         </div>
@@ -100,14 +98,14 @@ const Card = ({ details }) => {
             {getTags()?.map((tag) => (
               <div key={uuidv4()}>
                 <Link href={`/tags/${tag}`}>
-                  <button className="rounded-md border border-light-border_primary dark:border-dark-border_primary hover:bg-light-border_primary dark:hover:bg-dark-border_primary text-light-paragraph_color dark:text-dark-paragraph_color text-sm px-2 py-1 ">
+                  <button className="rounded-md border border-light-border_primary dark:border-dark-border_secondary hover:bg-light-border_primary dark:hover:bg-dark-border_primary text-light-paragraph_color dark:text-dark-paragraph_color text-sm px-2 py-1 ">
                     {tag}
                   </button>
                 </Link>
               </div>
             ))}
             {details?.tags.length > 4 && (
-              <button className="rounded-md border border-light-border_primary dark:border-dark-border_primary hover:bg-light-border_primary dark:hover:bg-dark-border_primary text-light-paragraph_color dark:text-dark-paragraph_color text-sm px-2 py-1 ">
+              <button className="rounded-md border border-light-border_primary dark:border-dark-border_secondary hover:bg-light-border_primary dark:hover:bg-dark-border_primary text-light-paragraph_color dark:text-dark-paragraph_color text-sm px-2 py-1 ">
                 +{details?.tags.slice(4, details?.tags.length).length}
               </button>
             )}
