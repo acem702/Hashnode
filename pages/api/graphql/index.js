@@ -1,11 +1,11 @@
 import typeDefs from "./typeDefs/index.js";
 import resolvers from "./resolvers/index.js";
-import connectDB from "../../../server/models/post.model.js";
 import { ApolloServer } from "apollo-server-express";
 import express from "express";
 import { graphqlUploadExpress } from "graphql-upload";
 import CookieParser from "cookie-parser";
 import dotenv from "dotenv";
+import connect from "../../../server/config/db.js";
 
 dotenv.config();
 
@@ -14,8 +14,6 @@ const corsOptions = {
   origin: true,
   credentials: true,
 };
-
-connectDB();
 
 async function startApolloServer(typeDefs, resolvers) {
   try {
@@ -34,13 +32,14 @@ async function startApolloServer(typeDefs, resolvers) {
 
     app.use(CookieParser());
     app.use(graphqlUploadExpress());
+    connect();
 
     server.applyMiddleware({ app, cors: corsOptions });
 
     await new Promise((resolve) => app.listen({ port: 5000 }, resolve));
 
     console.log(
-      `🚀 Server ready at https://hashnode-azure.vercel.app${server.graphqlPath}`
+      `🚀 Server ready at localhost:5000${server.graphqlPath}` // https://hashnode-azure.vercel.app
     );
   } catch (err) {
     console.log("Error: ", err);

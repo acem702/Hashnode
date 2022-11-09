@@ -7,7 +7,7 @@ import connect from "../../../../server/config/db.js";
 
 const exportedFunction = {
   getPosts: async (_, { input }) => {
-    connect();
+    // connect();
     const posts = await Post.find()
       .populate({ path: "user", model: User })
       .populate({ path: "comments", populate: "user", model: User })
@@ -39,7 +39,7 @@ const exportedFunction = {
   },
 
   getFollowedPosts: async (_, __, ctx) => {
-    connect();
+    // connect();
 
     const user = await isAuth(ctx);
     if (!user) return null;
@@ -52,7 +52,7 @@ const exportedFunction = {
   },
 
   getTrendingBlogs: async (_, { input }) => {
-    connect();
+    // connect();
 
     const { limit = 6, skip = 0 } = input;
     const posts = await Post.find()
@@ -68,7 +68,7 @@ const exportedFunction = {
   },
 
   getPostBySlug: async (_, { input }) => {
-    connect();
+    // connect();
 
     try {
       const { user, slug } = input;
@@ -108,7 +108,7 @@ const exportedFunction = {
   },
 
   getPostsByTags: async (_, { tag }) => {
-    connect();
+    // connect();
 
     const posts = await Post.find({ tags: { $in: tag } }).populate({
       path: "user",
@@ -152,7 +152,7 @@ const exportedFunction = {
   },
 
   getPostsByUser: async (_, { user }) => {
-    connect();
+    // connect();
 
     const posts = await Post.aggregate([
       {
@@ -188,7 +188,7 @@ const exportedFunction = {
   },
 
   getManyPosts: async (_, { ids }) => {
-    connect();
+    // connect();
 
     const posts = await Post.find({ _id: { $in: ids } }).populate({
       path: "user",

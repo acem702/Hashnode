@@ -2,11 +2,11 @@ import { ApolloClient, InMemoryCache } from "@apollo/client";
 import { createUploadLink } from "apollo-upload-client";
 
 const uploadLink = createUploadLink({
-  uri: "https://hashnode-azure.vercel.app/graphql",
+  uri: "http://localhost:5000/graphql", // https://hashnode-azure.vercel.app/graphql
 });
 
 const client = new ApolloClient({
-  uri: "https://hashnode-azure.vercel.app/graphql",
+  uri: "http://localhost:5000/graphql", // https://hashnode-azure.vercel.app/graphql
   link: uploadLink,
   cache: new InMemoryCache({
     addTypename: false,
