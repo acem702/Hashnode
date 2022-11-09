@@ -40,7 +40,7 @@ async function startApolloServer(typeDefs, resolvers) {
     await new Promise((resolve) => app.listen({ port: 5000 }, resolve));
 
     console.log(
-      `🚀 Server ready at http://localhost:5000${server.graphqlPath}`
+      `🚀 Server ready at https://hashnode-azure.vercel.app${server.graphqlPath}`
     );
   } catch (err) {
     console.log("Error: ", err);
