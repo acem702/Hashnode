@@ -11,7 +11,7 @@ import {
 } from "utils/helpers/gql/query";
 import RightMenu from "components/common/RightMenu";
 import Head from "next/head";
-import SearchSection from "components/common/searchSection";
+import SearchSection from "components/common/SearchSection";
 import { useQuery } from "@apollo/client";
 
 export default function Home({ data, user }) {

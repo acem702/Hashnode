@@ -8,4 +8,4 @@ const config = {
   extends: ["next"],
 };
 
-module.exports = config;
+export default config;
