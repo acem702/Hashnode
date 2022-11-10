@@ -90,7 +90,10 @@ const New = () => {
           variables: {
             input: {
               ...data,
-              tags: data.tags.split(",").map((e) => e.trim()),
+              tags: data.tags
+                .split(",")
+                .map((e) => e.trim())
+                .filter((e) => e !== ""),
               slug: data.title.toLowerCase().replaceAll(" ", "-").trim(),
               content: value,
             },
@@ -109,6 +112,11 @@ const New = () => {
         });
       }
     } catch (error) {
+      setToast({
+        msg: error.message || "Failed to create post",
+        status: true,
+        type: "error",
+      });
       console.log(error);
     }
   };

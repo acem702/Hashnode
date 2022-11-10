@@ -2,7 +2,6 @@ import { useContext, useEffect, useState } from "react";
 import client from "utils/helpers/config/apollo-client";
 import { getSinglePostBySlug, GET_USER_STATUS } from "utils/helpers/gql/query";
 import { Context } from "utils/context/main";
-import Image from "next/image";
 import Link from "next/link";
 import { getDate, readingTime } from "utils/helpers/miniFunctions";
 import { useMutation } from "@apollo/client";
@@ -93,9 +92,7 @@ const SinglePost = ({ user, data }) => {
       <div className="w-full min-h-screen bg-light-primary_background dark:bg-dark-primary_background">
         <SinglePostHeader details={data.data.user} user={user} />
 
-        <div
-          className={`w-full xl:container mx-auto px-2 pb-10 lg:py-10 min-h-[calc(100vh-76px)] h-full`}
-        >
+        <div className="w-full xl:container mx-auto px-2 pb-10 lg:py-10 min-h-[calc(100vh-76px)] h-full">
           {data.data.cover_image.url && (
             <img
               src={data.data.cover_image.url}
@@ -173,48 +170,90 @@ const SinglePost = ({ user, data }) => {
 export default SinglePost;
 
 export const getServerSideProps = async (ctx) => {
-  const { username, slug } = ctx.query;
+  try {
+    console.time("WithToken:");
+    console.time("WithoutToken:");
+    const { username, slug } = ctx.query;
 
-  let user = null;
-  const token = ctx.req.cookies.token;
+    let user = null;
+    const token = ctx.req.cookies.token;
 
-  if (token) {
-    const {
-      data: { getUser: data },
-    } = await client.query({
-      query: GET_USER_STATUS,
-      context: {
-        headers: {
-          authorization: `Bearer ${token}`,
+    if (token) {
+      let data = client.query({
+        query: GET_USER_STATUS,
+        context: {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        },
+      });
+
+      let post = client.query({
+        query: getSinglePostBySlug,
+        variables: {
+          input: {
+            slug,
+            user: username,
+          },
+        },
+      });
+
+      data = await data;
+      post = await post;
+
+      user = data.data.getUser.user;
+
+      console.timeEnd("WithToken:");
+
+      if (post.data.getPostBySlug.success) {
+        return {
+          props: {
+            user: data.data.getUser.user,
+            data: post.data.getPostBySlug,
+          },
+        };
+      } else {
+        return {
+          props: {},
+          redirect: {
+            destination: "/",
+          },
+        };
+      }
+    }
+
+    let post = client.query({
+      query: getSinglePostBySlug,
+      variables: {
+        input: {
+          slug,
+          user: username,
         },
       },
     });
-    user = data.user;
-  }
 
-  const { data } = await client.query({
-    query: getSinglePostBySlug,
-    variables: {
-      input: {
-        slug,
-        user: username,
-      },
-    },
-  });
+    post = await post;
 
-  if (data.getPostBySlug.success) {
-    return {
-      props: {
-        user,
-        data: data.getPostBySlug,
-      },
-    };
-  } else {
+    console.timeEnd("WithoutToken:");
+
+    if (post.data.getPostBySlug.success) {
+      return {
+        props: {
+          user,
+          data: post.data.getPostBySlug,
+        },
+      };
+    } else {
+      return {
+        props: {},
+        redirect: {
+          destination: "/",
+        },
+      };
+    }
+  } catch (error) {
     return {
       props: {},
-      redirect: {
-        destination: "/",
-      },
     };
   }
 };

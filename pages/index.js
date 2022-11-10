@@ -51,7 +51,7 @@ export default function Home({ data, user }) {
             </>
 
             <div className="posts-body">
-              <Posts posts={data.getPosts} />
+              <Posts posts={data} />
             </div>
 
             <div className="right-menu hidden lg:inline">
@@ -69,9 +69,7 @@ export const getServerSideProps = async (ctx) => {
   const token = ctx.req.cookies.token;
 
   if (token) {
-    const {
-      data: { getUser: data },
-    } = await client.query({
+    let userData = client.query({
       query: GET_USER_STATUS,
       context: {
         headers: {
@@ -79,10 +77,13 @@ export const getServerSideProps = async (ctx) => {
         },
       },
     });
-    user = data.user;
+
+    userData = await userData;
+
+    user = userData.data.getUser.user;
   }
 
-  const { data } = await client.query({
+  let postsData = client.query({
     query: getPosts,
     variables: {
       input: {
@@ -92,10 +93,12 @@ export const getServerSideProps = async (ctx) => {
     },
   });
 
+  postsData = await postsData;
+
   return {
     props: {
-      data,
       user,
+      data: postsData.data.getPosts,
     },
   };
 };

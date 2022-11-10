@@ -3,10 +3,7 @@ import { getTrendingBlogs, GET_BOOKMARKS } from "utils/helpers/gql/query";
 import useBookmark from "utils/hooks/useBookmark";
 import { useEffect } from "react";
 import Bookmark from "./Bookmark";
-import { readingTime } from "utils/helpers/miniFunctions";
-import Image from "next/image";
 import { v4 as uuidv4 } from "uuid";
-import Link from "next/link";
 import TrendingPostCard from "./TrendingPostCard";
 import BookmarkLoading from "./loadings/BookmarkLoading";
 
@@ -20,13 +17,13 @@ const RightMenu = () => {
 
   useEffect(() => {
     (async () => {
-      console.log(allBookmarks);
       if (allBookmarks.length > 0) {
         const bookmarkPromise = getBookmarkData({
           variables: {
             ids: allBookmarks,
           },
         });
+
         const trendingPostsPromise = getTrendingPosts({
           variables: {
             input: {
@@ -40,6 +37,7 @@ const RightMenu = () => {
 
         return;
       }
+
       const trendingPostsPromise = getTrendingPosts({
         variables: {
           input: {
@@ -48,6 +46,7 @@ const RightMenu = () => {
           },
         },
       });
+
       await trendingPostsPromise;
     })();
   }, [allBookmarks]);
