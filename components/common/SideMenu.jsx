@@ -59,7 +59,7 @@ const SideMenu = ({ data, loading }) => {
   return (
     <>
       <div className="side-menu fixed top-0 left-0 lg:static z-40">
-        <aside className="hidden lg:card h-fit">
+        <aside className="hidden lg:card h-fit lg:py-[10px!important]">
           <div className="pb-spacing border-b dark:border-dark-border_secondary">
             {menus.map((menu) => {
               return (
