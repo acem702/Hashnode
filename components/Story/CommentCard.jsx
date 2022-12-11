@@ -1,6 +1,6 @@
 import { formatDistance } from "date-fns";
 import Image from "next/image";
-import MarkdownView from "react-showdown";
+// import MarkdownView from "react-showdown";
 import { DEFAULT_PROFILE_SIZE } from "utils/constant";
 import Link from "next/link";
 
@@ -31,10 +31,10 @@ const CommentCard = ({ details }) => {
         </p>
       </header>
       <main className="comment-card-markdown">
-        <MarkdownView
+        {/* <MarkdownView
           markdown={details.comment}
           options={{ tables: true, emoji: true }}
-        />
+        /> */}
       </main>
     </section>
   );

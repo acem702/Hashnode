@@ -10,24 +10,11 @@ import { POST_QUERY, UPLOAD_QUERY } from "utils/helpers/gql/mutation";
 import { getCookie } from "cookies-next";
 import { Context } from "utils/context/main";
 import { useRouter } from "next/router";
-// import Editor from "components/Editor/Editor";
-// import Preview from "components/Editor/Preview";
-// import EditorHeader from "components/Editor/EditorHeader";
-// import ReactMde from "react-mde";
-// import * as Showdown from "showdown";
-// import "react-mde/lib/styles/css/react-mde-all.css";
-
-// const converter = new Showdown.Converter({
-//   tables: true,
-//   simplifiedAutoLink: true,
-//   strikethrough: true,
-//   tasklists: true,
-// });
+import Editor from "Editor/src/Editor";
+import { debounce } from "lodash";
 
 const New = () => {
   const router = useRouter();
-  // const [value, setValue] = useState("**Hello world!!!**");
-  const [preview, setPreview] = useState(false);
   const { setToast } = useContext(Context);
   const [publish, { data: publishData, loading }] = useMutation(POST_QUERY);
   const [value, setValue] = useState("**Hello world!!!**");
@@ -56,6 +43,10 @@ const New = () => {
   useEffect(() => {
     setData((prev) => ({ ...prev, tags: addTag.tag }));
   }, [addTag]);
+
+  const save = (value) => {
+    // auto save
+  };
 
   useEffect(() => {
     if (publishData && publishData.createPost.success) {
@@ -280,29 +271,15 @@ const New = () => {
                 </div>
               )}
             </section>
-
-            {/* <main className="create-story-container"> */}
-            {/* <ReactMde
+            <div>
+              <Editor
                 value={value}
-                onChange={setValue}
-                selectedTab={selectedTab}
-                onTabChange={setSelectedTab}
-                generateMarkdownPreview={(markdown) =>
-                  Promise.resolve(converter.makeHtml(markdown))
-                }
-              />{" "} */}
-            {/* <EditorHeader setPreview={setPreview} />
-              {preview ? (
-                <Preview doc={value} />
-              ) : (
-                <Editor
-                  initialDoc={value}
-                  onChange={(value) => {
-                    setValue(value);
-                  }}
-                />
-              )}
-            </main> */}
+                onChange={(e) => {
+                  setValue(e.target.value);
+                  save(e.target.value);
+                }}
+              />
+            </div>
           </div>
         </div>
       </div>

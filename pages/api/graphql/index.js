@@ -1,11 +1,11 @@
-import typeDefs from "./typeDefs/index.js";
-import resolvers from "./resolvers/index.js";
-import { ApolloServer } from "apollo-server-express";
-import express from "express";
-import { graphqlUploadExpress } from "graphql-upload";
-import CookieParser from "cookie-parser";
-import dotenv from "dotenv";
-import connect from "../../../server/config/db.js";
+const typeDefs = require("./typeDefs/index.js");
+const resolvers = require("./resolvers/index.js");
+const { ApolloServer } = require("apollo-server-express");
+const express = require("express");
+const { graphqlUploadExpress } = require("graphql-upload");
+const CookieParser = require("cookie-parser");
+const dotenv = require("dotenv");
+const connect = require("../../../server/config/db.js");
 
 dotenv.config();
 

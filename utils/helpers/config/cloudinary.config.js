@@ -1,4 +1,4 @@
-import cloudinary from "cloudinary";
+const cloudinary = require("cloudinary");
 
 cloudinary.config({
   cloud_name: "doasgfkcf",
@@ -6,4 +6,4 @@ cloudinary.config({
   api_secret: "VSmp3IFU33ZCHu1pfOoaq_Q6F6o",
 });
 
-export default cloudinary;
+module.expors = cloudinary;

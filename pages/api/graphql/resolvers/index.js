@@ -1,10 +1,10 @@
-import PostQuery from "./posts.query.js";
-import TagQuery from "./tags.query.js";
-import UserQuery from "./user.query.js";
+const PostQuery = require("./posts.query.js");
+const TagQuery = require("./tags.query.js");
+const UserQuery = require("./user.query.js");
 
-import UserMutation from "./user.mutation.js";
-import PostMutation from "./posts.mutation.js";
-import TagMutation from "./tags.mutation.js";
+const UserMutation = require("./user.mutation.js");
+const PostMutation = require("./posts.mutation.js");
+const TagMutation = require("./tags.mutation.js");
 
 const res = {
   Query: {
@@ -20,4 +20,4 @@ const res = {
   },
 };
 
-export default res;
+module.exports = res;

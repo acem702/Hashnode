@@ -6,7 +6,7 @@ const useBookmark = (_id) => {
 
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("bookmarks"));
-    setAllBookmarks(data || []);
+    setAllBookmarks(data?.slice(0, 6) || []);
 
     if (data && data.includes(_id)) {
       setHasBookmark(true);

@@ -1,4 +1,4 @@
-import { gql } from "apollo-server";
+const { gql } = require("apollo-server");
 
 const typeDefs = gql`
   scalar Upload
@@ -311,4 +311,4 @@ const typeDefs = gql`
   }
 `;
 
-export default typeDefs;
+module.exports = typeDefs;

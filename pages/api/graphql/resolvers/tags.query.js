@@ -1,5 +1,5 @@
-import Tag from "../../../../server/models/tags.model.js";
-import isAuth from "../auth.js";
+const Tag = require("../../../../server/models/tags.model.js");
+const isAuth = require("../auth.js");
 
 const queries = {
   getTrendingTags: async (_) => {
@@ -37,4 +37,4 @@ const queries = {
   },
 };
 
-export default queries;
+module.exports = queries;

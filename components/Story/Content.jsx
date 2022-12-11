@@ -1,11 +1,14 @@
-import MarkdownView from "react-showdown";
+// import MarkdownView from "react-showdown";
+import Preview from "Editor/src/components/Preview";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { v4 as uuidv4 } from "uuid";
 
 const Content = ({ content: data, tags }) => {
   return (
     <>
       <div className="single-post-content">
-        <MarkdownView markdown={data} options={{ tables: true, emoji: true }} />
+        <ReactMarkdown children={data} remarkPlugins={[remarkGfm]} />
 
         <div className="my-8 flex flex-wrap gap-2">
           {tags.map((tag) => (

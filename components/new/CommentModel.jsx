@@ -1,24 +1,11 @@
 import { useState, useContext } from "react";
 import { DEFAULT_ICON_SIZE, DEFAULT_PROFILE_SIZE } from "utils/constant";
 import Image from "next/image";
-import ReactMde from "react-mde";
-import * as Showdown from "showdown";
-import "react-mde/lib/styles/css/react-mde-all.css";
 import { Context } from "utils/context/main";
 import Send from "public/icons/send";
 import { useMutation } from "@apollo/client";
 import { PUBLISH_COMMENT } from "utils/helpers/gql/mutation";
 import { getCookie } from "cookies-next";
-import Preview from "components/Editor/Preview";
-import EditorHeader from "components/Editor/EditorHeader";
-import Editor from "components/Editor/Editor";
-
-const converter = new Showdown.Converter({
-  tables: true,
-  simplifiedAutoLink: true,
-  strikethrough: true,
-  tasklists: true,
-});
 
 const CommentModel = ({ details, setDetails, setCommentModelState }) => {
   const { user, setToast } = useContext(Context);

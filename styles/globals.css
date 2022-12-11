@@ -13,12 +13,13 @@
   .input[disabled] {
     @apply bg-light-border_primary text-light-paragraph_color dark:text-dark-paragraph_color border-light-border_primary dark:border-dark-border_secondary;
   }
+
   .btn-primary {
     @apply bg-blue flex items-center gap-2 justify-center px-4 py-2 text-white fill-white text-lg tracking-wider font-semibold hover:bg-blue_hover transition duration-200;
   }
 
   .btn-secondary {
-    @apply bg-transparent hover:bg-gray-100 dark:hover:bg-gray-700 px-4 py-[5px] rounded-full text-base text-light-paragraph_color dark:text-dark-paragraph_color border border-light-border_primary dark:border-dark-border_secondary;
+    @apply bg-transparent hover:bg-gray-100 hover:border-gray-400 dark:hover:bg-gray-700 px-4 py-[5px] rounded-full text-base text-light-paragraph_color dark:text-dark-paragraph_color border border-light-border_primary dark:border-dark-border_secondary;
   }
 
   .btn-tertiary {

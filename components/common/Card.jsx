@@ -8,6 +8,8 @@ import Comment from "public/icons/comment";
 import useBookmark from "utils/hooks/useBookmark";
 import BookmarkAdded from "public/icons/bookmarkAdded";
 import { v4 as uuidv4 } from "uuid";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 const Card = ({ details }) => {
   const [content, setContent] = useState("");
@@ -60,7 +62,8 @@ const Card = ({ details }) => {
               {details?.title}
             </h1>
             <div className="dark:text-dark-paragraph_color text-light-paragraph_color">
-              {content}
+              {/* {content} */}
+              <ReactMarkdown children={content} remarkPlugins={[remarkGfm]} />
             </div>
           </div>
         </Link>

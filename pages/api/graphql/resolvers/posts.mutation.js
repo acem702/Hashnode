@@ -1,9 +1,9 @@
-import Comment from "../../../../server/models/comment.model.js";
-import Post from "../../../../server/models/post.model.js";
-import Tag from "../../../../server/models/tags.model.js";
-import User from "../../../../server/models/user.model.js";
-import cloudinary from "../../../../utils/helpers/config/cloudinary.config.js";
-import isAuth from "../auth.js";
+const Comment = require("../../../../server/models/comment.model.js");
+const Post = require("../../../../server/models/post.model.js");
+const Tag = require("../../../../server/models/tags.model.js");
+const User = require("../../../../server/models/user.model.js");
+const cloudinary = require("../../../../utils/helpers/config/cloudinary.config.js");
+const isAuth = require("../auth.js");
 
 const readingTime = (text) => {
   if (text) {
@@ -279,4 +279,4 @@ const mutation = {
   },
 };
 
-export default mutation;
+module.exports = mutation;

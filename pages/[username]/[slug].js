@@ -15,7 +15,7 @@ import { LIKE_POST } from "utils/helpers/gql/mutation";
 import Footer from "components/common/Footer";
 
 const SinglePost = ({ user, data }) => {
-  const [likeData, setLikeData] = useState(data.data);
+  const [likeData, setLikeData] = useState(data?.data || []);
   const [LikePost, { data: likeResponse, error }] = useMutation(LIKE_POST);
   const { setUser, setToast } = useContext(Context);
 
@@ -171,12 +171,9 @@ export default SinglePost;
 
 export const getServerSideProps = async (ctx) => {
   try {
-    console.time("WithToken:");
-    console.time("WithoutToken:");
-    const { username, slug } = ctx.query;
-
     let user = null;
     const token = ctx.req.cookies.token;
+    const { slug, username } = ctx.query;
 
     if (token) {
       let data = client.query({
@@ -202,8 +199,6 @@ export const getServerSideProps = async (ctx) => {
       post = await post;
 
       user = data.data.getUser.user;
-
-      console.timeEnd("WithToken:");
 
       if (post.data.getPostBySlug.success) {
         return {
@@ -233,8 +228,6 @@ export const getServerSideProps = async (ctx) => {
     });
 
     post = await post;
-
-    console.timeEnd("WithoutToken:");
 
     if (post.data.getPostBySlug.success) {
       return {

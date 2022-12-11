@@ -85,17 +85,22 @@ const SinglePostHeader = ({ details, user }) => {
   return (
     <header className="w-full bg-white dark:bg-dark-primary_background border-b border-light-border_primary dark:border-dark-border_primary">
       <div className="2xl:container w-full mx-auto px-4 py-6 flex gap-spacing items-center justify-between">
-        <div className="flex items-center gap-2">
-          <Image
-            src={details.profile_photo.url}
-            width={40}
-            height={40}
-            className="rounded-full object-cover"
-          />
-          <h1 className="text-lg font-semibold text-black dark:text-white">
-            {details.name}
-          </h1>
-        </div>
+        <Link href={`/${details.username}`}>
+          <div className="flex items-center gap-2 cursor-pointer">
+            <>
+              <Image
+                src={details.profile_photo.url}
+                width={40}
+                height={40}
+                className="rounded-full object-cover"
+              />
+
+              <h1 className="text-lg font-semibold text-black dark:text-white">
+                {details.name}
+              </h1>
+            </>
+          </div>
+        </Link>
 
         <Link href="/">
           <div className="cursor-pointer">

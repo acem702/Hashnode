@@ -1,13 +1,11 @@
-import Post from "../../../../server/models/post.model.js";
-import Comment from "../../../../server/models/comment.model.js";
-import User from "../../../../server/models/user.model.js";
-import Tag from "../../../../server/models/tags.model.js";
-import isAuth from "../auth.js";
-import connect from "../../../../server/config/db.js";
+const Post = require("../../../../server/models/post.model.js");
+const Comment = require("../../../../server/models/comment.model.js");
+const User = require("../../../../server/models/user.model.js");
+const Tag = require("../../../../server/models/tags.model.js");
+const isAuth = require("../auth.js");
 
 const exportedFunction = {
   getPosts: async (_, { input }) => {
-    // connect();
     const posts = await Post.find()
       .populate({ path: "user", model: User })
       .populate({ path: "comments", populate: "user", model: User })
@@ -15,32 +13,10 @@ const exportedFunction = {
       .limit(input.limit)
       .sort({ createdAt: -1 });
 
-    // const posts = await Post.aggregate([
-    //   {
-    //     $facet: {
-    //       posts: [
-    //         {
-    //           $lookup: {
-    //             from: "users",
-    //             localField: "user",
-    //             foreignField: "_id",
-    //             as: "user",
-    //           },
-    //         },
-    //         { $unwind: "$user" },
-    //         { $skip: input.skip },
-    //         { $limit: input.limit },
-    //       ],
-    //     },
-    //   },
-    // ]);
-
     return posts;
   },
 
   getFollowedPosts: async (_, __, ctx) => {
-    // connect();
-
     const user = await isAuth(ctx);
     if (!user) return null;
 
@@ -52,8 +28,6 @@ const exportedFunction = {
   },
 
   getTrendingBlogs: async (_, { input }) => {
-    // connect();
-
     const { limit = 6, skip = 0 } = input;
     const posts = await Post.find()
       .populate({ path: "user", model: User })
@@ -68,8 +42,6 @@ const exportedFunction = {
   },
 
   getPostBySlug: async (_, { input }) => {
-    // connect();
-
     try {
       const { user, slug } = input;
       const post = await Post.findOne({
@@ -108,8 +80,6 @@ const exportedFunction = {
   },
 
   getPostsByTags: async (_, { tag }) => {
-    // connect();
-
     const posts = await Post.find({ tags: { $in: tag } }).populate({
       path: "user",
       model: User,
@@ -152,8 +122,6 @@ const exportedFunction = {
   },
 
   getPostsByUser: async (_, { user }) => {
-    // connect();
-
     const posts = await Post.aggregate([
       {
         $lookup: {
@@ -188,8 +156,6 @@ const exportedFunction = {
   },
 
   getManyPosts: async (_, { ids }) => {
-    // connect();
-
     const posts = await Post.find({ _id: { $in: ids } }).populate({
       path: "user",
       model: User,
@@ -199,4 +165,4 @@ const exportedFunction = {
   },
 };
 
-export default exportedFunction;
+module.exports = exportedFunction;

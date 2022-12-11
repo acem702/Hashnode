@@ -1,5 +1,5 @@
-import User from "../../../../server/models/user.model.js";
-import isAuth from "../auth.js";
+const User = require("../../../../server/models/user.model.js");
+const isAuth = require("../auth.js");
 
 const mutation = {
   registerUser: async (_, { input }) => {
@@ -143,4 +143,4 @@ const mutation = {
   },
 };
 
-export default mutation;
+module.exports = mutation;

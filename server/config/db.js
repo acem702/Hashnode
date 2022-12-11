@@ -1,5 +1,5 @@
 // Connect to mongodb Database. URI is in environment variables.
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const connect = async () => {
   try {
@@ -15,4 +15,4 @@ const connect = async () => {
   }
 };
 
-export default connect;
+module.exports = connect;
