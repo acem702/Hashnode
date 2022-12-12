@@ -11,13 +11,12 @@ import { getCookie } from "cookies-next";
 import { Context } from "utils/context/main";
 import { useRouter } from "next/router";
 import Editor from "Editor/src/Editor";
-import { debounce } from "lodash";
 
 const New = () => {
   const router = useRouter();
+  const [value, setValue] = useState("");
   const { setToast } = useContext(Context);
   const [publish, { data: publishData, loading }] = useMutation(POST_QUERY);
-  const [value, setValue] = useState("**Hello world!!!**");
 
   const [uploadImage] = useMutation(UPLOAD_QUERY);
 
@@ -163,7 +162,7 @@ const New = () => {
             <header className="mb-4 flex items-center gap-4">
               <div className="dropdown">
                 <div tabIndex={0}>
-                  <button className="btn-secondary text-xl hover:border-gray-500 font-medium text-black dark:text-white">
+                  <button className="btn-secondary text-xl rounded-full border-gray-300 dark:border-dark-border_secondary">
                     Add cover
                   </button>
                 </div>
@@ -189,11 +188,9 @@ const New = () => {
                       id="cover_image"
                       hidden
                     />
-                    <label htmlFor="cover_image">
-                      <button className="mx-auto btn-primary rounded-lg w-max ">
-                        Choose an Image
-                      </button>
-                    </label>
+                    <button className="mx-auto btn-primary rounded-lg w-max ">
+                      <label htmlFor="cover_image">Choose an Image</label>
+                    </button>
                   </div>
                   <p className="text-md text-center text-light-paragraph_color dark:text-dark-paragraph_color">
                     Recommended dimension is 1600 x 840
@@ -204,7 +201,7 @@ const New = () => {
                 onClick={() => {
                   setSubtitle((prev) => !prev);
                 }}
-                className="btn-secondary text-xl font-medium text-black dark:text-white hover:border-gray-500"
+                className="btn-secondary text-xl rounded-full border-gray-300 dark:border-dark-border_secondary0"
               >
                 Add Subtitle
               </button>
@@ -234,7 +231,7 @@ const New = () => {
                   onChange={(e) => handleChange(e, data, setData)}
                   name="title"
                   placeholder="Article title..."
-                  className="text-3xl lg:text-5xl font-semibold bg-transparent outline-none my-4 w-full text-black dark:text-white placeholder:text-[#222] dark:placeholder:text-[#ccc]"
+                  className="text-3xl lg:text-5xl font-semibold bg-transparent outline-none my-4 w-full text-gray-700 dark:text-gray-200 placeholder:text-gray-700 dark:placeholder:text-gray-200"
                 />
 
                 <input
@@ -244,7 +241,7 @@ const New = () => {
                   onChange={(e) => handleChange(e, data, setData)}
                   name="tags"
                   placeholder="Tags (Seperated by comma)"
-                  className="text-xl lg:text-2xl font-medium bg-transparent outline-none my-4 w-full text-black dark:text-white placeholder:text-[#222] dark:placeholder:text-[#ccc]"
+                  className="text-xl lg:text-2xl font-medium bg-transparent outline-none my-4 w-full text-gray-700 dark:text-gray-200 placeholder:text-gray-700 dark:placeholder:text-gray-200"
                 />
               </div>
 
@@ -256,7 +253,7 @@ const New = () => {
                     onChange={(e) => handleChange(e, data, setData)}
                     name="subtitle"
                     placeholder="Article subtitle..."
-                    className="text-xl lg:text-2xl font-medium bg-transparent outline-none my-4 w-full text-black dark:text-white placeholder:text-[#222] dark:placeholder:text-[#ccc]"
+                    className="text-xl lg:text-2xl font-medium bg-transparent outline-none my-4 w-full text-gray-700 dark:text-gray-200 placeholder:text-gray-700 dark:placeholder:text-gray-200"
                   />
                   <span
                     onClick={() => setSubtitle(false)}
@@ -275,8 +272,9 @@ const New = () => {
               <Editor
                 value={value}
                 onChange={(e) => {
-                  setValue(e.target.value);
-                  save(e.target.value);
+                  console.log({ e });
+                  setValue(e);
+                  // save(e.target.value);
                 }}
               />
             </div>

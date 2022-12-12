@@ -14,7 +14,7 @@ import {
   orderedListCommand,
   unorderedListCommand,
 } from "./list";
-import { codeEdit, codePreview } from "./preview"; // removed codeLive function
+import { codeWrite, codePreview } from "./preview"; // removed codeLive function
 import { quote } from "./quote";
 import { strikethrough } from "./strikeThrough";
 import { title } from "./title";
@@ -48,13 +48,7 @@ const getCommands = () => [
   checkedListCommand,
 ];
 
-const getExtraCommands = () => [
-  codeEdit,
-  // codeLive,
-  codePreview,
-  divider,
-  // fullscreen,
-];
+const getExtraCommands = () => [codeWrite, codePreview];
 
 function getStateFromTextArea(textArea) {
   return {
@@ -147,7 +141,7 @@ export {
   unorderedListCommand,
   orderedListCommand,
   checkedListCommand,
-  codeEdit,
+  codeWrite,
   // codeLive,
   codePreview,
   // fullscreen,

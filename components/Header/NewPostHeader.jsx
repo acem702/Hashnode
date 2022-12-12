@@ -1,14 +1,21 @@
 import Hamburger from "public/icons/hamburger";
 import Link from "next/link";
 import {
+  DEFAULT_BUTTON_ICON_SIZE,
   DEFAULT_ICON_SIZE,
   DEFAULT_LOGO_HEIGHT,
   DEFAULT_LOGO_WIDTH,
 } from "utils/constant";
 import LogoWithText from "public/icons/logoWithText";
 import Cloud from "public/icons/cloud";
+import { Context } from "utils/context/main";
+import Sun from "public/icons/sun";
+import Moon from "public/icons/moon";
+import { useContext } from "react";
 
 const NewPostHeader = ({ loading, publishPost }) => {
+  const { theme, setTheme } = useContext(Context);
+
   return (
     <>
       <header className="w-full bg-white dark:bg-dark-border_primary border-b border-text-dark-200 dark:border-dark-border_primary">
@@ -30,13 +37,39 @@ const NewPostHeader = ({ loading, publishPost }) => {
             </Link>
           </div>
           <div className="flex items-center gap-10">
+            <button
+              className="btn-icon"
+              onClick={() =>
+                setTheme((prev) => (prev === "dark" ? "light" : "dark"))
+              }
+            >
+              {theme === "dark" ? (
+                <Sun
+                  w={DEFAULT_ICON_SIZE}
+                  h={DEFAULT_ICON_SIZE}
+                  className="fill-black dark:fill-dark-paragraph_color"
+                />
+              ) : (
+                <Moon
+                  w={DEFAULT_ICON_SIZE}
+                  h={DEFAULT_ICON_SIZE}
+                  className="fill-black dark:fill-dark-paragraph_color"
+                />
+              )}
+            </button>
             <span className="text-success flex items-center gap-2">
               <span>
                 <Cloud w={DEFAULT_ICON_SIZE} h={DEFAULT_ICON_SIZE} />
               </span>
               <span>Saved</span>
             </span>
-            <button disabled={loading} onClick={publishPost} className={`btn-primary rounded-full ${loading ? 'cursor-not-allowed opacity-25' : ''}`}>
+            <button
+              disabled={loading}
+              onClick={publishPost}
+              className={`btn-primary rounded-full ${
+                loading ? "cursor-not-allowed opacity-25" : ""
+              }`}
+            >
               {loading ? "Publishing..." : "Publish"}
             </button>
           </div>
