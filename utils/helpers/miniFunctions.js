@@ -161,6 +161,7 @@ const UploadImage = async (
   setToast
 ) => {
   const file = e.target.files[0];
+
   if (file.size <= 5000000) {
     setFileUploading(true);
     try {

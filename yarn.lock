@@ -1058,7 +1058,7 @@ apollo-reporting-protobuf@^3.3.1, apollo-reporting-protobuf@^3.3.3:
   dependencies:
     "@apollo/protobufjs" "1.2.6"
 
-apollo-server-core@^3.10.3, apollo-server-core@^3.7.0:
+apollo-server-core@^3.10.3:
   version "3.10.3"
   resolved "https://registry.yarnpkg.com/apollo-server-core/-/apollo-server-core-3.10.3.tgz#64db45703785e9e79e7c5dadb6df2f7ee6fcbecc"
   integrity sha512-PiTirlcaszgnJGzSsGui9XWh0KAh0BUW+GvRKN6O0H0qOSXSLmoqqyL83J+u+HaUZGyyiE0+VOkyCcuF+kKbEw==
@@ -1098,7 +1098,7 @@ apollo-server-errors@^3.3.1:
   resolved "https://registry.yarnpkg.com/apollo-server-errors/-/apollo-server-errors-3.3.1.tgz#ba5c00cdaa33d4cbd09779f8cb6f47475d1cd655"
   integrity sha512-xnZJ5QWs6FixHICXHxUfm+ZWqqxrNuPlQ+kj5m6RtEgIpekOPssH/SD9gf2B4HuWV0QozorrygwZnux8POvyPA==
 
-apollo-server-express@^3.10.3, apollo-server-express@^3.7.0:
+apollo-server-express@^3.7.0:
   version "3.10.3"
   resolved "https://registry.yarnpkg.com/apollo-server-express/-/apollo-server-express-3.10.3.tgz#946b857c7d8516235a757e853966dd1189f247e1"
   integrity sha512-Z8m0r10mX8KlGS3noYeRPcWxWR2hX6NHJicjuwZ62PeTZlrDJF5cwGmXqbUg/sCTPx7Ny//ZEASBTwFFp8DOeQ==
@@ -1131,16 +1131,6 @@ apollo-server-types@^3.6.3:
     "@apollo/utils.logger" "^1.0.0"
     apollo-reporting-protobuf "^3.3.3"
     apollo-server-env "^4.2.1"
-
-apollo-server@^3.7.0:
-  version "3.10.3"
-  resolved "https://registry.yarnpkg.com/apollo-server/-/apollo-server-3.10.3.tgz#1da948f6494d30fb6dcb37b636c140489ea0bf39"
-  integrity sha512-qWaCVKmMpUmDPiug93kWbqVPt9/T9RwFsPP6cZ4MUF/0X931WrWPpYzyETPUhnVgdPzWbdVcvbXjgyKYc4NB2g==
-  dependencies:
-    "@types/express" "4.17.14"
-    apollo-server-core "^3.10.3"
-    apollo-server-express "^3.10.3"
-    express "^4.17.1"
 
 apollo-upload-client@^17.0.0:
   version "17.0.0"
@@ -2255,7 +2245,7 @@ etag@~1.8.1:
   resolved "https://registry.yarnpkg.com/etag/-/etag-1.8.1.tgz#41ae2eeb65efa62268aebfea83ac7d79299b0887"
   integrity sha512-aIL5Fx7mawVa300al2BnEE4iNvo1qETxLrPI/o05L7z6go7fCw1J6EQmbK4FmJ2AS7kgVF/KEZWufBfdClMcPg==
 
-express@^4.17.1, express@^4.18.1:
+express@^4.18.1:
   version "4.18.2"
   resolved "https://registry.yarnpkg.com/express/-/express-4.18.2.tgz#3fabe08296e930c796c19e3c516979386ba9fd59"
   integrity sha512-5/PsL6iGPdfQ/lKM1UuielYgv3BUoJfz1aUwU9vHZ+J7gyvwdQXFEBIEIaxeGf0GIcreATNyBExtalisDbuMqQ==

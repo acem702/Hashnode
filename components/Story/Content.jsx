@@ -1,5 +1,3 @@
-// import MarkdownView from "react-showdown";
-import Preview from "Editor/src/components/Preview";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { v4 as uuidv4 } from "uuid";

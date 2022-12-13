@@ -113,6 +113,8 @@ const New = () => {
 
   const handleFileUpload = async (e) => {
     try {
+      console.log(e);
+
       const types = [
         "image/png",
         "image/webp",
@@ -274,7 +276,6 @@ const New = () => {
                 onChange={(e) => {
                   console.log({ e });
                   setValue(e);
-                  // save(e.target.value);
                 }}
               />
             </div>

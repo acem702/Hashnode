@@ -226,31 +226,38 @@ const mutation = {
   },
 
   uploadImage: async (_, { file }) => {
-    const {
-      file: { createReadStream },
-    } = await file;
-    const fileStream = createReadStream();
+    try {
+      const {
+        file: { createReadStream },
+      } = await file;
+      const fileStream = createReadStream();
 
-    const response = await new Promise((resolve, reject) => {
-      const cloudStream = cloudinary.v2.uploader.upload_stream(
-        {
-          resource_type: "auto",
-          folder: "hashnode",
-          upload_preset: "hashnode_preset",
-        },
-        (err, result) => {
-          if (err) {
-            return reject(err);
+      console.log({ fileStream });
+
+      const response = await new Promise((resolve, reject) => {
+        const cloudStream = cloudinary.v2.uploader.upload_stream(
+          {
+            resource_type: "auto",
+            folder: "hashnode",
+            upload_preset: "hashnode_preset",
+          },
+          (err, result) => {
+            if (err) {
+              return reject(err);
+            }
+            resolve(result);
           }
-          resolve(result);
-        }
-      );
-      fileStream.pipe(cloudStream);
-    });
-    return {
-      cloud_id: response.public_id,
-      url: response.secure_url,
-    };
+        );
+        fileStream.pipe(cloudStream);
+      });
+      console.log({ response });
+      return {
+        cloud_id: response.public_id,
+        url: response.secure_url,
+      };
+    } catch (err) {
+      console.log(err.message || err);
+    }
   },
 
   deletePost: async (_, { input }, ctx) => {

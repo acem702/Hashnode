@@ -1,6 +1,7 @@
 import { formatDistance } from "date-fns";
 import Image from "next/image";
-// import MarkdownView from "react-showdown";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { DEFAULT_PROFILE_SIZE } from "utils/constant";
 import Link from "next/link";
 
@@ -30,11 +31,8 @@ const CommentCard = ({ details }) => {
           })}
         </p>
       </header>
-      <main className="comment-card-markdown">
-        {/* <MarkdownView
-          markdown={details.comment}
-          options={{ tables: true, emoji: true }}
-        /> */}
+      <main className="markdown-preview">
+        <ReactMarkdown children={details.comment} remarkPlugins={[remarkGfm]} />
       </main>
     </section>
   );
