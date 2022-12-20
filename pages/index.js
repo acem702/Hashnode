@@ -31,7 +31,7 @@ export default function Home({ data, user }) {
 
       <Header />
 
-      <div className="w-full bg-light-primary_background dark:bg-[#000]">
+      <div className="w-full min-h-screen bg-light-primary_background dark:bg-[#000]">
         {searchState ? (
           <div className="w-full xl:container mx-auto min-h-[calc(100vh-76px)] h-full">
             <SearchSection />

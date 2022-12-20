@@ -169,10 +169,10 @@ const SinglePostHeader = ({ details, user }) => {
           <div className="dropdown dropdown-end">
             <div
               tabIndex={0}
-              className="cursor-pointer w-10 h-10 rounded-full bg-gray-700 "
+              className="cursor-pointer w-[40px] h-[40px] rounded-full bg-gray-700 "
             >
               <Image
-                className="rounded-full object-cove"
+                className="rounded-full object-cover"
                 src={(user && user.profile_photo?.url) || DEFAULT_PROFILE}
                 width={DEFAULT_PROFILE_SIZE}
                 height={DEFAULT_PROFILE_SIZE}

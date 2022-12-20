@@ -23,6 +23,7 @@ const Social_Since = ({ data, date }) => {
   return (
     <div className="card mb-0 px-4 flex-row flex-wrap justify-center items-center gap-4 py-6 w-full">
       {data.user &&
+      data.user.social &&
       Object.values(data.user.social).filter((e) => e !== null) ? (
         <div className="flex flex-wrap items-center gap-1">
           {getSocial().map((e) => (

@@ -38,7 +38,7 @@ const LikeBar = ({ likeData, user, likePost, details, commentsCount }) => {
           .filter((e) => e[0] !== "total")
           .map((like) => {
             return (
-              <div key={uuidv4()} className="w-fit xl:w-[calc(100%/2-4px)]">
+              <div key={uuidv4()} className="w-fit xl:w-[calc(100%/2-5px)]">
                 <button
                   onClick={() => likePost(like[0])}
                   className={`mx-auto flex items-center gap-2 justify-center px-4 btn-icon ${

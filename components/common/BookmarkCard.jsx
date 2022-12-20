@@ -10,7 +10,7 @@ const BookmarkCard = ({ bookmark }) => {
     >
       <Link href={`/${bookmark.user.username}/${bookmark.slug}`}>
         <a>
-          <h1 className="text-md font-semibold text-black dark:text-dark-heading_color">
+          <h1 className="text-md font-semibold text-black dark:text-dark-heading_color mb-2">
             {bookmark.title}
           </h1>
           <p className="text-md gap-2 text-light-paragraph_color dark:text-dark-paragraph_color">

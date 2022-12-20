@@ -54,7 +54,7 @@ const SingleTag = ({ user, tag }) => {
           <SearchSection />
         </div>
       ) : (
-        <div className="w-full py-spacing bg-light-primary_background dark:bg-[#000]">
+        <div className="w-full min-h-screen py-spacing bg-light-primary_background dark:bg-[#000]">
           <div className="w-full xl:container mx-auto px-2 posts-grid min-h-[calc(100vh-76px)] h-full">
             {sideMenu && (
               <>

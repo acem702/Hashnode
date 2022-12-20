@@ -50,7 +50,7 @@ const Bookmarks = ({ user }) => {
           <SearchSection />
         </div>
       ) : (
-        <div className="w-full bg-light-primary_background dark:bg-[#000] py-spacing">
+        <div className="w-full min-h-screen bg-light-primary_background dark:bg-[#000] py-spacing">
           <div className="w-full xl:container mx-auto px-2 posts-grid min-h-[calc(100vh-76px)] h-full">
             {sideMenu && (
               <>

@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { getCookie } from "cookies-next";
+import { useRouter } from "next/router";
 import { useMutation } from "@apollo/client";
 import Header from "components/Header";
 import Head from "next/head";
@@ -14,6 +15,7 @@ import { userFields } from "utils/data";
 import SearchSection from "components/common/SearchSection";
 
 const Account = ({ user }) => {
+  const router = useRouter();
   const { setUser, setToast, searchState } = useContext(Context);
   const { _id, followers, following, createdAt, ...rest } = user;
   const [details, setDetails] = useState(rest);
@@ -43,6 +45,10 @@ const Account = ({ user }) => {
         type: "success",
         status: true,
       });
+      setTimeout(() => {
+        // to update the user data
+        router.reload();
+      }, 1000);
     }
   }, [data]);
 
@@ -108,7 +114,7 @@ const Account = ({ user }) => {
           <SearchSection />
         </div>
       ) : (
-        <div className="py-spacing w-full bg-light-primary_background dark:bg-[#000]">
+        <div className="py-spacing w-full min-h-screen bg-light-primary_background dark:bg-[#000]">
           <div
             className={`w-full xl:container mx-auto px-2 flex flex-col lg:flex-row gap-spacing min-h-[calc(100vh-76px)] h-full`}
           >
