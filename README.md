@@ -27,6 +27,7 @@ This is a complete repository of hashnode clone which I made while learning MERN
 10. Comment posts
 11. Light/Dark theme (dark is default)
 12. Add bookmarks
+13. Custom Markdown editor ([Custom markdown editor from scratch](https://github.com/ujen5173/Markdown-Editor))
 
 ## Running Locally
 
